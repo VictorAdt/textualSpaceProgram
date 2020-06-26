@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_commande_module_part_command_modules",
+  "info": {
+    "name": "command-module",
+    "icon": "angle-double-up"
+  },
+  "options": {},
+  "attributes": {
+    "command_module": {
+      "model": "command-module"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ships",
+  "info": {
+    "name": "ship"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "ships"
+    },
+    "stage": {
+      "type": "component",
+      "repeatable": true,
+      "component": "stage.stage"
+    },
+    "locationStatus": {
+      "type": "string",
+      "default": "ground"
+    },
+    "celest_body": {
+      "via": "ships",
+      "model": "celest-body"
+    },
+    "isControllable": {
+      "type": "boolean",
+      "default": true
+    },
+    "altitudeFromParent": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/celest-bodies",
+      "handler": "celest-body.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/celest-bodies/count",
+      "handler": "celest-body.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/celest-bodies/:id",
+      "handler": "celest-body.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/celest-bodies",
+      "handler": "celest-body.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/celest-bodies/:id",
+      "handler": "celest-body.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/celest-bodies/:id",
+      "handler": "celest-body.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

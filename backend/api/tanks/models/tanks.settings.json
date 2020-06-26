@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tanks",
+  "info": {
+    "name": "tank"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "decimal"
+    },
+    "maxFuel": {
+      "type": "integer"
+    },
+    "remainingFuel": {
+      "type": "integer"
+    },
+    "fuelType": {
+      "type": "string"
+    },
+    "partType": {
+      "type": "string",
+      "default": "tank"
+    },
+    "emptyWeight": {
+      "type": "decimal"
+    }
+  }
+}

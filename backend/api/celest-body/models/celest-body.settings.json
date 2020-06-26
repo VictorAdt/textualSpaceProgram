@@ -1,0 +1,71 @@
+{
+  "kind": "collectionType",
+  "collectionName": "celest_bodies",
+  "info": {
+    "name": "celest body"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "radius": {
+      "type": "integer"
+    },
+    "mu": {
+      "type": "biginteger"
+    },
+    "atmosphere": {
+      "type": "decimal"
+    },
+    "apoapsis": {
+      "type": "integer"
+    },
+    "periapsis": {
+      "type": "integer"
+    },
+    "circumference": {
+      "type": "biginteger"
+    },
+    "mass": {
+      "type": "biginteger"
+    },
+    "density": {
+      "type": "biginteger"
+    },
+    "solarDay": {
+      "type": "decimal"
+    },
+    "ships": {
+      "collection": "ship",
+      "via": "celest_body"
+    },
+    "parents": {
+      "collection": "celest-body",
+      "via": "childrens",
+      "dominant": true
+    },
+    "childrens": {
+      "collection": "celest-body",
+      "via": "parents"
+    },
+    "type": {
+      "type": "string"
+    },
+    "gravitationalConstant": {
+      "type": "decimal"
+    },
+    "escapeVelocity": {
+      "type": "integer"
+    },
+    "lowOrbit": {
+      "type": "integer"
+    },
+    "hasGround": {
+      "type": "boolean"
+    }
+  }
+}

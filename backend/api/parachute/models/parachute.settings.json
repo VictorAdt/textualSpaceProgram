@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "parachutes",
+  "info": {
+    "name": "parachute"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "maxTon": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "engines",
+  "info": {
+    "name": "engine"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "decimal"
+    },
+    "thrust": {
+      "type": "decimal"
+    },
+    "isp": {
+      "type": "decimal"
+    },
+    "partType": {
+      "type": "string",
+      "default": "engine"
+    }
+  }
+}

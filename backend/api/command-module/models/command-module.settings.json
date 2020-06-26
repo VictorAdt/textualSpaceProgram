@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "command_modules",
+  "info": {
+    "name": "command-module"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "crewCapacity": {
+      "type": "integer"
+    },
+    "weight": {
+      "type": "decimal"
+    },
+    "partType": {
+      "type": "string",
+      "default": "command-module"
+    }
+  }
+}

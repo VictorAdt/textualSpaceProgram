@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_tank_part_tanks",
+  "info": {
+    "name": "tank",
+    "icon": "archive"
+  },
+  "options": {},
+  "attributes": {
+    "tank": {
+      "model": "tanks"
+    },
+    "remaininFuel": {
+      "type": "integer"
+    }
+  }
+}

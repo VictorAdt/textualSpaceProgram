@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_engine_part_engines",
+  "info": {
+    "name": "engine",
+    "icon": "air-freshener"
+  },
+  "options": {},
+  "attributes": {
+    "engine": {
+      "model": "engine"
+    }
+  }
+}

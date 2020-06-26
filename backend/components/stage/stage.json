@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_stage_stages",
+  "info": {
+    "name": "stage",
+    "icon": "align-center"
+  },
+  "options": {},
+  "attributes": {
+    "engine": {
+      "type": "component",
+      "repeatable": true,
+      "component": "engine-part.engine"
+    },
+    "tank": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tank-part.tank"
+    },
+    "commandModule": {
+      "type": "component",
+      "repeatable": true,
+      "component": "commande-module-part.command-module"
+    }
+  }
+}
