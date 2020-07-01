@@ -130,18 +130,35 @@ export default class ManoeuvreControl extends Component {
             this.context.shipSetStage(stage)
             console.log('celest_body.childrens[0]', celest_body.childrens[0]);
             //save to database
-            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.childrens[0].id, this.context.state.ship.id, celest_body.apoapsis)
+            updateShip(
+                stage, 
+                this.context.state.ship.name, 
+                'orbit', 
+                celest_body.childrens[0].id, 
+                this.context.state.ship.id, 
+                celest_body.apoapsis
+            )
         }
     }
 
-    commandModuleReEntry = () => {
-        let requierdDV = Math.sqrt(this.context.state.ship.celest_body.mu / this.context.state.ship.celest_body.radius) * 100
-        console.log(requierdDV)
-    }
+    childTransfer = async (targetBody) => {
+        let requierdDV = Math.sqrt(targetBody.apoapsis) / 1.5
+        console.log('reqDV', requierdDV)
+        let stage = this.burn(requierdDV, true)
+        if (stage === false) {
+            console.log('you ran out of fuel, you are lost in space')
+            // destroy ship
+        } else {
+            console.log('congrats, you are now orbiting around the moon ')
 
-    childTransfer = () => {
-        let requierdDV
-        console.log('reqDV', requierdDV);
+            //stage update
+            const celest_body = await this.getCelestBody(targetBody.id)
+            this.context.updateLocation('orbit', celest_body)
+            this.context.shipSetStage(stage)
+            console.log('celest_body', celest_body);
+            //save to database
+            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id,  celest_body.lowOrbit)
+        }
     }
 
     planetTransfert = async (targetBody) => {
@@ -166,9 +183,62 @@ export default class ManoeuvreControl extends Component {
             this.context.shipSetStage(stage)
             console.log('celest_body.childrens[0]', celest_body);
             //save to database
-            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id, celest_body.apoapsis)
+            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id,  celest_body.lowOrbit)
         }
 
+    }
+
+    backToParent = async (targetBody) => {
+        let requierdDV = Math.sqrt(this.context.ship.celest_body.apoapsis) / 1.5
+        console.log(requierdDV)
+
+        let stage = this.burn(requierdDV, true)
+        if (stage === false) {
+            console.log('you ran out of fuel, you are lost in space')
+            // destroy ship
+        } else {
+            console.log('congrats, you are now orbiting around a planet ')
+
+            //stage update
+            const celest_body = await this.getCelestBody(targetBody.id)
+            this.context.updateLocation('orbit', celest_body)
+            this.context.shipSetStage(stage)
+            console.log('celest_body', celest_body);
+            //save to database
+            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id, celest_body.lowOrbit)
+        }
+        
+    }
+
+    fromMoonToMoon = async (targetBody) => {
+        let requierdDV = Math.abs(targetBody.apoapsis - this.context.state.ship.celest_body.apoapsis)
+        console.log(requierdDV) 
+        let stage = this.burn(requierdDV, true)
+        if (stage === false) {
+            console.log('you ran out of fuel, you are lost in space')
+            // destroy ship
+        } else {
+            console.log('congrats, you are now orbiting around another moon ')
+
+            //stage update
+            const celest_body = await this.getCelestBody(targetBody.id)
+            this.context.updateLocation('orbit', celest_body)
+            this.context.shipSetStage(stage)
+            console.log('celest_body', celest_body);
+            //save to database
+            updateShip(
+                stage,      
+                this.context.state.ship.name, 
+                'orbit', celest_body.id, 
+                this.context.state.ship.id, 
+                celest_body.lowOrbit
+            )
+        }
+    }
+
+    commandModuleReEntry = () => {
+        let nb = this.context.state.stage.lenght - 1
+        let lastStage = this.context.state.stage[nb]
     }
 
     render() {
@@ -178,10 +248,11 @@ export default class ManoeuvreControl extends Component {
                 <FromOrbit
                     fromOrbitToSurface={this.fromOrbitToSurface}
                     escapeFromOrbit={this.escapeFromOrbit}
-                    childTransfer={this.childTransfer}
+                    childTransfert={this.childTransfer}
                     commandModuleReEntry={this.commandModuleReEntry}
-                    planetTransfert={(targetBodyPeriapsis) => this.planetTransfert(targetBodyPeriapsis)}
+                    planetTransfert={this.planetTransfert}
                     ship={this.context.state.ship}
+                    fromMoonToMoon={this.fromMoonToMoon}
                 />
             </ShipContext.Provider>
         } else if (isLoading === false && this.context.state.ship.locationStatus === 'ground') {

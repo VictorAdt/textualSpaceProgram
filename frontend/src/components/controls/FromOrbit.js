@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { ShipContext } from '../../contexts/ShipProvider'
 import FromOrbitToSurface from './FromOrbitToSurface'
+import EscapeFromOrbit from './EscapeFromOrbit';
+import ChildTransfert from './ChildTransfer';
+import CommandModuleReEntry from './CommandModuleReEntry';
+import PlanetTransfert from './PlanetTransfert';
+import BackFromParent from './BackFromParent'
+import FromMoonToMoon from './FromMoonToMoon';
 
 export default class FromOrbit extends Component {
     state = {
@@ -31,32 +37,29 @@ export default class FromOrbit extends Component {
                     <FromOrbitToSurface 
                         fromOrbitToSurface={this.props.fromOrbitToSurface}
                     />
-                    <button
-                        // isPlanet={this.hasChild}
-                        onClick={() => this.props.escapeFromOrbit()}>
-                        escape gravity
-                    </button>
-                    <button
-                        // hasChild={this.hasChild}
-                        onClick={() => this.props.childTransfer()}>
-                        tranfert to child
-                    </button>
-                    <button
-                        //  hasParachute={this.hasParachute && hasAtmospher}
-                        onClick={() => this.props.commandModuleReEntry()}>
-                        Make a re-entry burn and land the capsule
-                    </button>
-
-                    {this.state.celestBodies.map((e, i) => {
-                        if (e.type === 'planet') {
-                            return (
-                                <button key={i} value={e} onClick={() => this.props.planetTransfert(e)}> tranfert to {e.name} </button>
-                            )
-                        } else {
-                            return ''
-                        }
-                    }
-                    )}
+                    <EscapeFromOrbit
+                        escapeFromOrbit={this.props.escapeFromOrbit}
+                    />
+                    <ChildTransfert 
+                        childTransfert={this.props.childTransfert}
+                        celestBodies={this.state.celestBodies}
+                        ship={this.props.ship}
+                    />
+                    <CommandModuleReEntry 
+                        commandModuleReEntry={this.props.commandModuleReEntry}
+                    />
+                    <PlanetTransfert 
+                        planetTransfert={this.props.planetTransfert}
+                        celestBodies={this.state.celestBodies}
+                    />
+                    <BackFromParent 
+                        ship={this.props.ship}
+                        celestBodies={this.state.celestBodies}
+                    />
+                    <FromMoonToMoon 
+                        ship={this.props.ship}
+                        celestBodies={this.state.celestBodies}
+                    />
                 </div>
             );
     }
