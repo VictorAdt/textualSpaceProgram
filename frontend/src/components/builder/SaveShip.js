@@ -9,7 +9,7 @@ export default class SaveShip extends Component {
         let partList = []
 
         for(let i = 0; i < stage.length; i ++){
-            let currentStage = i 
+            let currentStage = i
             let tankList = []
             let engineList = []
             let commandModuleList = []
@@ -29,7 +29,7 @@ export default class SaveShip extends Component {
                 for(let i = 0; i < stage[currentStage].commandModule.length; i ++) {
                     if(stage[currentStage].commandModule[i] !== undefined){
                         let id = stage[currentStage].commandModule[i].id
-                        commandModuleList.push({commandModule:{id: id}})
+                        commandModuleList.push({command_module:{id: id}})
                     }
                 }
                 currentStage ++
@@ -40,6 +40,7 @@ export default class SaveShip extends Component {
                 })
             } 
         }
+
 
         const data = {
             name: this.props.name,
@@ -53,6 +54,8 @@ export default class SaveShip extends Component {
             locationStatus: this.props.locationStatus,
             altitudeFromParent: 0
         }
+
+        console.log(data);
 
         const saveShipRes = await axios({
             method: 'POST',

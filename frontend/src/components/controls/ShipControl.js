@@ -36,12 +36,11 @@ export default class ShipControl extends Component {
                         stage.engine.push(fetchedShip.stage[currentStage].engine[i].engine)
                     }
                     for (let i = 0; i < fetchedShip.stage[currentStage].commandModule.length; i++) {
-                        stage.commandModule.push(fetchedShip.stage[currentStage].commandModule[i].commandModule)
+                        stage.commandModule.push(fetchedShip.stage[currentStage].commandModule[i].command_module)
                     }
                     currentStage++
                     rocketStages.push(stage)
                 }
-                console.log('rocketStages', rocketStages);
  
                 this.context.shipSetStage(rocketStages)
                 this.context.setShip(fetchedShip)

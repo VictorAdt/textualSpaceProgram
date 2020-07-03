@@ -12,15 +12,15 @@
     "name": {
       "type": "string"
     },
-    "crewCapacity": {
-      "type": "integer"
-    },
     "weight": {
       "type": "decimal"
     },
     "partType": {
       "type": "string",
       "default": "command-module"
+    },
+    "hasParachute": {
+      "type": "boolean"
     }
   }
 }

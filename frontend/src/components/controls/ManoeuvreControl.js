@@ -1,21 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { ShipContext } from '../../contexts/ShipProvider'
 import { updateShip } from '../../utils/updateShip'
 import { deleteShip } from '../../utils/deleteShip'
 import FromSurface from './FromSurface'
 import FromOrbit from './FromOrbit'
-import axios from 'axios';
+import axios from 'axios'
 
 export default class ManoeuvreControl extends Component {
     state = {
         isLoading: false
     }
 
-    burn = (requierdDV, risk) => {
+
+
+     burn = (requierdDV, risk) => {
         let stage = this.context.state.stage
         let dvByStageAfterBurn = [...this.context.state.deltaVByStage]
         let dvbystage = [...this.context.state.deltaVByStage]
+        console.log('manoeuvre burn dvbystage', dvbystage);
+        console.log('manoeuvre burn stage', stage);
+
         let dif = []
+
         for (let i = 0; i < dvByStageAfterBurn.length; i++) {
             if (dvByStageAfterBurn[i] > requierdDV) {
                 dvByStageAfterBurn[i] -= requierdDV
@@ -53,7 +59,7 @@ export default class ManoeuvreControl extends Component {
         console.log('dvbystage', dvbystage);
         console.log('dvByStageAfterBurn', dvByStageAfterBurn);
         return stage
-    }
+    } 
 
     async getCelestBody(id) {
         try {
@@ -110,7 +116,13 @@ export default class ManoeuvreControl extends Component {
             this.context.updateLocation('ground', celest_body)
             console.log('celest_body', celest_body);
             //save to database
-            updateShip(stage, this.context.state.ship.name, 'ground', celest_body.id, this.context.state.ship.id, celest_body.lowOrbit)
+            updateShip(
+                stage, 
+                this.context.state.ship.name, 
+                'ground', 
+                celest_body.id, 
+                this.context.state.ship.id, 
+                celest_body.lowOrbit)
         }
     }
 
@@ -150,6 +162,7 @@ export default class ManoeuvreControl extends Component {
             // destroy ship
         } else {
             console.log('congrats, you are now orbiting around the moon ')
+            console.log('stage', stage);
 
             //stage update
             const celest_body = await this.getCelestBody(targetBody.id)
@@ -157,7 +170,7 @@ export default class ManoeuvreControl extends Component {
             this.context.shipSetStage(stage)
             console.log('celest_body', celest_body);
             //save to database
-            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id,  celest_body.lowOrbit)
+            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id, celest_body.lowOrbit)
         }
     }
 
@@ -183,14 +196,19 @@ export default class ManoeuvreControl extends Component {
             this.context.shipSetStage(stage)
             console.log('celest_body.childrens[0]', celest_body);
             //save to database
-            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id,  celest_body.lowOrbit)
+            updateShip(
+                stage, 
+                this.context.state.ship.name, 
+                'orbit', celest_body.id, 
+                this.context.state.ship.id,  
+                celest_body.lowOrbit)
         }
 
     }
 
     backToParent = async (targetBody) => {
-        let requierdDV = Math.sqrt(this.context.ship.celest_body.apoapsis) / 1.5
-        console.log(requierdDV)
+        let requierdDV = Math.sqrt(this.context.state.ship.celest_body.apoapsis) / 1.5
+        console.log('requierdDV',requierdDV)
 
         let stage = this.burn(requierdDV, true)
         if (stage === false) {
@@ -205,7 +223,12 @@ export default class ManoeuvreControl extends Component {
             this.context.shipSetStage(stage)
             console.log('celest_body', celest_body);
             //save to database
-            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id, celest_body.lowOrbit)
+            updateShip(
+                stage, 
+                this.context.state.ship.name, 
+                'orbit', celest_body.id, 
+                this.context.state.ship.id, 
+                celest_body.lowOrbit)
         }
         
     }
@@ -229,7 +252,8 @@ export default class ManoeuvreControl extends Component {
             updateShip(
                 stage,      
                 this.context.state.ship.name, 
-                'orbit', celest_body.id, 
+                'orbit',
+                celest_body.id, 
                 this.context.state.ship.id, 
                 celest_body.lowOrbit
             )
@@ -239,6 +263,7 @@ export default class ManoeuvreControl extends Component {
     commandModuleReEntry = () => {
         let nb = this.context.state.stage.lenght - 1
         let lastStage = this.context.state.stage[nb]
+
     }
 
     render() {
@@ -248,11 +273,13 @@ export default class ManoeuvreControl extends Component {
                 <FromOrbit
                     fromOrbitToSurface={this.fromOrbitToSurface}
                     escapeFromOrbit={this.escapeFromOrbit}
-                    childTransfert={this.childTransfer}
+                    childTransfert={(e) => this.childTransfer(e)}
                     commandModuleReEntry={this.commandModuleReEntry}
                     planetTransfert={this.planetTransfert}
                     ship={this.context.state.ship}
+                    stage={this.context.state.stage}
                     fromMoonToMoon={this.fromMoonToMoon}
+                    backToParent={this.backToParent}
                 />
             </ShipContext.Provider>
         } else if (isLoading === false && this.context.state.ship.locationStatus === 'ground') {

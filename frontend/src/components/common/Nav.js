@@ -8,10 +8,7 @@ const Nav = () => {
       <BrowserRouter>
         <Link to="/builder"> Builder </Link>
         <Link to="/profile"> Profile </Link>
-        <Link to="/trackingstation"> Tracking Station </Link>
-        <Link to="/researchfacility"> Research Facility </Link>
-        <Link to="/observatory"> Observatory </Link>
-        <Link to="/"> Home </Link>
+        <Link to="/"> Tracking Station </Link>
         <Routes />
       </BrowserRouter>
     </div>

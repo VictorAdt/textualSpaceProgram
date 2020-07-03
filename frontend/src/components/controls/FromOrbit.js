@@ -36,9 +36,13 @@ export default class FromOrbit extends Component {
                 <div className='from__orbit'>
                     <FromOrbitToSurface 
                         fromOrbitToSurface={this.props.fromOrbitToSurface}
+                        ship={this.props.ship}
+                        celestBodies={this.state.celestBodies}
                     />
                     <EscapeFromOrbit
                         escapeFromOrbit={this.props.escapeFromOrbit}
+                        ship={this.props.ship}
+                        celestBodies={this.state.celestBodies}
                     />
                     <ChildTransfert 
                         childTransfert={this.props.childTransfert}
@@ -47,16 +51,22 @@ export default class FromOrbit extends Component {
                     />
                     <CommandModuleReEntry 
                         commandModuleReEntry={this.props.commandModuleReEntry}
+                        ship={this.props.ship}
+                        celestBodies={this.state.celestBodies}
+                        stage={this.props.stage}
                     />
-                    <PlanetTransfert 
+                    <PlanetTransfert
+                        ship={this.props.ship}
                         planetTransfert={this.props.planetTransfert}
                         celestBodies={this.state.celestBodies}
                     />
                     <BackFromParent 
                         ship={this.props.ship}
                         celestBodies={this.state.celestBodies}
+                        backToParent={this.props.backToParent}
                     />
-                    <FromMoonToMoon 
+                    <FromMoonToMoon
+                        fromMoonToMoon={this.props.fromMoonToMoon}
                         ship={this.props.ship}
                         celestBodies={this.state.celestBodies}
                     />

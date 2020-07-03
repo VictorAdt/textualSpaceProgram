@@ -6,9 +6,11 @@ export const ShipContext = React.createContext()
 export class ShipProvider extends Component {
     state = {
         ship: {},
+        massSum: [],
         ispArray: [],
         fuelMassArray: [],
         totalMassArray: [],
+        maxFuelMassArray: [],
         deltaV: 0,
         deltaVByStage: [],
         totalMass: 0,
@@ -193,7 +195,6 @@ export class ShipProvider extends Component {
 
     async updateLocation(status, celest_body){
         let ship = this.state.ship
-        console.log('param', celest_body, status);
         ship.locationStatus = status
         try {
             const celestBodyRes = await axios({

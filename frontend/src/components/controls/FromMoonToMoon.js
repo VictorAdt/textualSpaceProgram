@@ -1,8 +1,8 @@
 import React from 'react';
 
 const FromMoonToMoon = (props) => {
-    let parentID 
-
+    if(props.ship.celest_body.type === 'naturalSatelit'){
+    let parentID
     // TO FIX
     props.celestBodies.forEach(element => {
         if(element.id === props.ship.celest_body.id){
@@ -16,7 +16,9 @@ const FromMoonToMoon = (props) => {
         <button key={i} onClick={() => props.FromMoonToMoon(e)}> 
             transfert to other moon {e.name} 
         </button>
-    ))
+    ))} else {
+        return null
+    }
 
 }
 

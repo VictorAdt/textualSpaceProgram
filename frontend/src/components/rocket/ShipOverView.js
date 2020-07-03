@@ -1,7 +1,6 @@
 import React from 'react';
 
 const ShipOverView = (props) => {
-    console.log('props.ship' , props.ship);
     if(props.ship.celest_body)
     return (
         <div>

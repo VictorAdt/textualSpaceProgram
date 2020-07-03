@@ -45,6 +45,7 @@ class Builder extends Component {
     addPart = (part, partType) => {
         const currentStage = this.state.currentStage
         const stage = this.state.stage
+        console.log(part);
         if (partType === 'tank') { stage[currentStage].tank.push(part) }
         if (partType === 'engine') { stage[currentStage].engine.push(part) }
         if (partType === 'command-module') { stage[currentStage].commandModule.push(part) }

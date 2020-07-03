@@ -24,7 +24,7 @@ export const updateShip = async (stage, name, locationStatus, bodyLocation, id, 
             for (let i = 0; i < stage[currentStage].commandModule.length; i++) {
                 if (stage[currentStage].commandModule[i] !== undefined) {
                     let id = stage[currentStage].commandModule[i].id
-                    commandModuleList.push({ tank: { id: id } })
+                    commandModuleList.push({ command_module: { id: id } })
                 }
             }
             currentStage++
