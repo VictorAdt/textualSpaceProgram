@@ -4,14 +4,13 @@ import Routes from '../../routes/Routes'
 
 const Nav = () => {
   return (
-    <div className="nav__container">
       <BrowserRouter>
-        <Link to="/builder"> Builder </Link>
-        <Link to="/profile"> Profile </Link>
-        <Link to="/"> Tracking Station </Link>
+        <nav>
+          <Link to="/"> Tracking Station </Link>
+          <Link to="/builder"> Builder </Link>
+        </nav>
         <Routes />
       </BrowserRouter>
-    </div>
   );
 };
 

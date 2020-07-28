@@ -1,0 +1,101 @@
+@font-face {
+  font-family: "Messina";
+  src: url("./font/MessinaSans.ttf") format("woff2"),
+ }
+
+ @keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@keyframes separation {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 100vh;
+  }
+}
+
+.separation{
+    position: relative;
+    animation: separation 1500ms ease-in;
+    animation-delay: 2500ms;
+}
+
+.shaking{
+  animation: shake 0.5s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+
+ a{
+  color: #6D6D6D;
+  text-decoration: none;
+ }
+
+ p{
+   margin: 0.1rem
+ }
+
+ h3{
+   font-size: 20px;
+   text-transform: uppercase;
+ }
+ 
+ .carousel-control-next-icon
+ .carousel-control-prev-icon{
+   background-color: #6D6D6D;
+ }
+
+ .carousel-control-next-icon
+ .carousel-control-next-icon{
+   background-color: #6D6D6D;
+ }
+
+ body{
+   background-color: #E5E5E5;
+   font-family: 'Messina', sans-serif;
+   font-size: 16px;
+  .app__container{
+    padding: 50px;
+    box-sizing: border-box;
+    nav{
+      height: 100px;
+      a{
+        margin-right: 100px;
+      }
+    }
+    .ship__control{
+      display: flex;
+        .ship__overview{
+          position: relative;
+          .tanks__status{
+            display: flex;
+            flex-direction: column-reverse;
+          }
+        }
+      .carousel-item{
+        min-height: 50vh;
+      }
+    }
+    .planet__overview{
+      margin-top: 75px;
+    }
+  }
+ }
+
+ .disNone{
+  display: none;
+}
+

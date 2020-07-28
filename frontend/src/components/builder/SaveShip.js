@@ -12,8 +12,7 @@ export default class SaveShip extends Component {
             let currentStage = i
             let tankList = []
             let engineList = []
-            let commandModuleList = []
-            if(stage[currentStage].tank !== undefined || stage[currentStage].engine !== undefined || stage[currentStage].commandModule !== undefined){
+            if(stage[currentStage].tank !== undefined || stage[currentStage].engine !== undefined){
                 for(let i = 0; i < stage[currentStage].tank.length; i ++) {
                     if(stage[currentStage].tank[i] !== undefined){
                         let id = stage[currentStage].tank[i].id
@@ -26,17 +25,11 @@ export default class SaveShip extends Component {
                         engineList.push({engine:{id: id}})
                     }
                 }
-                for(let i = 0; i < stage[currentStage].commandModule.length; i ++) {
-                    if(stage[currentStage].commandModule[i] !== undefined){
-                        let id = stage[currentStage].commandModule[i].id
-                        commandModuleList.push({command_module:{id: id}})
-                    }
-                }
+
                 currentStage ++
                 partList.push({
                     tank: tankList,
                     engine: engineList,
-                    commandModule: commandModuleList
                 })
             } 
         }

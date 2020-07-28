@@ -8,7 +8,6 @@ import SaveShip from '../components/builder/SaveShip';
 class Builder extends Component {
     state = {
         stage: [{
-            commandModule: [],
             engine: [],
             tank: [],
         }
@@ -16,7 +15,7 @@ class Builder extends Component {
         currentStage: 0,
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.context.shipSetStage(this.state.stage)
     }
 
@@ -28,7 +27,6 @@ class Builder extends Component {
     addStage = () => {
         const stage = this.state.stage
         stage.push({
-            commandModule: [],
             engine: [],
             tank: [],
         });
@@ -48,39 +46,51 @@ class Builder extends Component {
         console.log(part);
         if (partType === 'tank') { stage[currentStage].tank.push(part) }
         if (partType === 'engine') { stage[currentStage].engine.push(part) }
-        if (partType === 'command-module') { stage[currentStage].commandModule.push(part) }
         this.setState({ stage: stage }, () => {
             this.context.shipSetStage(stage)
         })
-        
+
         console.log('Builder this.state.stage', this.state.stage)
     }
 
-    render() {
+    deletePart = (partIndex, partType) => {
+        const stage = this.state.stage
         const currentStage = this.state.currentStage
+        if (partType === 'tank') {
+            stage[currentStage].tank.splice(partIndex, 1)
+        }
+        else if (partType === 'engine') {
+            stage[currentStage].engine.splice(partIndex, 1)
+        }
+        this.setState({ stage: stage }, () => {
+            this.context.shipSetStage(stage)
+        })
+    }
+
+    render() {
         const stage = this.state.stage
         const value = this.context
         return (
-                <div className="builder__container">
-                    <NameShip
-                        handleInput={this.handleChange}
-                    />
-                    <SaveShip
-                        stage={stage}
-                        name={this.state.name}
-                        bodyLocation={2}
-                        locationStatus={'ground'}
-                    />
-                    <h2> current stage :{(currentStage + 1)}</h2>
-                    <RocketStats shipWeight={value.state.totalMass} deltaV={value.state.deltaV} />
-                    <StagesOverview
-                        addStage={this.addStage}
-                        setCurrentStage={this.setCurrentStage}
-                        stage={stage}
-                        addPart={this.addPart}
-                        deltaVByStage={value.state.deltaVByStage}
-                    />
-                </div>
+            <div className="builder__container">
+                <NameShip
+                    handleInput={this.handleChange}
+                />
+                <SaveShip
+                    stage={stage}
+                    name={this.state.name}
+                    bodyLocation={2}
+                    locationStatus={'ground'}
+                />
+                <RocketStats shipWeight={value.state.totalMass} deltaV={this.context.state.deltaVByStage} />
+                <StagesOverview
+                    addStage={this.addStage}
+                    setCurrentStage={this.setCurrentStage}
+                    stage={stage}
+                    addPart={this.addPart}
+                    deltaVByStage={this.context.state.deltaVByStage}
+                    deletePart={this.deletePart}
+                />
+            </div>
         );
     }
 }

@@ -6,9 +6,9 @@ const BackFromParent = (props) => {
 
         return props.celestBodies.map((e, i) => (
             e.id === id &&
-            <button key={i} onClick={() => props.backToParent(e.childrens[0])}> 
-                return to parent : {e.childrens[0].name}
-            </button>
+                <button key={i} onClick={() => props.backToParent(e.childrens[0])}> 
+                    return to parent : {e.childrens[0].name}
+                </button>
         ))
     } else {
         return null

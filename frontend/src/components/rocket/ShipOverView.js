@@ -1,14 +1,17 @@
 import React from 'react';
+import TankStatus from './TankStatus';
 
 const ShipOverView = (props) => {
-    if(props.ship.celest_body)
-    return (
-        <div>
-            <p> {props.ship.name} </p>
-            <p> {props.ship.locationStatus} </p>
-            <p> {props.ship.celest_body.name} </p>
-        </div>
-    );
+    if (props.stage)
+        return (
+            <div className="ship__overview">
+                <div className={props.isLoading === true ? 'shaking' : ''}>
+                    <TankStatus
+                        stage={props.stage}
+                    />
+                </div>
+            </div>
+        );
     else return ''
 };
 

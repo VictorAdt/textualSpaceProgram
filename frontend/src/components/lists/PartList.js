@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import TankList from './TankList';
-import CommandModuleList from './CommandModuleList';
 import EngineList from './EngineList';
+import Col from './../../../node_modules/react-bootstrap/Col'
+import Row from './../../../node_modules/react-bootstrap/Row'
 
 
 
 export default class PartList extends Component {
-    state ={
+    state = {
     }
 
     render() {
 
         return (
-            <div className="PartList">
-                <TankList addPart={this.props.addPart}/>
-                <CommandModuleList addPart={this.props.addPart}/>
-                <EngineList addPart={this.props.addPart}/>
-            </div>
+            <Row xs={12} className="PartList">
+                <Col xs={3}>
+                    <TankList addPart={this.props.addPart} />
+
+                </Col>
+                <Col xs={3}>
+                    <EngineList addPart={this.props.addPart} />
+                </Col>
+            </Row>
         );
     }
 }

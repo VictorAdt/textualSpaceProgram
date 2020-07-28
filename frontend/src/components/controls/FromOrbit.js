@@ -8,10 +8,13 @@ import CommandModuleReEntry from './CommandModuleReEntry';
 import PlanetTransfert from './PlanetTransfert';
 import BackFromParent from './BackFromParent'
 import FromMoonToMoon from './FromMoonToMoon';
+import Carousel from './../../../node_modules/react-bootstrap/Carousel'
+
 
 export default class FromOrbit extends Component {
     state = {
-        celestBodies: null
+        celestBodies: null,
+        index: 0
     }
 
     async componentDidMount() {
@@ -28,49 +31,112 @@ export default class FromOrbit extends Component {
         }
     }
 
+    handleSelect = (selectedIndex, e) => {
+        this.setState({ index: selectedIndex });
+    };
+
     render() {
         if (this.state.celestBodies === null) {
             return 'loading'
         } else
             return (
-                <div className='from__orbit'>
-                    <FromOrbitToSurface 
-                        fromOrbitToSurface={this.props.fromOrbitToSurface}
-                        ship={this.props.ship}
-                        celestBodies={this.state.celestBodies}
-                    />
-                    <EscapeFromOrbit
-                        escapeFromOrbit={this.props.escapeFromOrbit}
-                        ship={this.props.ship}
-                        celestBodies={this.state.celestBodies}
-                    />
-                    <ChildTransfert 
-                        childTransfert={this.props.childTransfert}
-                        celestBodies={this.state.celestBodies}
-                        ship={this.props.ship}
-                    />
-                    <CommandModuleReEntry 
-                        commandModuleReEntry={this.props.commandModuleReEntry}
-                        ship={this.props.ship}
-                        celestBodies={this.state.celestBodies}
-                        stage={this.props.stage}
-                    />
-                    <PlanetTransfert
-                        ship={this.props.ship}
-                        planetTransfert={this.props.planetTransfert}
-                        celestBodies={this.state.celestBodies}
-                    />
-                    <BackFromParent 
-                        ship={this.props.ship}
-                        celestBodies={this.state.celestBodies}
-                        backToParent={this.props.backToParent}
-                    />
-                    <FromMoonToMoon
-                        fromMoonToMoon={this.props.fromMoonToMoon}
-                        ship={this.props.ship}
-                        celestBodies={this.state.celestBodies}
-                    />
-                </div>
+                <Carousel
+                    wrap={true}
+                    indicators={true}
+                    interval={null}
+                    keyboard={true}
+                    activeIndex={this.state.index}
+                    onSelect={this.handleSelect}>
+
+
+                    {this.props.ship.celest_body.hasGround &&
+                        <Carousel.Item>
+                            <FromOrbitToSurface
+                                fromOrbitToSurface={this.props.fromOrbitToSurface}
+                                ship={this.props.ship}
+                                celestBodies={this.state.celestBodies}
+                            />
+                        </Carousel.Item>
+                    }
+
+                    {this.props.ship.celest_body.type === 'planet' &&
+                        <Carousel.Item>
+                            <EscapeFromOrbit
+                                escapeFromOrbit={this.props.escapeFromOrbit}
+                                ship={this.props.ship}
+                                celestBodies={this.state.celestBodies}
+                            />
+                        </Carousel.Item>
+                    }
+
+                    {this.props.ship.celest_body.type === 'planet' &&
+                        this.state.celestBodies.map((e, i) => (
+                            e.type === 'naturalSatelit' && e.childrens[0].id === this.props.ship.celest_body.id &&
+                            <Carousel.Item>
+                                <ChildTransfert
+                                    childTransfert={this.props.childTransfert}
+                                    celestBodies={this.state.celestBodies}
+                                    ship={this.props.ship}
+                                />
+                            </Carousel.Item>))
+                    }
+
+                    {this.props.ship.celest_body.atmosphere > 1.5
+                        && this.props.ship.celest_body.hasGround &&
+                        <Carousel.Item>
+                            <CommandModuleReEntry
+                                commandModuleReEntry={this.props.commandModuleReEntry}
+                                ship={this.props.ship}
+                                celestBodies={this.state.celestBodies}
+                                stage={this.props.stage}
+                            />
+                        </Carousel.Item>}
+
+
+                    {this.props.ship.celest_body.type === 'star' &&
+                        this.state.celestBodies.map((e, i) =>
+                            e.type === 'planet' &&
+                            e.id !== this.props.ship.celest_body.id &&
+                            <Carousel.Item key={i}>
+                                <PlanetTransfert
+                                    ship={this.props.ship}
+                                    planetTransfert={this.props.planetTransfert}
+                                    celestBodies={this.state.celestBodies}
+                                    body={e}
+                                />
+                            </Carousel.Item>
+                        )}
+
+
+                    {this.props.ship.celest_body.type === 'planet' &&
+                        this.state.celestBodies.map((e, i) => (
+                            e.type === 'naturalSatelit' && e.childrens[0].id === this.props.ship.celest_body.id &&
+                            <Carousel.Item key={i}>
+                                <ChildTransfert
+                                    childTransfert={this.props.childTransfert}
+                                    celestBodies={this.state.celestBodies}
+                                    ship={this.props.ship}
+                                />
+                            </Carousel.Item>))
+                    }
+
+                    {this.props.ship.celest_body.type === 'naturalSatelit' &&
+                        <Carousel.Item>
+                            <BackFromParent
+                                ship={this.props.ship}
+                                celestBodies={this.state.celestBodies}
+                                backToParent={this.props.backToParent}
+                            />
+                        </Carousel.Item>}
+
+                    {/* <Carousel.Item style={{ backgroundColor: 'red' }} >#
+                        <FromMoonToMoon
+                            fromMoonToMoon={this.props.fromMoonToMoon}
+                            ship={this.props.ship}
+                            celestBodies={this.state.celestBodies}
+                        />
+                    </Carousel.Item> */}
+                </Carousel >
             );
     }
 }

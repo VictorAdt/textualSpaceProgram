@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { ShipContext } from '../../contexts/ShipProvider'
 import axios from 'axios';
-import ManoeuvreControl from './ManoeuvreControl';
-import ShipOverView from './../rocket/ShipOverView';
+import ManoeuvreControl from './ManoeuvreControl'
+import ShipOverView from './../rocket/ShipOverView'
+import ShipStatus from './../rocket/ShipStatus'
+import PlanetStatus from '../rocket/PlanetStatus';
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Background from './../Background'
 
 export default class ShipControl extends Component {
     state = {
         ship: this.context.state.ship,
-        stage: this.context.state.stage,
-        celestialBody: null
+        celestialBody: null,
+        stage: null,
+        isLoading: false
     }
 
     async componentDidMount() {
@@ -23,7 +29,6 @@ export default class ShipControl extends Component {
                 // format data for the context
                 for (let i = 0; i < fetchedShip.stage.length; i++) {
                     let stage = {
-                        commandModule: [],
                         engine: [],
                         tank: [],
                     }
@@ -35,18 +40,18 @@ export default class ShipControl extends Component {
                     for (let i = 0; i < fetchedShip.stage[currentStage].engine.length; i++) {
                         stage.engine.push(fetchedShip.stage[currentStage].engine[i].engine)
                     }
-                    for (let i = 0; i < fetchedShip.stage[currentStage].commandModule.length; i++) {
-                        stage.commandModule.push(fetchedShip.stage[currentStage].commandModule[i].command_module)
-                    }
                     currentStage++
                     rocketStages.push(stage)
                 }
- 
+
                 this.context.shipSetStage(rocketStages)
                 this.context.setShip(fetchedShip)
+                this.setState({
+                    stage: rocketStages
+                })
 
                 console.log('fetchedShip', fetchedShip)
-            // Catch error
+                // Catch error
             } catch (err) {
                 alert(err);
             }
@@ -57,20 +62,50 @@ export default class ShipControl extends Component {
         }
     }
 
+    setIsLoading = (bool) => {
+        this.setState({ isLoading: bool })
+    }
+
     render() {
-        // if(this.context.state.ship)
-        return (
-            <div className="ship__control">
-                <ManoeuvreControl 
-                    // ship={this.context.state.ship}
-                    // stage={this.context.state.stage}
-                />
-                <ShipOverView 
-                    ship={this.context.state.ship}
-                />
-            </div>
-        )
-        // else return <div></div>
+        if (this.state.stage)
+            return (
+                <Row xs={12} className="ship__control">
+
+                    <Background isLoading={this.state.isLoading} />
+                    
+                    <Col xs={4}>
+                        <ShipStatus
+                            context={this.context.state}
+                            setLoading={this.setIsLoading}
+                            isLoading={this.state.isLoading}
+                        />
+                        <PlanetStatus
+                            ship={this.context.state.ship}
+                            setLoading={this.setIsLoading}
+                            isLoading={this.state.isLoading}
+                        />
+                    </Col>
+
+
+                    <Col xs={4}>
+                        <ManoeuvreControl
+                            stage={this.state.stage}
+                            setLoading={this.setIsLoading}
+                            isLoading={this.state.isLoading}
+                        />
+                    </Col>
+
+                    <Col xs={4}>
+                        <ShipOverView
+                            ship={this.context.state.ship}
+                            stage={this.state.stage}
+                            setLoading={this.setIsLoading}
+                            isLoading={this.state.isLoading}
+                        />
+                    </Col>
+                </Row>
+            )
+        else return null
     }
 }
 

@@ -7,10 +7,9 @@ export const updateShip = async (stage, name, locationStatus, bodyLocation, id, 
         let currentStage = i
         let tankList = []
         let engineList = []
-        let commandModuleList = []
-        if (stage[currentStage].tank !== undefined || stage[currentStage].engine !== undefined || stage[currentStage].commandModule !== undefined) {
-            for (let i = 0; i < stage[currentStage].tank.length; i++) {
-                if (stage[currentStage].tank[i] !== undefined) {
+        if (stage[currentStage].tank !== undefined || stage[currentStage].engine !== undefined) {
+            if (stage[currentStage].tank[i] !== undefined) {
+                for (let i = 0; i < stage[currentStage].tank.length; i++) {
                     let id = stage[currentStage].tank[i].id
                     tankList.push({ remaininFuel: parseInt(stage[currentStage].tank[i].remainingFuel), tank: { id: id } })
                 }
@@ -21,17 +20,10 @@ export const updateShip = async (stage, name, locationStatus, bodyLocation, id, 
                     engineList.push({ engine: { id: id } })
                 }
             }
-            for (let i = 0; i < stage[currentStage].commandModule.length; i++) {
-                if (stage[currentStage].commandModule[i] !== undefined) {
-                    let id = stage[currentStage].commandModule[i].id
-                    commandModuleList.push({ command_module: { id: id } })
-                }
-            }
             currentStage++
             partList.push({
                 tank: tankList,
                 engine: engineList,
-                commandModule: commandModuleList
             })
         }
     }
@@ -55,7 +47,7 @@ export const updateShip = async (stage, name, locationStatus, bodyLocation, id, 
         data
     })
     if (saveShipRes.status === 200) {
-        alert('update 200');
+        console.log('update 200')
     }
 };
 

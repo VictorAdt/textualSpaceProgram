@@ -2,13 +2,16 @@ import React from 'react';
 
 const PlanetTransfert = (props) => {
     if (props.ship.celest_body.type === 'star') {
-        return props.celestBodies.map((e, i) =>
-            e.type === 'planet' &&
-            e.id !== props.ship.celest_body.id &&
-            <button key={i} value={e} 
-                onClick={() => props.planetTransfert(e)} > 
-                {e.name} 
-            </button>
+        return (
+            props.body.type === 'planet' &&
+            props.body.id !== props.ship.celest_body.id &&
+            <div className="planet__transfert hud">
+                <p> I see a planet. Its {props.body.name}</p>
+                <button value={props.body} 
+                    onClick={() => props.planetTransfert(props.body)} > 
+                    Transfert to {props.body.name} 
+                </button>
+            </div>
         )
     } else { 
         return null

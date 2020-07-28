@@ -15,7 +15,6 @@ export class ShipProvider extends Component {
         deltaVByStage: [],
         totalMass: 0,
         stage: [{
-            commandModule: [],
             engine: [],
             tank: [],
         }],
@@ -44,7 +43,7 @@ export class ShipProvider extends Component {
         let stage = this.state.stage
 
         for (let i = 0; i < stage.length; i++) {
-            if (stage[i].engine.length > 0) {
+            if (stage[i].engine !== undefined) {
                 let currentStage = i
                 let currentStageISP = []
                 for (let i = 0; i < stage[currentStage].engine.length; i++) {
@@ -67,7 +66,7 @@ export class ShipProvider extends Component {
         let stage = this.state.stage
 
         for (let i = 0; i < stage.length; i++) {
-            if (stage[i].tank.length > 0) {
+            if (stage[i].tank !== undefined) {
                 let currentStage = i
                 let currentfuelMass = []
                 for (let i = 0; i < stage[currentStage].tank.length; i++) {
@@ -92,7 +91,7 @@ export class ShipProvider extends Component {
         for (let i = 0; i < stage.length; i++) {
             let currentStage = i
             let currentMass = []
-            if (stage[currentStage].tank !== undefined || stage[currentStage].engine !== undefined || stage[currentStage].commandModule !== undefined) {
+            if (stage[currentStage].tank !== undefined || stage[currentStage].engine !== undefined) {
                 for (let i = 0; i < stage[currentStage].tank.length; i++) {
                     if (stage[currentStage].tank[i] !== undefined) {
                         currentMass.push(parseInt(stage[currentStage].tank[i].remainingFuel * 0.01))
@@ -102,11 +101,6 @@ export class ShipProvider extends Component {
                 for (let i = 0; i < stage[currentStage].engine.length; i++) {
                     if (stage[currentStage].engine[i] !== undefined) {
                         currentMass.push(parseInt(stage[currentStage].engine[i].weight))
-                    }
-                }
-                for (let i = 0; i < stage[currentStage].commandModule.length; i++) {
-                    if (stage[currentStage].commandModule[i] !== undefined) {
-                        currentMass.push(parseInt(stage[currentStage].commandModule[i].weight))
                     }
                 }
                 totalMassArray.push(parseInt(currentMass.reduce((a, b) => a + b, 0)))
@@ -163,7 +157,7 @@ export class ShipProvider extends Component {
         let stage = this.state.stage
 
         for (let i = 0; i < stage.length; i++) {
-            if (stage[i].tank.length > 0) {
+            if (stage[i].tank !== undefined) {
                 let currentStage = i
                 let currentMaxFuel = []
                 for (let i = 0; i < stage[currentStage].tank.length; i++) {
