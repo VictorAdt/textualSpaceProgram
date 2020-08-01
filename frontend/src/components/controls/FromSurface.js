@@ -1,10 +1,11 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button'
 
 const FromSurface = (props) => {
     return (
-            <button onClick={() => {
+            <Button variant="dark" onClick={() => {
                 props.fromSurfaceToOrbit()
-            }}>orbit</button>
+            }}>orbit</Button>
     );
 };
 

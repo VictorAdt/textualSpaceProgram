@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button'
 
 const FromMoonToMoon = (props) => {
     if (props.ship.celest_body.type === 'naturalSatelit') {
@@ -13,9 +14,9 @@ const FromMoonToMoon = (props) => {
             e.type === 'naturalSatelit' &&
             e.childrens[0].id === parentID &&
             e.id !== props.ship.celest_body.id &&
-                <button key={i} onClick={() => props.FromMoonToMoon(e)}>
+                <Button variant="dark" key={i} onClick={() => props.FromMoonToMoon(e)}>
                     transfert to other moon {e.name}
-                </button>
+                </Button>
         ))
     } else {
         return null

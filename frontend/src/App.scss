@@ -1,20 +1,45 @@
 @font-face {
   font-family: "Messina";
-  src: url("./font/MessinaSans.ttf") format("woff2"),
- }
+  src: url("./font/MessinaSans.ttf") format("woff2");
+}
 
- @keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+* {
 }
 
 @keyframes separation {
@@ -27,75 +52,315 @@
   }
 }
 
-.separation{
-    position: relative;
-    animation: separation 1500ms ease-in;
-    animation-delay: 2500ms;
+@keyframes transform {
+  0%,
+  100% {
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  }
+  14% {
+    border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%;
+  }
+  28% {
+    border-radius: 54% 46% 38% 62% / 49% 70% 30% 51%;
+  }
+  42% {
+    border-radius: 61% 39% 55% 45% / 61% 38% 62% 39%;
+  }
+  56% {
+    border-radius: 61% 39% 67% 33% / 70% 50% 50% 30%;
+  }
+  70% {
+    border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%;
+  }
+  84% {
+    border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
+  }
 }
 
-.shaking{
+@keyframes movement {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(20%) rotateY(10deg);
+  }
+}
+
+@keyframes spin-right {
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-2%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes shrink {
+  0% {
+    width: 95%;
+  }
+  100% {
+    width: 90%;
+  }
+}
+
+.separation {
+  position: relative;
+  animation: separation 1500ms ease-in;
+  animation-delay: 2500ms;
+}
+
+.shaking {
   animation: shake 0.5s;
   animation-delay: 1s;
   animation-iteration-count: infinite;
 }
 
- a{
-  color: #6D6D6D;
-  text-decoration: none;
- }
-
- p{
-   margin: 0.1rem
- }
-
- h3{
-   font-size: 20px;
-   text-transform: uppercase;
- }
- 
- .carousel-control-next-icon
- .carousel-control-prev-icon{
-   background-color: #6D6D6D;
- }
-
- .carousel-control-next-icon
- .carousel-control-next-icon{
-   background-color: #6D6D6D;
- }
-
- body{
-   background-color: #E5E5E5;
-   font-family: 'Messina', sans-serif;
-   font-size: 16px;
-  .app__container{
-    padding: 50px;
-    box-sizing: border-box;
-    nav{
-      height: 100px;
-      a{
-        margin-right: 100px;
-      }
-    }
-    .ship__control{
-      display: flex;
-        .ship__overview{
-          position: relative;
-          .tanks__status{
-            display: flex;
-            flex-direction: column-reverse;
-          }
-        }
-      .carousel-item{
-        min-height: 50vh;
-      }
-    }
-    .planet__overview{
-      margin-top: 75px;
-    }
-  }
- }
-
- .disNone{
+.disNone {
   display: none;
 }
 
+.accordion {
+  color: #000;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.card-header {
+  background-color: darkgrey;
+}
+
+.active_stage {
+  background-color: #fff;
+}
+
+p {
+  margin: 0.1rem;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+h3 {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+html {
+  font-size: 16px;
+  body {
+    font-size: 0.875rem;
+    overflow-x: hidden;
+    color: #fff;
+    background-color: #111111;
+    font-family: "Messina", sans-serif;
+    font-size: 16px;
+    mix-blend-mode: exclusion;
+    .app__container {
+      padding: 150px 5% 0 5%;
+      box-sizing: border-box;
+      overflow: hidden;
+      min-height: 100vh;
+      .ship__list {
+        mix-blend-mode: exclusion;
+        .ship__card {
+          background-color: transparent;
+          border: 0;
+          border-bottom: 1px solid grey;
+          margin: 0 0 25px 0;
+          padding-bottom: 10px;
+          a {
+            text-decoration: none;
+            text-decoration: none;
+            color: #fff;
+          }
+          .ship__card__body {
+            font-size: 3.2rem;
+            line-height: 3.05rem;
+            p {
+              transition: color 0.2s ease-in-out;
+              animation: 0.5s slideIn forwards;
+            }
+            p:hover {
+              color: grey;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+      nav {
+        a {
+          margin-right: 100px;
+        }
+      }
+      .backgroundHUD {
+        position: absolute;
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: -200;
+        opacity: 0.2;
+        overflow: hidden;
+      }
+      .ship__control {
+        .bg {
+          position: absolute;
+          top: 0px;
+          width: 100%;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          z-index: -1;
+          .round_bg {
+            display: block;
+            transition: 10s ease-in-out;
+            min-height: 20vh;
+            min-width: 20vh;
+            background-size: 1600% 1600%;
+            transform-origin: 50% 50%;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            animation: transform 2s ease-in-out infinite both alternate, movement 2s ease-in-out infinite both;
+            position: absolute;
+            z-index: -100;
+          }
+        }
+        display: flex;
+        .status__infos {
+          .planet__overview {
+            h3 {
+              font-size: 0.75rem;
+            }
+            margin-bottom: 40px;
+          }
+          .ship__status {
+            margin-bottom: 40px;
+            h3 {
+              font-size: 0.75rem;
+            }
+          }
+        }
+        .command__control {
+          .carousel {
+            height: 80vh;
+          }
+        }
+        .ship__overview {
+          position: relative;
+          .tanks__status {
+            display: flex;
+            flex-direction: column-reverse;
+            .rmnful {
+              font-size: 1.8rem;
+              border-bottom: 1px solid grey;
+              padding-bottom: 5px;
+              width: 100%;
+              margin: 10px 0;
+            }
+            .fuel__engine {
+              display: flex;
+              flex-direction: column-reverse;
+              align-items: center;
+            }
+            .extern__fuel__bar {
+              width: 97%;
+              border-radius: 3px;
+              background-color: #e5e5e5;
+              height: 17px;
+              display: flex;
+              justify-content: flex-start;
+              margin: 5px 0px 0px 0px;
+            }
+            .intern__fuel__bar {
+              background-color: #6d6d6d;
+              height: 100%;
+              display: block;
+              border-radius: 3px;
+            }
+            .engine__status {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              .engine__image {
+                width: 70px;
+              }
+              .engine__name {
+                transform: rotate(90deg);
+                font-size: 0.75rem;
+              }
+            }
+          }
+        }
+        .carousel-inner {
+          min-height: 50vh;
+          .carousel-item {
+            margin-top: 40%;
+            text-align: center;
+          }
+        }
+      }
+      .planet__overview {
+        margin-top: 75px;
+      }
+    }
+  }
+}
+
+.solar__system {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  top: 0;
+  left: 0;
+  span {
+    display: block;
+    transition: 10s ease-in-out;
+    background-size: 1600% 1600%;
+    transform-origin: 50% 50%;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    animation: transform 200s ease-in-out infinite both alternate, movement 4s ease-in-out infinite both,
+      spin-right 20s linear infinite;
+    z-index: -100;
+  }
+  .star {
+    position: relative;
+    display: flex;
+    align-items: center;
+    .planet {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .naturalSatelit {
+        position: relative;
+      }
+    }
+  }
+}

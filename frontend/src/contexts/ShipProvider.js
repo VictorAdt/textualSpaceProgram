@@ -5,6 +5,10 @@ export const ShipContext = React.createContext()
 
 export class ShipProvider extends Component {
     state = {
+        menuOpen: false,
+        isLoading: false,
+        thrustArr:[],
+        TWRByStage: [],
         ship: {},
         massSum: [],
         ispArray: [],
@@ -18,6 +22,10 @@ export class ShipProvider extends Component {
             engine: [],
             tank: [],
         }],
+    }
+
+    setMenuOpen = bool => {
+        this.setState({menuOpen: bool})
     }
 
     getStats = () => {
@@ -34,8 +42,50 @@ export class ShipProvider extends Component {
         })
     }
 
+    setIsLoading = state => {
+        this.setState({isLoading: state})
+    }
+
     setShip = ship => {
         this.setState({ship: ship})
+    }
+
+    getThrustbyStage = () => {
+        let {stage} = this.state
+        let thrustArr = []
+
+        for (let i = 0; i < stage.length; i++) {
+            if (stage[i].engine !== undefined) {
+                let currentStage = i
+                let currentStageThrust = []
+                for (let i = 0; i < stage[currentStage].engine.length; i++) {
+                    currentStageThrust.push(stage[currentStage].engine[i].thrust)
+                }
+                thrustArr.push(currentStageThrust.reduce((a, b) => a + b, 0))
+                currentStage++
+            }
+            else {
+                thrustArr.push(0)
+            }
+        }
+        this.setState({ thrustArr: thrustArr})
+    }
+
+    fromMassToWeight = massSum => {
+        massSum.map((e, i) => {
+            e = e * 9.8
+        })
+        return massSum
+    }
+
+    getTWRByStage = () => {
+        let {massSum, thrustArr} = this.state
+        let weightArr = this.fromMassToWeight(massSum)
+        let TWRByStage = []
+            weightArr.map( (e,i) => {
+                TWRByStage.push(thrustArr[i] / e)
+            })
+        this.setState({TWRByStage: TWRByStage})
     }
 
     getIsp = () => {
@@ -58,6 +108,7 @@ export class ShipProvider extends Component {
         }
         this.setState({ ispArray: ispArray }, () => {
             this.getMassSumOfStages()
+            this.getThrustbyStage()
         })
     }
 
@@ -94,16 +145,16 @@ export class ShipProvider extends Component {
             if (stage[currentStage].tank !== undefined || stage[currentStage].engine !== undefined) {
                 for (let i = 0; i < stage[currentStage].tank.length; i++) {
                     if (stage[currentStage].tank[i] !== undefined) {
-                        currentMass.push(parseInt(stage[currentStage].tank[i].remainingFuel * 0.01))
-                        currentMass.push(parseInt(stage[currentStage].tank[i].emptyWeight))
+                        currentMass.push(stage[currentStage].tank[i].remainingFuel * 0.01)
+                        currentMass.push(stage[currentStage].tank[i].emptyWeight)
                     }
                 }
                 for (let i = 0; i < stage[currentStage].engine.length; i++) {
                     if (stage[currentStage].engine[i] !== undefined) {
-                        currentMass.push(parseInt(stage[currentStage].engine[i].weight))
+                        currentMass.push(stage[currentStage].engine[i].weight)
                     }
                 }
-                totalMassArray.push(parseInt(currentMass.reduce((a, b) => a + b, 0)))
+                totalMassArray.push(currentMass.reduce((a, b) => a + b, 0))
                 currentStage++
             } else {
                 totalMassArray.push(0)
@@ -128,6 +179,7 @@ export class ShipProvider extends Component {
         }
         this.setState({ massSum: massSum }, () => {
             this.getDeltaVByStage()
+            this.getTWRByStage()
         })
     }
 
@@ -170,22 +222,8 @@ export class ShipProvider extends Component {
                 maxFuelMassArray.push(0)
             }
         }
-        this.setState({ maxFuelMassArray: maxFuelMassArray }, () => {
-            console.log('this.state.maxFuelMassArray', this.state.maxFuelMassArray);
-        })
+        this.setState({ maxFuelMassArray: maxFuelMassArray })
     }
-
-    /* getFuelForDV = dv => {
-        this.getMaxFuelByStage()
-        let summArr = this.state.massSum
-        let fuelMassArray = this.state.fuelMassArray
-        let dryMass = (summArr[0] - fuelMassArray[0])
-        let wetMass = dryMass * Math.exp(dv / (9.82 * this.state.ispArray[0]))
-        let fuelWeight = wetMass - dryMass
-        let fuelAmount = fuelWeight * 100
-        console.log('fuelAmount', fuelAmount);
-        return fuelAmount
-    }*/
 
     async updateLocation(status, celest_body){
         let ship = this.state.ship
@@ -201,6 +239,7 @@ export class ShipProvider extends Component {
         } catch(e){
             console.log(e);
         }
+        ship.altitudeFromParent = ship.celest_body.lowOrbit
         this.setState({ship: ship}, () => {
             console.log('updatedShip', ship);
         })
@@ -215,7 +254,9 @@ export class ShipProvider extends Component {
                 getStats: () => this.getStats(),
                 getFuelForDV: dv => this.getFuelForDV(dv),
                 setShip: ship => this.setShip(ship),
-                updateLocation: (status, celest_body) => this.updateLocation(status, celest_body)
+                updateLocation: (status, celest_body) => this.updateLocation(status, celest_body),
+                setIsLoading: state => this.setIsLoading(state),
+                setMenuOpen: bool => this.setMenuOpen(bool)
             }}>
                 {this.props.children}
             </ShipContext.Provider>

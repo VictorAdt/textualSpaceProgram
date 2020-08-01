@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button'
 
 const PlanetTransfert = (props) => {
     if (props.ship.celest_body.type === 'star') {
@@ -7,10 +8,10 @@ const PlanetTransfert = (props) => {
             props.body.id !== props.ship.celest_body.id &&
             <div className="planet__transfert hud">
                 <p> I see a planet. Its {props.body.name}</p>
-                <button value={props.body} 
+                <Button variant={'dark'} value={props.body} 
                     onClick={() => props.planetTransfert(props.body)} > 
                     Transfert to {props.body.name} 
-                </button>
+                </Button>
             </div>
         )
     } else { 

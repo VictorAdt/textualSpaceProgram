@@ -7,7 +7,7 @@ import TrackingStation from './../pages/TrackingStation'
 const Routes = () => {
     return (
         <Switch>
-            <Route exact path={"/builder"} component={Builder} />
+            <Route exact path={"/VAB"} component={Builder} />
             <Route exact path={"/shipcontrol"} component={ShipControl} /> 
             <Route exact path={"/"} component={TrackingStation} /> 
         </Switch>

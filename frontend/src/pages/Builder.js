@@ -4,6 +4,8 @@ import RocketStats from '../components/rocket/RocketStats'
 import StagesOverview from './../components/builder/StagesOverview'
 import NameShip from '../components/builder/NameShip';
 import SaveShip from '../components/builder/SaveShip';
+import axios from 'axios';
+import SolarSystem from '../components/animation/SolarSystem';
 
 class Builder extends Component {
     state = {
@@ -13,10 +15,16 @@ class Builder extends Component {
         }
         ],
         currentStage: 0,
+        celestBodies: null,
     }
 
-    componentDidMount() {
-        this.context.shipSetStage(this.state.stage)
+    async componentDidMount() {
+        this.context.shipSetStage({
+            stage: [{
+                engine: [],
+                tank: [],
+            }]
+        })
     }
 
     handleChange = (e) => {
@@ -70,18 +78,13 @@ class Builder extends Component {
     render() {
         const stage = this.state.stage
         const value = this.context
+        if(!this.context.state.menuOpen){
         return (
             <div className="builder__container">
                 <NameShip
                     handleInput={this.handleChange}
                 />
-                <SaveShip
-                    stage={stage}
-                    name={this.state.name}
-                    bodyLocation={2}
-                    locationStatus={'ground'}
-                />
-                <RocketStats shipWeight={value.state.totalMass} deltaV={this.context.state.deltaVByStage} />
+                <RocketStats context={this.context.state} />
                 <StagesOverview
                     addStage={this.addStage}
                     setCurrentStage={this.setCurrentStage}
@@ -89,9 +92,16 @@ class Builder extends Component {
                     addPart={this.addPart}
                     deltaVByStage={this.context.state.deltaVByStage}
                     deletePart={this.deletePart}
+                    currentStage={this.state.currentStage}
                 />
+                <SaveShip
+                    stage={stage}
+                    name={this.state.name}
+                    bodyLocation={2}
+                    locationStatus={'ground'}
+                />*/
             </div>
-        );
+        )} else return null
     }
 }
 

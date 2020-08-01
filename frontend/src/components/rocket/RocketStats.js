@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class RocketStats extends Component {
-    render() {
-        return (
-            <div className="RocketStats">
-                <hr/>
-                <h4> Rocket Stat </h4>
-                <p> deltaV:  {this.props.deltaV.reduce((a, b) => a + b, 0)} </p>
-                <p> TWR: </p>
-                <p> Weight: {this.props.shipWeight} T</p>
-                <hr/>
-            </div>
-        );
-    }
-}
+const RocketStats = props => {
+    console.log(props);
+    return (
+        <div className="RocketStats">
+            <h4> {props.context.ship.name} </h4>
+            <p> DeltaV: {props.context.deltaV.toFixed(2)} m/s</p>
+            <p> TWR: {isNaN(props.context.TWRByStage[0]) ? 0 : props.context.TWRByStage[0].toFixed(2) }</p>
+            <p> Weight: {props.context.totalMass.toFixed(2)} Tons </p>
+            <hr />
+        </div>
+    );
+};
+
+export default RocketStats;

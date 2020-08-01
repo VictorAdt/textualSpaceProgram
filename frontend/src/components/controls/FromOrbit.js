@@ -21,7 +21,7 @@ export default class FromOrbit extends Component {
         try {
             const celestBodyRes = await axios({
                 method: 'GET',
-                url: `http://localhost:1337/celest-bodies/`
+                url: `/celest-bodies/`
             })
             const fetchedCelestBody = celestBodyRes.data
             this.setState({ celestBodies: fetchedCelestBody })
@@ -59,7 +59,7 @@ export default class FromOrbit extends Component {
                         </Carousel.Item>
                     }
 
-                    {this.props.ship.celest_body.type === 'planet' &&
+                    {this.props.ship.celest_body.type !== 'star' &&
                         <Carousel.Item>
                             <EscapeFromOrbit
                                 escapeFromOrbit={this.props.escapeFromOrbit}
@@ -77,6 +77,7 @@ export default class FromOrbit extends Component {
                                     childTransfert={this.props.childTransfert}
                                     celestBodies={this.state.celestBodies}
                                     ship={this.props.ship}
+                                    body={e}
                                 />
                             </Carousel.Item>))
                     }
@@ -108,26 +109,14 @@ export default class FromOrbit extends Component {
                         )}
 
 
-                    {this.props.ship.celest_body.type === 'planet' &&
-                        this.state.celestBodies.map((e, i) => (
-                            e.type === 'naturalSatelit' && e.childrens[0].id === this.props.ship.celest_body.id &&
-                            <Carousel.Item key={i}>
-                                <ChildTransfert
-                                    childTransfert={this.props.childTransfert}
-                                    celestBodies={this.state.celestBodies}
-                                    ship={this.props.ship}
-                                />
-                            </Carousel.Item>))
-                    }
-
-                    {this.props.ship.celest_body.type === 'naturalSatelit' &&
+                    {/* this.props.ship.celest_body.type === 'naturalSatelit' &&
                         <Carousel.Item>
                             <BackFromParent
                                 ship={this.props.ship}
                                 celestBodies={this.state.celestBodies}
                                 backToParent={this.props.backToParent}
                             />
-                        </Carousel.Item>}
+                        </Carousel.Item>*/}
 
                     {/* <Carousel.Item style={{ backgroundColor: 'red' }} >#
                         <FromMoonToMoon

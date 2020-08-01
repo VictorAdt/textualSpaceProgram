@@ -5,6 +5,7 @@ const EngineStatus = props => {
         <div className="enigne__status">
             {props.stage.map((e, i) => (
                 <div key={i}>
+                    s
                 </div>
             ))}
         </div>

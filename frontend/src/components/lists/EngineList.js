@@ -10,7 +10,7 @@ export default class EngineList extends Component {
     async componentDidMount(){
         const engineRes = await axios({
             method: 'GET',
-            url: 'http://localhost:1337/engines'
+            url: '/engines'
         });
         const fetchedEngines = engineRes.data
         this.setState({ engines: fetchedEngines })

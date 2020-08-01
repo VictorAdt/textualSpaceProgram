@@ -52,7 +52,7 @@ export default class SaveShip extends Component {
 
         const saveShipRes = await axios({
             method: 'POST',
-            url: 'http://localhost:1337/ships',
+            url: '/ships',
             data
         })
         if (saveShipRes.status === 200) {

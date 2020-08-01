@@ -6,46 +6,41 @@ import Row from 'react-bootstrap/Row'
 
 
 const TankStatus = props => {
-    if(props.stage)
-    return (
-        <Col xs={12} className={"tanks__status"}>
-            {props.stage.map((e, i) => (
-                <div key={i} xs={12}  className={ e.tank[0].remainingFuel === 0 ? 'separation' : ''}>
-                    <Row xs={12}>
-                        {e.engine.map((e, i) => (
-                            <Col key={i} >
-                                <p>{e.name}</p>
-                            </Col>
-                        ))}
-                    </Row>
-                    {e.tank.map((e, i) => (
-                        <div key={i} 
-                            style={{
-                                width: '80%',
-                                border: '1px solid #6D6D6D',
-                                backgroundColor: '#E5E5E5',
-                                height: '20px',
-                                display: 'flex',
-                                justifyContent: 'flex-start',
-                                margin: '10px 0px',
-                            }}>
-                            <div 
-                                style={{
-                                    width: e.remainingFuel / e.maxFuel * 100 + '%',
-                                    backgroundColor: '#6D6D6D',
-                                    height: '100%',
-                                    display: 'block',
-                                    transition: e.remainingFuel < e.maxFuel ? 'width 2s ease-in-out' : ''
-                                }}
-                            >
+    if (props.stage)
+        return (
+            <Col xs={12} className={"tanks__status"}>
+                {props.stage.map((e, i) => (
+                    <div key={i} xs={12} className={e.tank[0].remainingFuel === 0 ? 'separation' : ''}>
+                        <Row xs={12}>
+                            <p className="rmnful">Remaining fuel</p>
+                        </Row>
+                        <Row className="fuel__engine" xs={12} >
+                            <div key={i} className="engine__status" >
+                                {e.engine.map((e, i) => (
+                                    <div xs={1}>
+                                        <img className="engine__image" src={'http://localhost:1337' + e.image.formats.medium.url} />
+                                    </div>
+                                ))}
                             </div>
-                        </div>
-                    ))}
-                </div>
-            ))
-            }
-        </Col >
-    );
+
+                            {e.tank.map((e, i) => (
+
+                                <div key={i} className="extern__fuel__bar">
+                                    <div className="intern__fuel__bar"
+                                        style={{
+                                            width: e.remainingFuel / e.maxFuel * 100 + '%',
+                                            transition: e.remainingFuel < e.maxFuel ? 'width 2s ease-in-out' : ''
+                                        }}
+                                    >
+                                    </div>
+                                </div>
+                            ))}
+                        </Row>
+
+                    </div>
+                ))}
+            </Col >
+        );
 };
 
 export default TankStatus;

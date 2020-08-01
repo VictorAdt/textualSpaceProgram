@@ -31,12 +31,9 @@
       "type": "biginteger"
     },
     "mass": {
-      "type": "biginteger"
+      "type": "decimal"
     },
     "density": {
-      "type": "biginteger"
-    },
-    "solarDay": {
       "type": "decimal"
     },
     "ships": {
@@ -59,13 +56,28 @@
       "type": "decimal"
     },
     "escapeVelocity": {
-      "type": "integer"
+      "type": "decimal"
     },
     "lowOrbit": {
       "type": "integer"
     },
     "hasGround": {
       "type": "boolean"
+    },
+    "description": {
+      "type": "text"
+    },
+    "primaryColor": {
+      "type": "string"
+    },
+    "secondaryColor": {
+      "type": "string"
+    },
+    "tertiaryColor": {
+      "type": "string"
+    },
+    "quaternaryColor": {
+      "type": "string"
     }
   }
 }

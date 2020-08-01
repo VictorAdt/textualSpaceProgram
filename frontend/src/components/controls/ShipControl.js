@@ -7,7 +7,6 @@ import ShipStatus from './../rocket/ShipStatus'
 import PlanetStatus from '../rocket/PlanetStatus';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Background from './../Background'
 
 export default class ShipControl extends Component {
     state = {
@@ -22,9 +21,19 @@ export default class ShipControl extends Component {
             try {
                 const shiptRes = await axios({
                     method: 'GET',
-                    url: `http://localhost:1337/ships/${this.props.location.id}`
+                    url: `/ships/${this.props.location.id}`
                 });
                 const fetchedShip = shiptRes.data
+
+                const celestBodyRes = await axios({
+                    method: 'GET',
+                    url: `/celest-bodies/${fetchedShip.celest_body.id}`
+                })
+                const fetchedCelestBody = celestBodyRes.data
+                fetchedShip.celest_body = fetchedCelestBody
+                this.context.setShip(fetchedShip)
+
+
                 let rocketStages = []
                 // format data for the context
                 for (let i = 0; i < fetchedShip.stage.length; i++) {
@@ -43,9 +52,7 @@ export default class ShipControl extends Component {
                     currentStage++
                     rocketStages.push(stage)
                 }
-
                 this.context.shipSetStage(rocketStages)
-                this.context.setShip(fetchedShip)
                 this.setState({
                     stage: rocketStages
                 })
@@ -53,7 +60,7 @@ export default class ShipControl extends Component {
                 console.log('fetchedShip', fetchedShip)
                 // Catch error
             } catch (err) {
-                alert(err);
+                alert(err)
             }
 
         } else {
@@ -62,47 +69,49 @@ export default class ShipControl extends Component {
         }
     }
 
-    setIsLoading = (bool) => {
-        this.setState({ isLoading: bool })
-    }
-
     render() {
         if (this.state.stage)
             return (
                 <Row xs={12} className="ship__control">
-
-                    <Background isLoading={this.state.isLoading} />
-                    
-                    <Col xs={4}>
-                        <ShipStatus
-                            context={this.context.state}
-                            setLoading={this.setIsLoading}
-                            isLoading={this.state.isLoading}
-                        />
-                        <PlanetStatus
-                            ship={this.context.state.ship}
-                            setLoading={this.setIsLoading}
-                            isLoading={this.state.isLoading}
-                        />
+                    <Col className="status__infos" xs={3}>
+                        {!this.context.state.menuOpen &&
+                            <div>
+                                <ShipStatus
+                                    context={this.context.state}
+                                    setIsLoading={this.context.setIsLoading}
+                                    isLoading={this.context.state.isLoading}
+                                />
+                                <PlanetStatus
+                                    ship={this.context.state.ship}
+                                    setIsLoading={this.context.setIsLoading}
+                                    isLoading={this.context.state.isLoading}
+                                />
+                            </div>
+                        }
                     </Col>
 
 
-                    <Col xs={4}>
+                    <Col xs={6}>
                         <ManoeuvreControl
+                            menuOpen={this.context.state.menuOpen}
                             stage={this.state.stage}
-                            setLoading={this.setIsLoading}
-                            isLoading={this.state.isLoading}
+                            setIsLoading={this.context.setIsLoading}
+                            isLoading={this.context.state.isLoading}
                         />
                     </Col>
 
-                    <Col xs={4}>
-                        <ShipOverView
-                            ship={this.context.state.ship}
-                            stage={this.state.stage}
-                            setLoading={this.setIsLoading}
-                            isLoading={this.state.isLoading}
-                        />
+
+                    <Col xs={3}>
+                        {!this.context.state.menuOpen &&
+                            <ShipOverView
+                                ship={this.context.state.ship}
+                                stage={this.state.stage}
+                                setIsLoading={this.context.setIsLoading}
+                                isLoading={this.context.state.isLoading}
+                            />
+                        }
                     </Col>
+
                 </Row>
             )
         else return null

@@ -1,13 +1,19 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button'
 
 const ChildTransfert = (props) => {
-    if (props.ship.celest_body.type === 'planet') {
-        return props.celestBodies.map((e, i) => (
-            e.type === 'naturalSatelit' && e.childrens[0].id === props.ship.celest_body.id &&
-            <button key={i} value={e} onClick={() => props.childTransfert(e)}>
-                Transfert to child {e.name}
-            </button>
-        ))
+    if (props.body) {
+        return (
+            props.body.type === 'naturalSatelit' &&
+            props.body.childrens[0].id === props.ship.celest_body.id &&
+            <div className="planet__transfert hud">
+                <p> I see a moon. Its {props.body.name}</p>
+                <Button variant={'dark'} value={props.body} 
+                    onClick={() => props.childTransfert(props.body)} > 
+                    Transfert to {props.body.name} 
+                </Button>
+            </div>
+        )
     } else {
         return null
     }

@@ -1,12 +1,13 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button'
 
 const EscapeFromOrbit = (props) => {
-    if(props.ship.celest_body.type === 'planet'){
+    if(props.ship.celest_body.type !== 'star'){
     return (
-        <button
+        <Button variant="dark"
             onClick={() => props.escapeFromOrbit()}>
             escape gravity
-        </button>
+        </Button>
     );} else {
         return null
     }

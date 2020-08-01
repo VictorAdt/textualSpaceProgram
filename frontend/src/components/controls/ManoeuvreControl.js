@@ -5,6 +5,8 @@ import { deleteShip } from '../../utils/deleteShip'
 import FromSurface from './FromSurface'
 import FromOrbit from './FromOrbit'
 import axios from 'axios'
+import Background from './../animation/Background'
+
 
 export default class ManoeuvreControl extends Component {
     constructor(props) {
@@ -12,6 +14,10 @@ export default class ManoeuvreControl extends Component {
         this.state = {
             isLoading: false,
             stage: [],
+            target: {
+                celest_body: null,
+                locationStatus: null
+            }
         }
     }
 
@@ -38,11 +44,11 @@ export default class ManoeuvreControl extends Component {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-
     burn = (requierdDV, risk, i) => {
         let stage = this.props.stage
         let dvByStageAfterBurn = this.context.state.deltaVByStage
         let index = i
+        let success = true
 
         if (dvByStageAfterBurn[i] >= requierdDV) {
             dvByStageAfterBurn[i] -= requierdDV
@@ -52,13 +58,17 @@ export default class ManoeuvreControl extends Component {
                 stage[index].tank[i].remainingFuel = (lastStageRemainingFuel / stage[index].tank.length)
             }
         } else {
+            if (stage[index] === undefined) { return false }
             requierdDV -= dvByStageAfterBurn[i]
             dvByStageAfterBurn[i] = 0
             for (let i = 0; i < stage[index].tank.length; i++) {
                 stage[index].tank[i].remainingFuel = 0
             }
+            if (index >= stage.length - 1) {
+                success = false
+            }
         }
-        return { stage, requierdDV }
+        return { stage, requierdDV, success }
 
     }
 
@@ -66,7 +76,7 @@ export default class ManoeuvreControl extends Component {
         try {
             const celestBodyRes = await axios({
                 method: 'GET',
-                url: `http://localhost:1337/celest-bodies/${id}`
+                url: `/celest-bodies/${id}`
             })
             const fetchedCelestBody = celestBodyRes.data
             return fetchedCelestBody
@@ -76,8 +86,9 @@ export default class ManoeuvreControl extends Component {
     }
 
     fromSurfaceToOrbit = async () => {
-        await this.props.setLoading(true)
-        let requierdDV = Math.sqrt(this.context.state.ship.celest_body.mu / this.context.state.ship.celest_body.radius) * 1000 * this.context.state.ship.celest_body.atmosphere
+        await this.props.setIsLoading(true)
+        this.setState({ target: {celest_body: this.context.state.ship.celest_body, locationStatus: 'orbit'}})
+        let requierdDV = (Math.sqrt(6.67408 * 10e+11 * this.context.state.ship.celest_body.mass * 10e+21 / this.context.state.ship.celest_body.radius * 1000) / 1000000000000000) * this.context.state.ship.celest_body.atmosphere
         console.log('reqDV', requierdDV)
         let loop = this.props.stage.length
         let i = 0
@@ -87,20 +98,28 @@ export default class ManoeuvreControl extends Component {
             if (burn.requierdDV === 0) {
                 await this.pause(2000)
                 this.context.shipSetStage(burn.stage)
+                console.log('burn finish')
                 break
             }
             else if (burn.requierdDV > 0) {
+                requierdDV -= burn.requierdDV
+                console.log('stage finish reqdv', requierdDV)
                 await this.pause(2000)
                 this.context.shipSetStage(burn.stage)
                 await this.pause(2000)
                 burn.stage.splice(i, 1)
                 await this.pause(1000)
                 this.context.shipSetStage(burn.stage)
+                if (burn.success === false) {
+                    alert('crash')
+                    deleteShip(this.context.state.ship.id)
+                    setTimeout(() => {
+                        window.location.pathname = '/'
+                        return
+                    }, 500);
+
+                }
                 i--
-            }
-            else if (burn === false) {
-                console.log('crash')
-                break
             }
             i++
         }
@@ -115,169 +134,306 @@ export default class ManoeuvreControl extends Component {
             this.context.state.ship.id,
             celest_body.lowOrbit
         )
-        this.props.setLoading(false)
+        this.props.setIsLoading(false)
     }
 
-
     fromOrbitToSurface = async () => {
-        let requierdDV = Math.sqrt(this.context.state.ship.celest_body.mu / this.context.state.ship.celest_body.radius) * 1000 / this.context.state.ship.celest_body.atmosphere
-        console.log('reqDV', requierdDV);
-        let stage = this.burn(requierdDV, true)
-        if (stage === false) {
-            console.log('you crashed');
-        } else {
-            console.log('congrats, you landed');
+        await this.props.setIsLoading(true)
+        this.setState({ target: {celest_body: this.context.state.ship.celest_body, locationStatus: 'ground'}})
+        let requierdDV = Math.sqrt((6.67408 * 10e+11 * this.context.state.ship.celest_body.mass * 10e+21) / this.context.state.ship.celest_body.radius * 1000) / 1000000000000000 / this.context.state.ship.celest_body.atmosphere
+        console.log('reqDV', requierdDV)
+        let loop = this.props.stage.length
+        let i = 0
 
-            const celest_body = await this.getCelestBody(this.context.state.ship.celest_body.id)
-            this.context.shipSetStage(stage)
-            this.context.updateLocation('ground', celest_body)
-            console.log('celest_body', celest_body);
-            //save to database
-            updateShip(
-                stage,
-                this.context.state.ship.name,
-                'ground',
-                celest_body.id,
-                this.context.state.ship.id,
-                celest_body.lowOrbit)
+        while (i < loop) {
+            let burn = this.burn(requierdDV, true, i)
+            if (burn.requierdDV === 0) {
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                break
+            }
+            else if (burn.requierdDV > 0) {
+                requierdDV -= burn.requierdDV
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                await this.pause(2000)
+                burn.stage.splice(i, 1)
+                await this.pause(1000)
+                this.context.shipSetStage(burn.stage)
+                if (burn.success === false) {
+                    alert('crash')
+                    deleteShip(this.context.state.ship.id)
+                    window.location.pathname = '/'
+                    return
+                }
+                i--
+            }
+            i++
         }
+
+        const celest_body = await this.getCelestBody(this.context.state.ship.celest_body.id)
+        this.context.updateLocation('ground', celest_body)
+        console.log('celest_body', celest_body);
+        //save to database
+        updateShip(
+            this.context.state.stage,
+            this.context.state.ship.name,
+            'ground',
+            celest_body.id,
+            this.context.state.ship.id,
+            0)
+        this.props.setIsLoading(false)
+
     }
 
     escapeFromOrbit = async () => {
+        await this.props.setIsLoading(true)
+        this.setState({ target: {celest_body: this.context.state.ship.celest_body.childrens[0], locationStatus: 'orbit'}})
         let requierdDV = this.context.state.ship.celest_body.escapeVelocity
-        console.log('reqDV', requierdDV);
-        let stage = this.burn(requierdDV, true)
-        if (stage === false) {
-            console.log('you ran out of fuel, you are lost in space')
-            // destroy ship
-        } else {
-            console.log('congrats, you escaped Kerbin system influence, you are now orbiting around Kerbol')
+        console.log('reqDV', requierdDV)
+        let loop = this.props.stage.length
+        let i = 0
 
-            //stage update
-            const celest_body = await this.getCelestBody(this.context.state.ship.celest_body.id)
-            this.context.updateLocation('orbit', celest_body.childrens[0])
-            this.context.shipSetStage(stage)
-            console.log('celest_body.childrens[0]', celest_body.childrens[0]);
-            //save to database
-            updateShip(
-                stage,
-                this.context.state.ship.name,
-                'orbit',
-                celest_body.childrens[0].id,
-                this.context.state.ship.id,
-                celest_body.apoapsis
-            )
+        while (i < loop) {
+            let burn = this.burn(requierdDV, true, i)
+            if (burn.requierdDV === 0) {
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                break
+            }
+            else if (burn.requierdDV > 0) {
+                requierdDV -= burn.requierdDV
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                await this.pause(2000)
+                burn.stage.splice(i, 1)
+                await this.pause(1000)
+                this.context.shipSetStage(burn.stage)
+                if (burn.success === false) {
+                    alert('crash')
+                    deleteShip(this.context.state.ship.id)
+                    window.location.pathname = '/'
+                    return
+                }
+                i--
+            }
+            i++
         }
+        let altitude = this.context.state.ship.celest_body.apoapsis
+
+        //stage update
+        const celest_body = await this.getCelestBody(this.context.state.ship.celest_body.id)
+        this.context.updateLocation('orbit', celest_body.childrens[0])
+        console.log('celest_body.childrens[0]', celest_body.childrens[0]);
+        //save to database
+        updateShip(
+            this.context.state.stage,
+            this.context.state.ship.name,
+            'orbit',
+            celest_body.childrens[0].id,
+            this.context.state.ship.id,
+            altitude
+        )
+        this.props.setIsLoading(false)
+
     }
 
     childTransfer = async (targetBody) => {
+        await this.props.setIsLoading(true)
+        this.setState({ target: {celest_body: targetBody, locationStatus: 'orbit'}})
         let requierdDV = Math.sqrt(targetBody.apoapsis) * 10
         console.log('reqDV', requierdDV)
-        let stage = this.burn(requierdDV, true)
-        if (stage === false) {
-            console.log('you ran out of fuel, you are lost in space')
-            // destroy ship
-        } else {
-            console.log('congrats, you are now orbiting around the moon ')
-            console.log('stage', stage);
+        let loop = this.props.stage.length
+        let i = 0
 
-            //stage update
-            const celest_body = await this.getCelestBody(targetBody.id)
-            this.context.updateLocation('orbit', celest_body)
-            this.context.shipSetStage(stage)
-            console.log('celest_body', celest_body);
-            //save to database
-            updateShip(stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id, celest_body.lowOrbit)
+        while (i < loop) {
+            let burn = this.burn(requierdDV, true, i)
+            if (burn.requierdDV === 0) {
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                break
+            }
+            else if (burn.requierdDV > 0) {
+                requierdDV -= burn.requierdDV
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                await this.pause(2000)
+                burn.stage.splice(i, 1)
+                await this.pause(1000)
+                this.context.shipSetStage(burn.stage)
+                if (burn.success === false) {
+                    alert('crash')
+                    deleteShip(this.context.state.ship.id)
+                    window.location.pathname = '/'
+                    return
+                }
+                i--
+            }
+            i++
         }
+        //stage update
+        const celest_body = await this.getCelestBody(targetBody.id)
+        this.context.updateLocation('orbit', celest_body)
+        //save to database
+        updateShip(this.context.state.stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id, celest_body.lowOrbit)
+        this.props.setIsLoading(false)
     }
 
     planetTransfert = async (targetBody) => {
+        await this.props.setIsLoading(true)
+        this.setState({ target: {celest_body: targetBody, locationStatus: 'orbit'}})
         let distance
         if (targetBody.apoapsis > this.context.state.ship.altitudeFromParent) {
             distance = targetBody.apoapsis - this.context.state.ship.altitudeFromParent
         } else {
             distance = this.context.state.ship.altitudeFromParent - targetBody.apoapsis
         }
-        let requierdDV = Math.sqrt(distance) / 1.5
+        let requierdDV = Math.sqrt(distance) / 3
+        console.log('reqDV', requierdDV)
+        let loop = this.props.stage.length
+        let i = 0
 
-        let stage = this.burn(requierdDV, true)
-        if (stage === false) {
-            console.log('you ran out of fuel, you are lost in space')
-            // destroy ship
-        } else {
-            console.log('congrats, you are now orbiting around an other planet ')
-
-            //stage update
-            const celest_body = await this.getCelestBody(targetBody.id)
-            this.context.updateLocation('orbit', celest_body)
-            this.context.shipSetStage(stage)
-            console.log('celest_body.childrens[0]', celest_body);
-            //save to database
-            updateShip(
-                stage,
-                this.context.state.ship.name,
-                'orbit', celest_body.id,
-                this.context.state.ship.id,
-                celest_body.lowOrbit)
+        while (i < loop) {
+            let burn = this.burn(requierdDV, true, i)
+            if (burn.requierdDV === 0) {
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                break
+            }
+            else if (burn.requierdDV > 0) {
+                requierdDV -= burn.requierdDV
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                await this.pause(2000)
+                burn.stage.splice(i, 1)
+                await this.pause(1000)
+                this.context.shipSetStage(burn.stage)
+                if (burn.success === false) {
+                    alert('crash')
+                    deleteShip(this.context.state.ship.id)
+                    window.location.pathname = '/'
+                    return
+                }
+                i--
+            }
+            i++
         }
 
+        //stage update
+        const celest_body = await this.getCelestBody(targetBody.id)
+        this.context.updateLocation('orbit', celest_body)
+        console.log('celest_body.childrens[0]', celest_body);
+        //save to database
+        updateShip(
+            this.context.state.stage,
+            this.context.state.ship.name,
+            'orbit', celest_body.id,
+            this.context.state.ship.id,
+            celest_body.lowOrbit)
+        this.props.setIsLoading(false)
     }
 
     backToParent = async (targetBody) => {
+        await this.props.setIsLoading(true)
+        this.setState({ target: {celest_body: targetBody, locationStatus: 'orbit'}})
         let requierdDV = Math.sqrt(this.context.state.ship.celest_body.apoapsis) / 1.5
-        console.log('requierdDV', requierdDV)
+        console.log('reqDV', requierdDV)
+        let loop = this.props.stage.length
+        let i = 0
 
-        let stage = this.burn(requierdDV, true)
-        if (stage === false) {
-            console.log('you ran out of fuel, you are lost in space')
-            // destroy ship
-        } else {
-            console.log('congrats, you are now orbiting around a planet ')
-
-            //stage update
-            const celest_body = await this.getCelestBody(targetBody.id)
-            this.context.updateLocation('orbit', celest_body)
-            this.context.shipSetStage(stage)
-            console.log('celest_body', celest_body);
-            //save to database
-            updateShip(
-                stage,
-                this.context.state.ship.name,
-                'orbit', celest_body.id,
-                this.context.state.ship.id,
-                celest_body.lowOrbit)
+        while (i < loop) {
+            let burn = this.burn(requierdDV, true, i)
+            if (burn.requierdDV === 0) {
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                break
+            }
+            else if (burn.requierdDV > 0) {
+                requierdDV -= burn.requierdDV
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                await this.pause(2000)
+                burn.stage.splice(i, 1)
+                await this.pause(1000)
+                this.context.shipSetStage(burn.stage)
+                if (burn.success === false) {
+                    alert('crash')
+                    deleteShip(this.context.state.ship.id)
+                    window.location.pathname = '/'
+                    return
+                }
+                i--
+            }
+            i++
         }
 
+        //stage update
+        const celest_body = await this.getCelestBody(targetBody.id)
+        this.context.updateLocation('orbit', celest_body)
+        console.log('celest_body', celest_body);
+        //save to database
+        updateShip(
+            this.context.state.stage,
+            this.context.state.ship.name,
+            'orbit', celest_body.id,
+            this.context.state.ship.id,
+            celest_body.lowOrbit)
+        this.props.setIsLoading(false)
     }
 
     fromMoonToMoon = async (targetBody) => {
+        await this.props.setIsLoading(true)
+        this.setState({ target: {celest_body: targetBody, locationStatus: 'orbit'}})
         let requierdDV = Math.abs(targetBody.apoapsis - this.context.state.ship.celest_body.apoapsis)
-        console.log(requierdDV)
-        let stage = this.burn(requierdDV, true)
-        if (stage === false) {
-            console.log('you ran out of fuel, you are lost in space')
-            // destroy ship
-        } else {
-            console.log('congrats, you are now orbiting around another moon ')
+        console.log('reqDV', requierdDV)
+        let loop = this.props.stage.length
+        let i = 0
 
-            //stage update
-            const celest_body = await this.getCelestBody(targetBody.id)
-            this.context.updateLocation('orbit', celest_body)
-            this.context.shipSetStage(stage)
-            console.log('celest_body', celest_body);
-            //save to database
-            updateShip(
-                stage,
-                this.context.state.ship.name,
-                'orbit',
-                celest_body.id,
-                this.context.state.ship.id,
-                celest_body.lowOrbit
-            )
+        while (i < loop) {
+            let burn = this.burn(requierdDV, true, i)
+            if (burn.requierdDV === 0) {
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                break
+            }
+            else if (burn.requierdDV > 0) {
+                requierdDV -= burn.requierdDV
+                await this.pause(2000)
+                this.context.shipSetStage(burn.stage)
+                await this.pause(2000)
+                burn.stage.splice(i, 1)
+                await this.pause(1000)
+                this.context.shipSetStage(burn.stage)
+                if (burn.success === false) {
+                    alert('crash')
+                    deleteShip(this.context.state.ship.id)
+                    window.location.pathname = '/'
+                    return
+                }
+                i--
+            }
+            i++
         }
+
+        //stage update
+        const celest_body = await this.getCelestBody(targetBody.id)
+        this.context.updateLocation('orbit', celest_body)
+        console.log('celest_body', celest_body);
+        //save to database
+        updateShip(
+            this.context.state.stage,
+            this.context.state.ship.name,
+            'orbit',
+            celest_body.id,
+            this.context.state.ship.id,
+            celest_body.lowOrbit
+        )
+        this.props.setIsLoading(false)
     }
 
     commandModuleReEntry = async () => {
+        await this.props.setIsLoading(true)
+        this.setState({ target: {celest_body: this.context.state.ship.celest_body, locationStatus: 'ground'}})
         const celest_body = await this.getCelestBody(this.context.state.ship.celest_body.id)
         this.context.updateLocation('ground', celest_body)
         this.context.shipSetStage([])
@@ -289,41 +445,48 @@ export default class ManoeuvreControl extends Component {
             this.context.state.ship.id,
             0,
         )
+        this.props.setIsLoading(false)
     }
 
     render() {
-        const isLoading = this.state.isLoading
-        if (isLoading === false && this.context.state.ship.locationStatus === 'orbit' && this.props.stage) {
+        const { isLoading, target } = this.state
+        if (isLoading === false && this.props.stage) {
             return (
                 <ShipContext.Provider>
-                    <div className={this.state.isLoading ? 'disNone' : ''}>
-                        <FromOrbit
-                            fromOrbitToSurface={this.fromOrbitToSurface}
-                            escapeFromOrbit={this.escapeFromOrbit}
-                            childTransfert={(e) => this.childTransfer(e)}
-                            commandModuleReEntry={this.commandModuleReEntry}
-                            planetTransfert={this.planetTransfert}
-                            ship={this.context.state.ship}
-                            stage={this.context.state.stage}
-                            fromMoonToMoon={this.fromMoonToMoon}
-                            backToParent={this.backToParent}
+                    {!this.props.menuOpen &&
+                    <div className={'command__control'}>
+                        <div>
+                            {this.context.state.ship.locationStatus === 'orbit' &&
+                                <FromOrbit
+                                    className={this.state.isLoading ? 'disNone' : ''}
+                                    fromOrbitToSurface={this.fromOrbitToSurface}
+                                    escapeFromOrbit={this.escapeFromOrbit}
+                                    childTransfert={(e) => this.childTransfer(e)}
+                                    commandModuleReEntry={this.commandModuleReEntry}
+                                    planetTransfert={this.planetTransfert}
+                                    ship={this.context.state.ship}
+                                    stage={this.context.state.stage}
+                                    fromMoonToMoon={this.fromMoonToMoon}
+                                    backToParent={this.backToParent}
+                                />}
+                            {this.context.state.ship.locationStatus === 'ground' &&
+                                <FromSurface
+                                    className={this.state.isLoading ? 'disNone' : ''}
+                                    className={this.state.isLoading ? 'disNone' : ''}
+                                    fromSurfaceToOrbit={this.fromSurfaceToOrbit}
+                                />
+                            }
+                        </div>
+                        
+                    </div>}
+                    <Background
+                            context={this.context}
+                            target={this.state.target}
                         />
-                    </div>
                 </ShipContext.Provider>)
-        } else if (isLoading === false && this.context.state.ship.locationStatus === 'ground') {
-            return (
-                <ShipContext.Provider>
-                    <div className={this.state.isLoading ? 'disNone' : ''}>
-                        <FromSurface
-                            className={this.state.isLoading ? 'disNone' : ''}
-                            fromSurfaceToOrbit={this.fromSurfaceToOrbit}
-                        />
-                    </div>
-                </ShipContext.Provider>
-            )
         }
         else {
-            return 'loading'
+            return ('loading')
         }
     }
 }

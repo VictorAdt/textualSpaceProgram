@@ -10,8 +10,8 @@ export default class TankList extends Component {
     async componentDidMount(){
         const tanksRes = await axios({
             method: 'GET',
-            url: 'http://localhost:1337/tanks'
-        });
+            url: '/tanks'
+        })
         const fetchedTanks = tanksRes.data
         this.setState({ tanks: fetchedTanks })
         console.log('fetchedTanks', fetchedTanks)
