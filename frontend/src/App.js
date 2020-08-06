@@ -10,6 +10,7 @@ import BurgerMenu from './components/common/menu/BurgerMenu'
 import Routes from './routes/Routes'
 import { BrowserRouter } from 'react-router-dom';
 
+
 export default class App extends Component {
   setUser = user => {
     this.setState({ user });

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
-
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 
 export default class EngineList extends Component {
     state ={
@@ -27,17 +28,15 @@ export default class EngineList extends Component {
 
         return (
             <div className="EngineList">
-                <hr/>
-                <h3> EngineList </h3>
+                <h3> Engines : </h3>
                 {engines.map((e, i) => (
-                    <div key={e.id} className="engines-item part" >
+                    <Card key={e.id} className="engines-item part" >
                             <p> Name : {e.name} </p>
                             <p> Weight : {e.weight} </p>
                             <p> isp : {e.isp} </p>
                             <p> Thrust : {e.thrust} </p>
-                            <button onClick={() => this.props.addPart(e, e.partType)} >Add</button>
-                            <hr/>
-                    </div>
+                            <Button variant="dark" onClick={() => this.props.addPart(e, e.partType)} >Add</Button>
+                    </Card>
                 ))} 
             </div>
         );

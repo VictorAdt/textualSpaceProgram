@@ -13,8 +13,8 @@ const SolarSystem = props => {
                             backgroundColor: '#' + e.primaryColor,
                             boxShadow:
                                 `inset 10px 0 40px #${e.secondaryColor}, inset -10px 0 20px  #${e.tertiaryColor}, inset -40px 10px 110px #${e.quaternaryColor}`,
-                            width: e.radius / 10000,
-                            height: e.radius / 10000,
+                            width: e.radius / 10000 + 'px',
+                            height: e.radius / 10000 + 'px',
                         }}>
                             {celestBodies.map((planet, i) => {
                                 if (planet.type === 'planet') {
@@ -57,7 +57,7 @@ const SolarSystem = props => {
                 })}
             </Container>
         )
-    else return <div className="asdad"></div>
+    else return null
 };
 
 export default SolarSystem;

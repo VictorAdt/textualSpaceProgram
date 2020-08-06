@@ -136,8 +136,34 @@
   animation-iteration-count: infinite;
 }
 
+.hud{
+  position:absolute;
+  left: 0;
+  top:50px;
+}
+
+.hud_1{
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  font-size: 20px;
+  color: #fff;
+  opacity: .1;
+  mix-blend-mode: exclusion;
+  width: 50%;
+  transform: scaleX(-1) rotate(90deg);
+}
+
 .disNone {
   display: none;
+}
+
+.stage__card{
+  margin: 10px 0;
+  .drop__zone{
+    min-height: 100px;
+    border: 1px dashed #000;
+  }
 }
 
 .accordion {
@@ -145,13 +171,29 @@
   display: flex;
   flex-direction: column-reverse;
 }
-
+.card{
+  color: #000;
+  background-color: #fff;
+  cursor: pointer;
+}
 .card-header {
-  background-color: darkgrey;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;  
+  background-color: #fff;
 }
 
+.card-body{
+  border-bottom: 1px solid #fff;
+  background-color: #fff;
+
+}
 .active_stage {
   background-color: #fff;
+  color: #000;
+  transition: all 500ms ease-out;
 }
 
 p {
@@ -165,7 +207,9 @@ a {
 
 h3 {
   font-size: 20px;
-  text-transform: uppercase;
+}
+h4{
+  margin: 0
 }
 
 html {
@@ -179,12 +223,60 @@ html {
     font-size: 16px;
     mix-blend-mode: exclusion;
     .app__container {
-      padding: 150px 5% 0 5%;
+      .bg__ctnr{
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top:0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .random__celest__body{
+          animation: transform 2s ease-in-out infinite both alternate, movement 2s ease-in-out infinite both;
+        }
+        .celest__body_name{
+          position: absolute;
+          opacity: .1;
+          bottom: -80px;
+          right: -30px;
+          font-size: 120px;
+        }
+      }
+      .ship__control{
+      }
+      .builder__container{
+        position: relative;
+        padding-top: 100px;
+        z-index: 100;
+        .stagesOverview{
+          .addStage{
+            border-radius: 50px;
+            font-size: 32px;
+            width: 50px;
+            height: 50px;
+            line-height: 1em;
+          }
+          .PartList{
+            .part{
+              margin-bottom: 20px;
+              padding: 7px;
+              box-sizing: border-box;
+            }
+          }
+        }
+        .RocketStats{
+          padding-top: 50px;
+        }
+      }
+      padding: 50px 5% 0 5%;
       box-sizing: border-box;
       overflow: hidden;
       min-height: 100vh;
       .ship__list {
         mix-blend-mode: exclusion;
+        position: relative;
+        z-index: 100;
         .ship__card {
           background-color: transparent;
           border: 0;
@@ -202,10 +294,13 @@ html {
             p {
               transition: color 0.2s ease-in-out;
               animation: 0.5s slideIn forwards;
+              position: relative;
+              left: 0;
             }
             p:hover {
               color: grey;
               text-decoration: none;
+              ; 
             }
           }
         }
@@ -222,19 +317,22 @@ html {
         height: 100vh;
         top: 0;
         left: 0;
-        z-index: -200;
+        z-index: 0;
         opacity: 0.2;
         overflow: hidden;
       }
       .ship__control {
-        .bg {
+        position: relative;
+        z-index: 100;
+        .bg__ctnr {
           position: absolute;
           top: 0px;
+          height: 100%;
           width: 100%;
           align-items: center;
           display: flex;
           justify-content: center;
-          z-index: -1;
+          z-index: 0;
           .round_bg {
             display: block;
             transition: 10s ease-in-out;
@@ -243,10 +341,10 @@ html {
             background-size: 1600% 1600%;
             transform-origin: 50% 50%;
             transform-style: preserve-3d;
+            animation: transform 2s ease-in-out infinite both alternate;
             perspective: 1000px;
-            animation: transform 2s ease-in-out infinite both alternate, movement 2s ease-in-out infinite both;
-            position: absolute;
             z-index: -100;
+            position: absolute;
           }
         }
         display: flex;
@@ -265,8 +363,20 @@ html {
           }
         }
         .command__control {
+          position: relative;
+          z-index: 5000;
+          .from__surface{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
           .carousel {
             height: 80vh;
+          }
+          .slide{
+            z-index: 1;
           }
         }
         .ship__overview {
@@ -345,8 +455,7 @@ html {
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
     perspective: 1000px;
-    animation: transform 200s ease-in-out infinite both alternate, movement 4s ease-in-out infinite both,
-      spin-right 20s linear infinite;
+    border-radius: 100%;
     z-index: -100;
   }
   .star {
@@ -361,6 +470,85 @@ html {
       .naturalSatelit {
         position: relative;
       }
+    }
+  }
+}
+
+
+
+$color: #fff;
+
+h1, input::-webkit-input-placeholder, button {
+  transition: all 0.3s ease-in-out;
+}
+
+h1 {
+  height: 100px;
+  width: 100%;
+  background: darken($color, 4%);
+  color: white;
+  line-height: 150%;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 2px 5px 1px rgba(0,0,0,0.2);
+}
+
+form {
+  box-sizing: border-box;
+  width: 100%;
+  box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.2);
+  padding-bottom: 40px;
+  border-radius: 3px;
+  h1 {
+    box-sizing: border-box;
+    padding: 20px;
+  }
+}
+
+input {
+  width: 100%;
+  display: block;
+  border: none;
+  padding: 20px 0;
+  border-bottom: solid 1px $color;
+  transition: all 0.3s cubic-bezier(.64,.09,.08,1);
+  background-color: #000;
+  color: darken($color, 20%);
+  &:focus, &:valid {
+    box-shadow: none;
+    outline: none;
+    background-position: 0 0;
+    &::-webkit-input-placeholder {
+      color: $color;
+      transform: translateY(-20px);
+      visibility: visible !important;
+    }
+  }
+}
+
+
+.follow {
+  width: 42px;
+  height: 42px;   
+  border-radius: 50px;
+  background: #03A9F4;
+  display: inline-block;
+  margin: 50px calc(50% - 21px);
+  white-space: nowrap;
+  padding: 13px;
+  box-sizing: border-box;
+  color: white;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  box-shadow: 0 5px 6px 0 rgba(0,0,0,0.2);
+  i {
+    margin-right: 20px;
+    transition: margin-right 0.2s ease;
+  }
+  &:hover {
+    width: 134px;
+    transform: translateX(-50px);
+    i {
+      margin-right: 10px;
     }
   }
 }

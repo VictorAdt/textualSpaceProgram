@@ -14,11 +14,10 @@ export default class PartList extends Component {
 
         return (
             <Row xs={12} className="PartList">
-                <Col xs={3}>
+                <Col xs={6}>
                     <TankList addPart={this.props.addPart} />
-
                 </Col>
-                <Col xs={3}>
+                <Col xs={6}>
                     <EngineList addPart={this.props.addPart} />
                 </Col>
             </Row>

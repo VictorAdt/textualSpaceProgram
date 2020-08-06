@@ -20,7 +20,7 @@ export default class ManoeuvreControl extends Component {
             }
         }
     }
-
+    
 
     componentDidMount() {
         this.setState({
@@ -472,13 +472,26 @@ export default class ManoeuvreControl extends Component {
                             {this.context.state.ship.locationStatus === 'ground' &&
                                 <FromSurface
                                     className={this.state.isLoading ? 'disNone' : ''}
-                                    className={this.state.isLoading ? 'disNone' : ''}
                                     fromSurfaceToOrbit={this.fromSurfaceToOrbit}
                                 />
                             }
                         </div>
                         
                     </div>}
+                    {this.context.state.ship.locationStatus === 'orbit' &&
+                                        <div>
+                                            <p className="hud_1">In orbit around {this.context.state.ship.celest_body.name} </p>
+                                        <p className="hud_2">In orbit around {this.context.state.ship.celest_body.name} </p>
+                                        </div>
+                                        
+
+                                    }
+                                    {this.context.state.ship.locationStatus === 'ground' &&
+                                        <div>
+                                            <p className="hud_1">Landed on {this.context.state.ship.celest_body.name} </p>
+                                            <p className="hud_2">Landed on {this.context.state.ship.celest_body.name} </p>
+                                        </div>
+                                    }
                     <Background
                             context={this.context}
                             target={this.state.target}

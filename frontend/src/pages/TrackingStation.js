@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ShipList from '../components/lists/ShipList';
 import axios from 'axios'
-import SolarSystem from './../components/animation/SolarSystem'
+import RandomCelestBody from './../components/animation/RandomCelestBody'
 export default class TrackingStation extends Component {
     state = {
         celestBodies: null
@@ -11,7 +11,7 @@ export default class TrackingStation extends Component {
         try {
             const celestBodyRes = await axios({
                 method: 'GET',
-                url: `/celest-bodies/`
+                url: `/celest-bodies`
             })
             const fetchedCelestBody = celestBodyRes.data
             this.setState({celestBodies: fetchedCelestBody})
@@ -23,9 +23,8 @@ export default class TrackingStation extends Component {
         if(this.state.celestBodies){
         return (
             <div>
-                <SolarSystem
-                    celestBodies={this.state.celestBodies}
-                />
+                <RandomCelestBody 
+                    celest_body={this.state.celestBodies} />       
                 <ShipList />
             </div>
         )

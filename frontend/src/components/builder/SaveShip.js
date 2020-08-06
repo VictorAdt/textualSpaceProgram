@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 
+
 export default class SaveShip extends Component {
 
     saveShip = async (e) => {
@@ -12,7 +13,7 @@ export default class SaveShip extends Component {
             let currentStage = i
             let tankList = []
             let engineList = []
-            if(stage[currentStage].tank !== undefined || stage[currentStage].engine !== undefined){
+            if(stage[currentStage].tank && stage[currentStage].engine){
                 for(let i = 0; i < stage[currentStage].tank.length; i ++) {
                     if(stage[currentStage].tank[i] !== undefined){
                         let id = stage[currentStage].tank[i].id
@@ -25,7 +26,6 @@ export default class SaveShip extends Component {
                         engineList.push({engine:{id: id}})
                     }
                 }
-
                 currentStage ++
                 partList.push({
                     tank: tankList,
@@ -34,6 +34,24 @@ export default class SaveShip extends Component {
             } 
         }
 
+        for (let i = 0;  i < partList.length; i ++){
+            if(partList[i].tank.length < 1 || partList[i].engine.length < 1){
+                partList.splice(i,1)
+                console.log('delete')
+            }
+        }
+
+        if(partList.length === 0){
+            this.props.setErrorMsg("you can't launch an empty rocket", "warning")
+            window.scrollTo(0,0)
+            return
+        }
+        
+        if(!this.props.name || !this.props.name.replace(/\s/g, '').length){
+            this.props.setErrorMsg('you have to name your vessel', 'warning')
+            window.scrollTo(0,0)
+            return
+        }
 
         const data = {
             name: this.props.name,
@@ -56,7 +74,12 @@ export default class SaveShip extends Component {
             data
         })
         if (saveShipRes.status === 200) {
-            alert('200');
+            this.props.setErrorMsg('Your ship saved successfully', 'success')
+            window.scrollTo(0,0)
+            setTimeout( () => {
+                window.location.pathname = '/'
+            }, 500)
+            return
         }
     }
 

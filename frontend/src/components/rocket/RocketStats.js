@@ -4,11 +4,10 @@ const RocketStats = props => {
     console.log(props);
     return (
         <div className="RocketStats">
-            <h4> {props.context.ship.name} </h4>
             <p> DeltaV: {props.context.deltaV.toFixed(2)} m/s</p>
             <p> TWR: {isNaN(props.context.TWRByStage[0]) ? 0 : props.context.TWRByStage[0].toFixed(2) }</p>
             <p> Weight: {props.context.totalMass.toFixed(2)} Tons </p>
-            <hr />
+            <hr/>
         </div>
     );
 };

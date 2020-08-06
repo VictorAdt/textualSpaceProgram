@@ -4,8 +4,8 @@ import RocketStats from '../components/rocket/RocketStats'
 import StagesOverview from './../components/builder/StagesOverview'
 import NameShip from '../components/builder/NameShip';
 import SaveShip from '../components/builder/SaveShip';
-import axios from 'axios';
 import SolarSystem from '../components/animation/SolarSystem';
+import Alert from 'react-bootstrap/Alert'
 
 class Builder extends Component {
     state = {
@@ -14,6 +14,7 @@ class Builder extends Component {
             tank: [],
         }
         ],
+        alert: {msg: null, variant: ''},
         currentStage: 0,
         celestBodies: null,
     }
@@ -30,6 +31,11 @@ class Builder extends Component {
     handleChange = (e) => {
         console.log(e.target.name, e.target.value);
         this.setState({ [e.target.name]: e.target.value })
+        console.log('name', this.state.name)
+    }
+
+    setErrorMsg = (msg, variant) => {
+        this.setState({alert: {msg: msg, variant: variant}})
     }
 
     addStage = () => {
@@ -75,17 +81,30 @@ class Builder extends Component {
         })
     }
 
+    deleteStage = (stageIndex, ) => {
+        const stage = this.state.stage
+        stage.splice(stageIndex, 1)
+        this.setState({ stage: stage, currentStage: 0}, () => {
+            this.context.shipSetStage(stage)
+        })
+    }
+
     render() {
         const stage = this.state.stage
         const value = this.context
         if(!this.context.state.menuOpen){
         return (
             <div className="builder__container">
+                <SolarSystem />
+                <Alert variant={this.state.alert.variant} className={ this.state.alert.msg === null ? 'disNone' : ''}>
+                    {this.state.alert.msg}
+                </Alert>
                 <NameShip
                     handleInput={this.handleChange}
                 />
                 <RocketStats context={this.context.state} />
                 <StagesOverview
+                    deleteStage={this.deleteStage}
                     addStage={this.addStage}
                     setCurrentStage={this.setCurrentStage}
                     stage={stage}
@@ -99,7 +118,8 @@ class Builder extends Component {
                     name={this.state.name}
                     bodyLocation={2}
                     locationStatus={'ground'}
-                />*/
+                    setErrorMsg={this.setErrorMsg}
+                />
             </div>
         )} else return null
     }

@@ -14,7 +14,7 @@ export default class Menu extends React.Component {
       }
     }
     
-    
+
     render(){
       const styles={
         container: {
@@ -28,8 +28,9 @@ export default class Menu extends React.Component {
           backgroundColor: '#fff',
           color: '#fafafa',
           transition: 'height 0.3s ease',
-          zIndex: '90,4',
-          mixBlendMode: 'exclusion'
+          zIndex: '1',
+          mixBlendMode: 'exclusion',
+          zIndex: 200,
         },
         menuList: {
           paddingTop: '150px',

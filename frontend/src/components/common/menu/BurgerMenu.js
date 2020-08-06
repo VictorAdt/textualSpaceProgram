@@ -61,10 +61,9 @@ export default class BurgerMenu extends React.Component {
                 zIndex: '1000',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'end',
+                justifyContent: 'flex-end',
                 width: '100%',
                 color: 'white',
-                fontFamily: 'Lobster',
                 padding: '40px',
             },
             body: {
