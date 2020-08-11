@@ -455,7 +455,6 @@ export default class ManoeuvreControl extends Component {
                 <ShipContext.Provider>
                     {!this.props.menuOpen &&
                     <div className={'command__control'}>
-                        <div>
                             {this.context.state.ship.locationStatus === 'orbit' &&
                                 <FromOrbit
                                     className={this.state.isLoading ? 'disNone' : ''}
@@ -474,9 +473,7 @@ export default class ManoeuvreControl extends Component {
                                     className={this.state.isLoading ? 'disNone' : ''}
                                     fromSurfaceToOrbit={this.fromSurfaceToOrbit}
                                 />
-                            }
-                        </div>
-                        
+                            }                        
                     </div>}
                     {this.context.state.ship.locationStatus === 'orbit' &&
                                         <div>

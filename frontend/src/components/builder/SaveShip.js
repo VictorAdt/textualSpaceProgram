@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import Button from 'react-bootstrap/Button'
 
 
 export default class SaveShip extends Component {
@@ -86,7 +87,7 @@ export default class SaveShip extends Component {
 
     render() {
         return (
-            <button onClick={this.saveShip}> Save </button> 
+            <Button variant="dark" className="ship__save__button" block onClick={this.saveShip}> Save and go back to the tracking station </Button> 
         );
     }
 }

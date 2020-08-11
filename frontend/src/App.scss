@@ -142,6 +142,12 @@
   top:50px;
 }
 
+hr{
+  background-color: #fff;
+  color: #fff;
+  margin: 25px 0;
+}
+
 .hud_1{
   position: absolute;
   top: 30px;
@@ -197,7 +203,7 @@
 }
 
 p {
-  margin: 0.1rem;
+  margin: 0.05rem;
 }
 
 a {
@@ -215,12 +221,11 @@ h4{
 html {
   font-size: 16px;
   body {
-    font-size: 0.875rem;
+    font-size: 0.813em;
     overflow-x: hidden;
     color: #fff;
     background-color: #111111;
     font-family: "Messina", sans-serif;
-    font-size: 16px;
     mix-blend-mode: exclusion;
     .app__container {
       .bg__ctnr{
@@ -244,12 +249,23 @@ html {
         }
       }
       .ship__control{
+        margin-top: 50px;
+        .status__infos{
+          position: relative;
+          z-index: 500;
+        }
       }
       .builder__container{
         position: relative;
         padding-top: 100px;
         z-index: 100;
+        .ship__save__button{
+          height: 50px;
+          margin-bottom: 100px;
+        }
         .stagesOverview{
+          position: relative;
+          z-index: 100;
           .addStage{
             border-radius: 50px;
             font-size: 32px;
@@ -258,6 +274,15 @@ html {
             line-height: 1em;
           }
           .PartList{
+            button{
+              margin-top: 10px;
+            }
+            img{
+              width: 100%;
+              height: 150px;
+              background-color: #000;
+              margin-bottom: 10px;
+            }
             .part{
               margin-bottom: 20px;
               padding: 7px;
@@ -351,20 +376,21 @@ html {
         .status__infos {
           .planet__overview {
             h3 {
-              font-size: 0.75rem;
+              font-size: 1em;
             }
             margin-bottom: 40px;
           }
           .ship__status {
             margin-bottom: 40px;
             h3 {
-              font-size: 0.75rem;
+              font-size: 1em;
             }
           }
         }
         .command__control {
           position: relative;
           z-index: 5000;
+          height: 100%;
           .from__surface{
             height: 100%;
             width: 100%;
@@ -446,6 +472,7 @@ html {
   justify-content: center;
   align-items: center;
   height: 100%;
+  z-index: 0;
   top: 0;
   left: 0;
   span {
@@ -461,6 +488,7 @@ html {
   .star {
     position: relative;
     display: flex;
+    left: -80px;
     align-items: center;
     .planet {
       position: absolute;
@@ -473,8 +501,6 @@ html {
     }
   }
 }
-
-
 
 $color: #fff;
 
@@ -507,6 +533,7 @@ form {
 input {
   width: 100%;
   display: block;
+  font-size: 20px;
   border: none;
   padding: 20px 0;
   border-bottom: solid 1px $color;
@@ -519,6 +546,7 @@ input {
     background-position: 0 0;
     &::-webkit-input-placeholder {
       color: $color;
+      font-size: 1.2rem;
       transform: translateY(-20px);
       visibility: visible !important;
     }

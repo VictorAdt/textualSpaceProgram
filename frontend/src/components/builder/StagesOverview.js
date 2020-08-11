@@ -8,6 +8,21 @@ import Button from 'react-bootstrap/Button'
 
 
 export default class StagesOverview extends Component {
+    state = {
+        part: null,
+    }
+
+    drop = e => {
+        console.log('drop')
+        this.props.addPart(e, e.partType)
+    }
+
+
+    setPart = part => {
+        console.log('set')
+        this.setState({part: part})
+    }
+
 
     render() {
         if (this.props.stage === undefined) {
@@ -16,6 +31,7 @@ export default class StagesOverview extends Component {
             return (
                 <Row xs={12} className="stagesOverview">
                     <Col xs={1}>
+                        <h3>New stage</h3>
                         <Button variant="light" className="addStage" onClick={() => this.props.addStage()}> + </Button>
                     </Col>
                     <Col xs={6}>
@@ -33,9 +49,9 @@ export default class StagesOverview extends Component {
                                         </Accordion.Toggle>
                                     </Card>
                                     <Card>
-                                        <Accordion.Collapse eventKey={`${i}`}>
+                                        <Accordion.Collapse eventKey={`${i}`} className={this.props.currentStage === i ? 'show' : ''}>
                                             <Card.Body className={this.props.currentStage === i ? 'active_stage' : ''}>
-                                                <div className="drop__zone">
+                                                <div className="drop__zone" onDragOver={console.log('ouais')} ondrop={ev => this.drop(this.state.part)}>
                                                     {this.props.stage[i].engine.map((e, index) => (
                                                         <div className="engine__name" key={index}>
                                                             <Button onClick={() => this.props.deletePart(index, 'engine')}>Delete part</Button>
@@ -57,7 +73,10 @@ export default class StagesOverview extends Component {
                         </Accordion>
                     </Col>
                     <Col xs={5}>
-                        <PartList addPart={this.props.addPart} />
+                        <PartList 
+                            addPart={this.props.addPart} 
+                            setPart={this.setPart}
+                        />
                     </Col>
                 </Row>
             );

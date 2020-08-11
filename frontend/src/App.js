@@ -11,6 +11,8 @@ import Routes from './routes/Routes'
 import { BrowserRouter } from 'react-router-dom';
 
 
+
+
 export default class App extends Component {
   setUser = user => {
     this.setState({ user });
@@ -20,6 +22,7 @@ export default class App extends Component {
     user: null,
     setUser: this.setUser
   };
+
 
   async componentDidMount() {
     /* const userRes = await axios({

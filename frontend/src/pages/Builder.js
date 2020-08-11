@@ -6,6 +6,7 @@ import NameShip from '../components/builder/NameShip';
 import SaveShip from '../components/builder/SaveShip';
 import SolarSystem from '../components/animation/SolarSystem';
 import Alert from 'react-bootstrap/Alert'
+import axios from 'axios'
 
 class Builder extends Component {
     state = {
@@ -26,6 +27,17 @@ class Builder extends Component {
                 tank: [],
             }]
         })
+
+        try {
+            const celestBodiesRes = await axios({
+                method: 'GET',
+                url: `/celest-bodies`
+            })
+            const fetchedCelestBodies = celestBodiesRes.data
+            this.setState({celestBodies: fetchedCelestBodies})
+        } catch (e) {
+            alert(e)
+        }
     }
 
     handleChange = (e) => {
@@ -57,6 +69,9 @@ class Builder extends Component {
     addPart = (part, partType) => {
         const currentStage = this.state.currentStage
         const stage = this.state.stage
+        if(!stage[currentStage]){
+            return
+        }
         console.log(part);
         if (partType === 'tank') { stage[currentStage].tank.push(part) }
         if (partType === 'engine') { stage[currentStage].engine.push(part) }
@@ -81,10 +96,11 @@ class Builder extends Component {
         })
     }
 
-    deleteStage = (stageIndex, ) => {
+    deleteStage = stageIndex => {
         const stage = this.state.stage
         stage.splice(stageIndex, 1)
-        this.setState({ stage: stage, currentStage: 0}, () => {
+        this.setCurrentStage(0)
+        this.setState({ stage: stage}, () => {
             this.context.shipSetStage(stage)
         })
     }
@@ -95,7 +111,6 @@ class Builder extends Component {
         if(!this.context.state.menuOpen){
         return (
             <div className="builder__container">
-                <SolarSystem />
                 <Alert variant={this.state.alert.variant} className={ this.state.alert.msg === null ? 'disNone' : ''}>
                     {this.state.alert.msg}
                 </Alert>
@@ -120,8 +135,15 @@ class Builder extends Component {
                     locationStatus={'ground'}
                     setErrorMsg={this.setErrorMsg}
                 />
+                {this.state.celestBodies &&
+                <SolarSystem 
+                    celestBodies={this.state.celestBodies}
+                />}
             </div>
-        )} else return null
+        )} else return (this.state.celestBodies &&
+            <SolarSystem 
+                celestBodies={this.state.celestBodies}
+            />)
     }
 }
 
