@@ -4,11 +4,11 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
 export default class EngineList extends Component {
-    state ={
+    state = {
         engines: null
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         const engineRes = await axios({
             method: 'GET',
             url: '/engines'
@@ -26,24 +26,26 @@ export default class EngineList extends Component {
 
         const engines = this.state.engines
 
-        if(engines === null ){
+        if (engines === null) {
             return 'loading'
-        } else 
+        } else
 
-        return (
-            <div className="EngineList">
-                <h3> Engines : </h3>
-                {engines.map((e, i) => (
-                    <Card key={i} className="engines-item part" id={e} draggable={true}>
-                            <img />
-                            <p>{e.name} </p>
-                            <p> Weight : {e.weight} tons</p>
-                            <p> isp : {e.isp} s</p>
-                            <p> Thrust : {e.thrust} kn</p>
-                            <Button variant="dark" onClick={() => this.props.addPart(e, e.partType)} >Add</Button>
-                    </Card>
-                ))} 
-            </div>
-        );
+            return (
+                <div className="EngineList">
+                    <h3> Engines : </h3>
+                    {engines.map((e, i) => (
+                        <div key={i} className="engines-item part">
+                            <img src={`http://localhost:1337${e.thumb.url}`} />
+                            <div>
+                                <p>{e.name} </p>
+                                <p> Weight : {e.weight} tons</p>
+                                <p> isp : {e.isp} s</p>
+                                <p> Thrust : {e.thrust} kn</p>
+                                <Button variant="dark" onClick={() => this.props.addPart(e, e.partType)} >Add</Button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
     }
 }

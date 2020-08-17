@@ -14,22 +14,7 @@ const Background = (props) => {
         shipStatus = props.context.state.ship.locationStatus
     }
     return (
-        <div className="bg__ctnr"> {/* 
-            {shipStatus === 'orbit' &&
-            target.celest_body.parents.map( (e,i) => (
-                <div className="natural__satelit round_bg" style={{
-                    backgroundColor: target.celest_body.parents[i].primaryColor,
-                    boxShadow:
-                        `inset 10px 0 40px #${target.celest_body.parents[i].secondaryColor}, inset -10px 0 20px  #${target.celest_body.parents[i].tertiaryColor}, inset -40px 10px 110px #${target.celest_body.parents[i].quaternaryColor}`,
-                    width: target.celest_body.parents[i].radius / 150 + 'vh',
-                    height:target.celest_body.parents[i].radius / 150 + 'vh',
-                    top: getRndInteger(0,100) + '%',
-                    left: getRndInteger(0,100) + '%',
-                    zIndex: 500,
-                    animationDuration: shipStatus === 'orbit' ? '120s' : '180s',
-                }}>
-                </div> 
-            ))}*/}
+        <div className="bg__ctnr"> 
             <div className="round_bg" style={{
                 backgroundColor: shipStatus === 'orbit' ? '#' + target.celest_body.secondaryColor : '#' + target.celest_body.primaryColor,
                 boxShadow:

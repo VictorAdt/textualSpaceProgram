@@ -1,34 +1,26 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import UserContext from './../contexts/UserContext'
+import React from 'react';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 
-class Logout extends Component {
+const LogOut = props => {
 
-    logout = async (e) => {
-        const logoutRes = await axios({
-            method: 'GET',
-            url: '/user/logout'
-        })
-
-        console.log(logoutRes.status)
-
-        if (logoutRes.status === 200) {
-            alert('You logged out')
-            this.context.setUser(null)
-            window.location.pathname = '/' ;
-        }        
+    const user = useContext(UserContext)
+    
+    function doLogOut(){
+        console.log('yes');
+        localStorage.removeItem('user')
+        user.setUser(null)
     }
 
-    render() {
-        return (
-            <UserContext.Consumer>
-                {({ user, setUser }) => (
-                    <button onClick={this.logout}>logout</button>
-                )}
-            </UserContext.Consumer>
-        );
-    }
-}
-Logout.contextType = UserContext;
+    return (
+        <p onClick={doLogOut} style={{
+            fontSize: '1.2rem',
+            padding: '1rem 0',
+            cursor: 'pointer',
+            transition: 'color 0.2s ease-in-out',
+            animation: '0.5s slideIn forwards',
+        }} className={props.menuOpen ? 'logout' : 'logout disNone'}>Log out</p>
+    );
+};
 
-export default Logout;
+export default LogOut;

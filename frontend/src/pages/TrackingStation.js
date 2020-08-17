@@ -2,32 +2,23 @@ import React, { Component } from 'react';
 import ShipList from '../components/lists/ShipList';
 import axios from 'axios'
 import RandomCelestBody from './../components/animation/RandomCelestBody'
+import { UserContext } from '../contexts/UserContext';
 export default class TrackingStation extends Component {
-    state = {
-        celestBodies: null
-    }
 
-    async componentDidMount() {
-        try {
-            const celestBodyRes = await axios({
-                method: 'GET',
-                url: `/celest-bodies`
-            })
-            const fetchedCelestBody = celestBodyRes.data
-            this.setState({celestBodies: fetchedCelestBody})
-        } catch (e) {
-            alert(e)
-        }
-    }
     render() {
-        if(this.state.celestBodies){
+        const {celestBodies} = this.props
+        if(celestBodies){
         return (
             <div>
                 <RandomCelestBody 
-                    celest_body={this.state.celestBodies} />       
-                <ShipList />
+                    celest_body={celestBodies} />       
+                <ShipList 
+                    user={this.context.user}
+                />
             </div>
         )
     } else return null
     }
 }
+
+TrackingStation.contextType = UserContext;

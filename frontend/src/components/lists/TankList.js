@@ -8,7 +8,7 @@ export default class TankList extends Component {
         tanks: null
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         const tanksRes = await axios({
             method: 'GET',
             url: '/tanks'
@@ -20,22 +20,26 @@ export default class TankList extends Component {
 
     render() {
         const tanks = this.state.tanks
-        if(tanks === null ){
+        if (tanks === null) {
             return 'loading'
-        } else 
-        return (
-            <div>
-                <h3> Fuel tanks : </h3>
-                {tanks.map((e, i) => (
-                    <Card key={e.id} className="tank-item part">
-                            <img />
-                            <p> {e.name} </p>
-                            <p> Remaining fuel: {e.remainingFuel} </p>
-                            <p> Weight : {(e.emptyWeight + (e.remainingFuel * 0.01))} tons </p>
-                            <Button variant="dark" onClick={() => this.props.addPart(e, e.partType)} >Add</Button>
-                    </Card>
-                ))} 
-            </div>
-        );
+        } else
+            return (
+                <div>
+                    <h3> Fuel tanks : </h3>
+                    <div class="tank__card">
+                        {tanks.map((e, i) => (
+                            <div key={e.id} className="tank-item part">
+                                <img src="" />
+                                <div>
+                                    <p> {e.name} </p>
+                                    <p> Remaining fuel: {e.remainingFuel} </p>
+                                    <p> Weight : {(e.emptyWeight + (e.remainingFuel * 0.01))} tons </p>
+                                    <Button variant="dark" onClick={() => this.props.addPart(e, e.partType)} >Add</Button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
     }
 }

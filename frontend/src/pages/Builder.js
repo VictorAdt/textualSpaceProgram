@@ -82,9 +82,9 @@ class Builder extends Component {
         console.log('Builder this.state.stage', this.state.stage)
     }
 
-    deletePart = (partIndex, partType) => {
+    deletePart = (partIndex, stageIndex, partType) => {
         const stage = this.state.stage
-        const currentStage = this.state.currentStage
+        const currentStage = stageIndex
         if (partType === 'tank') {
             stage[currentStage].tank.splice(partIndex, 1)
         }
@@ -127,6 +127,7 @@ class Builder extends Component {
                     deltaVByStage={this.context.state.deltaVByStage}
                     deletePart={this.deletePart}
                     currentStage={this.state.currentStage}
+                    massSum={this.context.state.massSum}
                 />
                 <SaveShip
                     stage={stage}

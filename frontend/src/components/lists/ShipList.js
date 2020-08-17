@@ -9,10 +9,11 @@ export default class ShipList extends Component {
         ships: null
     }
     async componentDidMount() {
+        console.log('shiplist', this.props.user);
         try {
             const shipListRes = await axios({
                 method: 'GET',
-                url: '/ships'
+                url: `/ships?user=${this.props.user.user.id}`
             });
             const fetchedShip = shipListRes.data
             this.setState({ ships: fetchedShip })
@@ -33,27 +34,37 @@ export default class ShipList extends Component {
         }
         return (
             <div className="ship__list">
-                {ships.map((e, i) => {
-                    return (
-                        e.celest_body &&
-                        <div class="ship__card">
-                            <Link to={{
-                                pathname: '/shipControl',
-                                id: e.id
-                            }} key={i}>
-                                <div className="ship__card__body">
-                                    {e.locationStatus === 'orbit' &&
-                                        <p>{e.name} is in orbit around {e.celest_body.name} </p>
 
-                                    }
-                                    {e.locationStatus === 'ground' &&
-                                        <p>{e.name} is landed on {e.celest_body.name} </p>
-                                    }
-                                </div>
-                            </Link>
+                {
+                    ships.length > 0 &&
+                    ships.map((e, i) => {
+                        return (
+                            e.celest_body &&
+                            <div class="ship__card">
+                                <Link to={{
+                                    pathname: '/shipControl',
+                                    id: e.id
+                                }} key={i}>
+                                    <div className="ship__card__body">
+                                        {e.locationStatus === 'orbit' &&
+                                            <p>{e.name} is in orbit around {e.celest_body.name} </p>
+
+                                        }
+                                        {e.locationStatus === 'ground' &&
+                                            <p>{e.name} is landed on {e.celest_body.name} </p>
+                                        }
+                                    </div>
+                                </Link>
+                            </div>
+                        )
+                    })}
+                {ships.length <= 0 &&
+                    <div className="ship__card">
+                        <div className="ship__card__body ">
+                            <p className="hnone"> Your vehicule assembly building is empty </p>
                         </div>
-                    )
-                })}
+                    </div>
+                }
             </div>
         );
     }

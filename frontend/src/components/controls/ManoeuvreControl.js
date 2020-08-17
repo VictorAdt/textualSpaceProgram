@@ -111,13 +111,11 @@ export default class ManoeuvreControl extends Component {
                 await this.pause(1000)
                 this.context.shipSetStage(burn.stage)
                 if (burn.success === false) {
-                    alert('crash')
-                    deleteShip(this.context.state.ship.id)
+                    this.props.setFailedMsg('you ran out of fuel and crash during ascent')
+                    deleteShip(this.context.state.ship.id, this.props.user)
                     setTimeout(() => {
-                        window.location.pathname = '/'
                         return
-                    }, 500);
-
+                    }, 1000);
                 }
                 i--
             }
@@ -132,7 +130,8 @@ export default class ManoeuvreControl extends Component {
             'orbit',
             celest_body.id,
             this.context.state.ship.id,
-            celest_body.lowOrbit
+            celest_body.lowOrbit,
+            this.props.user
         )
         this.props.setIsLoading(false)
     }
@@ -162,7 +161,7 @@ export default class ManoeuvreControl extends Component {
                 this.context.shipSetStage(burn.stage)
                 if (burn.success === false) {
                     alert('crash')
-                    deleteShip(this.context.state.ship.id)
+                    deleteShip(this.context.state.ship.id, this.props.user)
                     window.location.pathname = '/'
                     return
                 }
@@ -181,7 +180,9 @@ export default class ManoeuvreControl extends Component {
             'ground',
             celest_body.id,
             this.context.state.ship.id,
-            0)
+            0,
+            this.props.user
+            )
         this.props.setIsLoading(false)
 
     }
@@ -211,7 +212,7 @@ export default class ManoeuvreControl extends Component {
                 this.context.shipSetStage(burn.stage)
                 if (burn.success === false) {
                     alert('crash')
-                    deleteShip(this.context.state.ship.id)
+                    deleteShip(this.context.state.ship.id, this.props.user)
                     window.location.pathname = '/'
                     return
                 }
@@ -232,7 +233,8 @@ export default class ManoeuvreControl extends Component {
             'orbit',
             celest_body.childrens[0].id,
             this.context.state.ship.id,
-            altitude
+            altitude,
+            this.props.user
         )
         this.props.setIsLoading(false)
 
@@ -263,7 +265,7 @@ export default class ManoeuvreControl extends Component {
                 this.context.shipSetStage(burn.stage)
                 if (burn.success === false) {
                     alert('crash')
-                    deleteShip(this.context.state.ship.id)
+                    deleteShip(this.context.state.ship.id,this.props.user)
                     window.location.pathname = '/'
                     return
                 }
@@ -275,7 +277,7 @@ export default class ManoeuvreControl extends Component {
         const celest_body = await this.getCelestBody(targetBody.id)
         this.context.updateLocation('orbit', celest_body)
         //save to database
-        updateShip(this.context.state.stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id, celest_body.lowOrbit)
+        updateShip(this.context.state.stage, this.context.state.ship.name, 'orbit', celest_body.id, this.context.state.ship.id, celest_body.lowOrbit,this.props.user)
         this.props.setIsLoading(false)
     }
 
@@ -310,7 +312,7 @@ export default class ManoeuvreControl extends Component {
                 this.context.shipSetStage(burn.stage)
                 if (burn.success === false) {
                     alert('crash')
-                    deleteShip(this.context.state.ship.id)
+                    deleteShip(this.context.state.ship.id,this.props.user)
                     window.location.pathname = '/'
                     return
                 }
@@ -329,7 +331,9 @@ export default class ManoeuvreControl extends Component {
             this.context.state.ship.name,
             'orbit', celest_body.id,
             this.context.state.ship.id,
-            celest_body.lowOrbit)
+            celest_body.lowOrbit,
+            this.props.user
+            )
         this.props.setIsLoading(false)
     }
 
@@ -358,7 +362,7 @@ export default class ManoeuvreControl extends Component {
                 this.context.shipSetStage(burn.stage)
                 if (burn.success === false) {
                     alert('crash')
-                    deleteShip(this.context.state.ship.id)
+                    deleteShip(this.context.state.ship.id, this.props.user)
                     window.location.pathname = '/'
                     return
                 }
@@ -377,7 +381,9 @@ export default class ManoeuvreControl extends Component {
             this.context.state.ship.name,
             'orbit', celest_body.id,
             this.context.state.ship.id,
-            celest_body.lowOrbit)
+            celest_body.lowOrbit,
+            this.props.user
+            )
         this.props.setIsLoading(false)
     }
 
@@ -406,7 +412,7 @@ export default class ManoeuvreControl extends Component {
                 this.context.shipSetStage(burn.stage)
                 if (burn.success === false) {
                     alert('crash')
-                    deleteShip(this.context.state.ship.id)
+                    deleteShip(this.context.state.ship.id,this.props.user)
                     window.location.pathname = '/'
                     return
                 }
@@ -426,7 +432,8 @@ export default class ManoeuvreControl extends Component {
             'orbit',
             celest_body.id,
             this.context.state.ship.id,
-            celest_body.lowOrbit
+            celest_body.lowOrbit,
+            this.props.user
         )
         this.props.setIsLoading(false)
     }
@@ -444,6 +451,7 @@ export default class ManoeuvreControl extends Component {
             this.context.state.ship.celest_body.id,
             this.context.state.ship.id,
             0,
+            this.props.user
         )
         this.props.setIsLoading(false)
     }

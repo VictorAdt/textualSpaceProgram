@@ -136,25 +136,25 @@
   animation-iteration-count: infinite;
 }
 
-.hud{
-  position:absolute;
+.hud {
+  position: absolute;
   left: 0;
-  top:50px;
+  top: 50px;
 }
 
-hr{
+hr {
   background-color: #fff;
   color: #fff;
   margin: 25px 0;
 }
 
-.hud_1{
+.hud_1 {
   position: absolute;
   top: 30px;
   left: 30px;
   font-size: 20px;
   color: #fff;
-  opacity: .1;
+  opacity: 0.1;
   mix-blend-mode: exclusion;
   width: 50%;
   transform: scaleX(-1) rotate(90deg);
@@ -164,9 +164,16 @@ hr{
   display: none;
 }
 
-.stage__card{
-  margin: 10px 0;
-  .drop__zone{
+.stage__card {
+  margin: 3px 0;
+  position: relative;
+  .stage__nb{
+    position: absolute;
+    top: 30%;
+    left: -20px;
+    font-size: 1.2rem;
+  }
+  .drop__zone {
     min-height: 100px;
     border: 1px dashed #000;
   }
@@ -177,7 +184,7 @@ hr{
   display: flex;
   flex-direction: column-reverse;
 }
-.card{
+.card {
   color: #000;
   background-color: #fff;
   cursor: pointer;
@@ -187,14 +194,13 @@ hr{
   justify-content: space-between;
   align-items: flex-end;
   border-top: 1px solid #fff;
-  border-bottom: 1px solid #fff;  
+  border-bottom: 1px solid #fff;
   background-color: #fff;
 }
 
-.card-body{
+.card-body {
   border-bottom: 1px solid #fff;
   background-color: #fff;
-
 }
 .active_stage {
   background-color: #fff;
@@ -214,8 +220,14 @@ a {
 h3 {
   font-size: 20px;
 }
-h4{
-  margin: 0
+h4 {
+  margin: 0;
+}
+
+.logout {
+  position: absolute;
+  z-index: 9999;
+  color: #000;
 }
 
 html {
@@ -228,69 +240,232 @@ html {
     font-family: "Messina", sans-serif;
     mix-blend-mode: exclusion;
     .app__container {
-      .bg__ctnr{
+      .failed {
+        width: 100vw;
+        height: 100vh;
+        background-color: #000;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 9000;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 3rem;
+      }
+      .SignUp {
+        position: relative;
+        z-index: 3000;
+      }
+      .Login {
+        position: relative;
+        z-index: 3000;
+      }
+      .bg__ctnr {
         position: fixed;
         width: 100vw;
         height: 100vh;
-        top:0;
+        top: 0;
         left: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        .random__celest__body{
+        .random__celest__body {
           animation: transform 2s ease-in-out infinite both alternate, movement 2s ease-in-out infinite both;
         }
-        .celest__body_name{
+        .celest__body_name {
           position: absolute;
-          opacity: .1;
+          opacity: 0.1;
           bottom: -80px;
           right: -30px;
           font-size: 120px;
         }
       }
-      .ship__control{
+      .ship__control {
         margin-top: 50px;
-        .status__infos{
+        .status__infos {
           position: relative;
           z-index: 500;
         }
       }
-      .builder__container{
+      .builder__container {
         position: relative;
         padding-top: 100px;
         z-index: 100;
-        .ship__save__button{
+        .ship__save__button {
           height: 50px;
           margin-bottom: 100px;
         }
-        .stagesOverview{
+        .stagesOverview {
           position: relative;
           z-index: 100;
-          .addStage{
+          .rocket__stages {
+            flex-direction: column-reverse;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 50px;
+          }
+          .builder__tools {
+            margin-top: 50px;
+          }
+          .stages {
+            margin-top: 50px;
+            display: flex;
+            width: 100%;
+            .no__active__stage {
+              width: 90px;
+              height: 90px;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid transparent;
+              border-radius: 90px;
+              display: flex;
+            }
+            .active__stage {
+              width: 90px;
+              height: 90px;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid #fff;
+              border-radius: 90px;
+              display: flex;
+            }
+            .stage:hover {
+              background-color: grey;
+            }
+            .stage {
+              transition: background-color 100ms ease-in-out;
+              cursor: pointer;
+              position: relative;
+              width: 70px;
+              height: 70px;
+              border-radius: 70px;
+              background-color: #fff;
+              color: #000;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              button {
+                position: absolute;
+                width: 30px;
+                height: 30px;
+                border-radius: 15px;
+                line-height: 20px;
+                top: -7px;
+                right: -7px;
+              }
+            }
+          }
+          .stage__card {
+            .engine__ctnr {
+              display: flex;
+              justify-content: center;
+              flex-wrap: wrap;
+              .engine__name {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+              }
+              img {
+                width: 100px;
+              }
+              button {
+                position: absolute;
+                width: 30px;
+                height: 30px;
+                border-radius: 15px;
+                line-height: 20px;
+                top: -7px;
+                right: -7px;
+              }
+            }
+            .tank__ctnr {
+              button {
+                width: 30px;
+                height: 30px;
+                border-radius: 15px;
+                line-height: 20px;
+                top: -15px;
+                right: -15px;
+                position: absolute;
+              }
+              .tank__name {
+                position: relative;
+                .tank {
+                  border: 1px solid grey;
+                  .tank__line {
+                    margin-bottom: 5px;
+                    height: 1px;
+                    width: 100%;
+                    background-color: #000;
+                    position: absolute;
+                    bottom: 0;
+                  }
+                  width: 100%;
+                  background-color: #fff;
+                  .tank__details {
+                    width: 1px;
+                    height: 50%;
+                    position: relative;
+                    background-color: #000;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    .tank__details_inside {
+                      position: absolute;
+                      top: 100%;
+                      width: 10px;
+                      height: 20px;
+                      border: 1px solid #000;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .addStage {
             border-radius: 50px;
             font-size: 32px;
             width: 50px;
             height: 50px;
             line-height: 1em;
           }
-          .PartList{
-            button{
+          .PartList {
+            .tank__card{
+              .part{
+                margin-bottom: 20px;
+                padding: 7px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                box-sizing: border-box;
+                img{
+                  width: 30%;
+                  background-color: #fff ;
+                  height: 80px;
+                }
+              }
+            }
+            .EngineList {
+              .part{
+                margin-bottom: 20px;
+                padding: 7px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                box-sizing: border-box;
+                img{
+                  width: 30%;
+                }
+              }
+            }
+            button {
               margin-top: 10px;
-            }
-            img{
-              width: 100%;
-              height: 150px;
-              background-color: #000;
-              margin-bottom: 10px;
-            }
-            .part{
-              margin-bottom: 20px;
-              padding: 7px;
-              box-sizing: border-box;
             }
           }
         }
-        .RocketStats{
+        .RocketStats {
           padding-top: 50px;
         }
       }
@@ -302,6 +477,7 @@ html {
         mix-blend-mode: exclusion;
         position: relative;
         z-index: 100;
+        margin-top: 100px;
         .ship__card {
           background-color: transparent;
           border: 0;
@@ -325,7 +501,10 @@ html {
             p:hover {
               color: grey;
               text-decoration: none;
-              ; 
+            }
+            .hnone:hover {
+              color: #fff;
+              text-decoration: none;
             }
           }
         }
@@ -336,7 +515,7 @@ html {
         }
       }
       .backgroundHUD {
-        position: absolute;
+        position: fixed;
         display: flex;
         width: 100vw;
         height: 100vh;
@@ -391,7 +570,7 @@ html {
           position: relative;
           z-index: 5000;
           height: 100%;
-          .from__surface{
+          .from__surface {
             height: 100%;
             width: 100%;
             display: flex;
@@ -401,7 +580,7 @@ html {
           .carousel {
             height: 80vh;
           }
-          .slide{
+          .slide {
             z-index: 1;
           }
         }
@@ -447,6 +626,10 @@ html {
               .engine__name {
                 transform: rotate(90deg);
                 font-size: 0.75rem;
+                .engine__thumb {
+                  fill: red;
+                  stroke: red;
+                }
               }
             }
           }
@@ -504,7 +687,9 @@ html {
 
 $color: #fff;
 
-h1, input::-webkit-input-placeholder, button {
+h1,
+input::-webkit-input-placeholder,
+button {
   transition: all 0.3s ease-in-out;
 }
 
@@ -515,13 +700,13 @@ h1 {
   color: white;
   line-height: 150%;
   border-radius: 3px 3px 0 0;
-  box-shadow: 0 2px 5px 1px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
 }
 
 form {
   box-sizing: border-box;
   width: 100%;
-  box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.2);
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
   padding-bottom: 40px;
   border-radius: 3px;
   h1 {
@@ -537,10 +722,11 @@ input {
   border: none;
   padding: 20px 0;
   border-bottom: solid 1px $color;
-  transition: all 0.3s cubic-bezier(.64,.09,.08,1);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
   background-color: #000;
   color: darken($color, 20%);
-  &:focus, &:valid {
+  &:focus,
+  &:valid {
     box-shadow: none;
     outline: none;
     background-position: 0 0;
@@ -553,12 +739,11 @@ input {
   }
 }
 
-
 .follow {
   width: 42px;
-  height: 42px;   
+  height: 42px;
   border-radius: 50px;
-  background: #03A9F4;
+  background: #03a9f4;
   display: inline-block;
   margin: 50px calc(50% - 21px);
   white-space: nowrap;
@@ -567,7 +752,7 @@ input {
   color: white;
   transition: all 0.2s ease;
   text-decoration: none;
-  box-shadow: 0 5px 6px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 5px 6px 0 rgba(0, 0, 0, 0.2);
   i {
     margin-right: 20px;
     transition: margin-right 0.2s ease;

@@ -3,6 +3,8 @@ import Menu from './Menu';
 import MenuButton from './MenuButton';
 import MenuItem from './MenuItem';
 import { ShipContext } from './../../../contexts/ShipProvider'
+import { UserContext } from '../../../contexts/UserContext';
+import LogOut from './../../user/LogOut'
 
 export default class BurgerMenu extends React.Component {
     constructor(props) {
@@ -96,13 +98,14 @@ export default class BurgerMenu extends React.Component {
 
 
         return (
-            <nav >
+            <nav>
                 <div style={styles.container}>
                     <MenuButton open={this.state.menuOpen} onClick={() => this.handleMenuClick()} color={this.state.color} />
                 </div>
                 <Menu open={this.state.menuOpen}>
                     {menuItems}
                 </Menu>
+                <LogOut menuOpen={this.state.menuOpen} />
             </nav>
         )
     }

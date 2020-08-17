@@ -22,9 +22,9 @@ const RandomCelestBody = (props) => {
             }}>
 
             </div>
-            <div className="celest__body_name">
+            {/*<div className="celest__body_name">
                 {celest_body.name}
-              </div>
+            </div>*/}
         </div>
     )
 };

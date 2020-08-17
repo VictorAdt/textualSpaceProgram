@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import Button from 'react-bootstrap/Button'
-
+import {UserContext} from './../../contexts/UserContext'
 
 export default class SaveShip extends Component {
+
+
+    componentDidMount(){
+        console.log(this.context.user.jwt);
+    }
 
     saveShip = async (e) => {
         e.preventDefault();
@@ -56,9 +61,6 @@ export default class SaveShip extends Component {
 
         const data = {
             name: this.props.name,
-            user: {
-                id: 1
-            },
             stage: partList,
             celest_body: {
                 id: this.props.bodyLocation
@@ -67,12 +69,17 @@ export default class SaveShip extends Component {
             altitudeFromParent: 0
         }
 
+        const headers = {
+            Authorization: `Bearer ${this.context.user.jwt}`
+        }
+
         console.log(data);
 
         const saveShipRes = await axios({
             method: 'POST',
             url: '/ships',
-            data
+            data,
+            headers
         })
         if (saveShipRes.status === 200) {
             this.props.setErrorMsg('Your ship saved successfully', 'success')
@@ -91,3 +98,5 @@ export default class SaveShip extends Component {
         );
     }
 }
+
+SaveShip.contextType = UserContext;

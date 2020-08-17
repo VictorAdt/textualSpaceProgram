@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const updateShip = async (stage, name, locationStatus, bodyLocation, id, altitude) => {
+export const updateShip = async (stage, name, locationStatus, bodyLocation, id, altitude, user) => {
     let partList = []
     console.log(stage, 'partListstage');
 
@@ -25,13 +25,14 @@ export const updateShip = async (stage, name, locationStatus, bodyLocation, id, 
             engine: engineList,
         })
     }
-    console.log(partList, 'partList');
+    console.log(partList, 'partList')
+
+    const headers = {
+        Authorization: `Bearer ${user.user.jwt}`
+    }
 
     const data = {
         name: name,
-        user: {
-            id: 1
-        },
         stage: partList,
         celest_body: {
             id: bodyLocation
@@ -43,7 +44,8 @@ export const updateShip = async (stage, name, locationStatus, bodyLocation, id, 
     const saveShipRes = await axios({
         method: 'PUT',
         url: `http://localhost:1337/ships/${id}`,
-        data
+        data,
+        headers
     })
     if (saveShipRes.status === 200) {
     }

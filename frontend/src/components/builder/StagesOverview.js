@@ -20,7 +20,7 @@ export default class StagesOverview extends Component {
 
     setPart = part => {
         console.log('set')
-        this.setState({part: part})
+        this.setState({ part: part })
     }
 
 
@@ -30,51 +30,58 @@ export default class StagesOverview extends Component {
         } else
             return (
                 <Row xs={12} className="stagesOverview">
-                    <Col xs={1}>
-                        <h3>New stage</h3>
-                        <Button variant="light" className="addStage" onClick={() => this.props.addStage()}> + </Button>
-                    </Col>
-                    <Col xs={6}>
-                        <Accordion defaultActiveKey="0">
+                    <Col xs={12}>
+                        <Col xs={1}>
+                            <h3>New stage</h3>
+                            <Button variant="light" className="addStage" onClick={() => this.props.addStage()}> + </Button>
+                        </Col>
+                        <Col xs={11} className="stages">
                             {this.props.stage.map((e, i) => (
-                                <div className="stage__card">
-                                    <Card>
-                                        <Accordion.Toggle className={this.props.currentStage === i ? 'active_stage' : ''} as={Card.Header} key={i} eventKey={`${i}`} onClick={() => this.props.setCurrentStage(i)}>
-                                            <h4>Stage {i + 1}</h4>
-                                            {this.props.deltaVByStage &&
-                                                <p> Stage delta V: {this.props.deltaVByStage[i]}</p>
-                                            }
-                                            {this.props.stage.length > 1 &&
-                                            <Button variant="dark" onClick={() => this.props.deleteStage(i) }> Delete stage</Button>}
-                                        </Accordion.Toggle>
-                                    </Card>
-                                    <Card>
-                                        <Accordion.Collapse eventKey={`${i}`} className={this.props.currentStage === i ? 'show' : ''}>
-                                            <Card.Body className={this.props.currentStage === i ? 'active_stage' : ''}>
-                                                <div className="drop__zone" onDragOver={console.log('ouais')} ondrop={ev => this.drop(this.state.part)}>
-                                                    {this.props.stage[i].engine.map((e, index) => (
-                                                        <div className="engine__name" key={index}>
-                                                            <Button onClick={() => this.props.deletePart(index, 'engine')}>Delete part</Button>
-                                                            <p>{e.name}</p>
-                                                        </div>
-                                                    ))}
-                                                    {this.props.stage[i].tank.map((e, index) => (
-                                                        <div className="tank__name" key={index}>
-                                                            <Button onClick={() => this.props.deletePart(index, 'tank')}>Delete part</Button>
-                                                            <p>{e.name}</p>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </Card.Body>
-                                        </Accordion.Collapse>
-                                    </Card>
+                                <div className={this.props.currentStage === i ? 'active__stage' : 'no__active__stage'}>
+                                    <div className="stage" onClick={() => this.props.setCurrentStage(i)}>
+                                        <p>
+                                            stage {i + 1}
+                                        </p>
+                                        {this.props.stage.length >= 1 &&
+                                            <Button variant="dark" onClick={() => this.props.deleteStage(i)}>-</Button>}
+                                    </div>
                                 </div>
                             ))}
-                        </Accordion>
+                        </Col>
                     </Col>
-                    <Col xs={5}>
-                        <PartList 
-                            addPart={this.props.addPart} 
+                    <Col xs={6} className="rocket__stages builder__tools">
+                        {this.props.stage.map((e, i) => (
+                            <div className="stage__card">
+                                <p className={`stage__nb ${this.props.massSum[i] > 0 ? '' : 'disNone'}`}>{i + 1}</p>
+                                <div className="tank__ctnr">
+                                    {this.props.stage[i].tank.map((e, index) => (
+                                        <div className="tank__name" key={index}>
+                                            <Button variant="dark" onClick={() => this.props.deletePart(index, i, 'tank')}>-</Button>
+                                            <div style={{ height: e.size === 'small' ? '50px' : e.size === 'medium' ? '100px' : '150px' }} className="tank">
+                                                <div className="tank__details" style={{left: Math.round(Math.random() * 100) + '%'}}>
+                                                    <div className="tank__details_inside"> </div>
+                                                </div>
+                                                <div className="tank__line"> </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="engine__ctnr" >
+                                    {this.props.stage[i].engine.map((e, index) => (
+                                        <div className="engine__name" key={index}>
+                                            <Button variant="dark" onClick={() => this.props.deletePart(index, i, 'engine')}>-</Button>
+                                            <img className="engine__thumb" src={`http://localhost:1337${e.thumb.url}`}/>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                        <h2>Rocket</h2> <hr />
+                    </Col>
+                    <Col xs={6} className="builder__tools">
+                        <hr />
+                        <PartList
+                            addPart={this.props.addPart}
                             setPart={this.setPart}
                         />
                     </Col>

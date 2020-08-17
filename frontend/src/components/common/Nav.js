@@ -1,17 +1,16 @@
-import React from 'react';
-import { Link, BrowserRouter } from 'react-router-dom';
-import Routes from '../../routes/Routes'
+import BurgerMenu from './menu/BurgerMenu';
+import {UserContext} from './../../contexts/UserContext'
+import React, { Component } from 'react';
 
-const Nav = () => {
-  return (
-      <BrowserRouter>
-        <nav>
-          <Link to="/"> Tracking Station </Link>
-          <Link to="/builder"> Builder </Link>
-        </nav>
-        <Routes />
-      </BrowserRouter>
-  );
-};
-
-export default Nav;
+export default class Nav extends Component {
+  render() {
+    if(this.context.user)
+    return (
+      <BurgerMenu />
+    )
+    else {
+      return null
+    }
+  }
+}
+Nav.contextType = UserContext;
