@@ -6,7 +6,10 @@ import NameShip from '../components/builder/NameShip';
 import SaveShip from '../components/builder/SaveShip';
 import SolarSystem from '../components/animation/SolarSystem';
 import Alert from 'react-bootstrap/Alert'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 import axios from 'axios'
+import PartList from '../components/lists/PartList';
 
 class Builder extends Component {
     state = {
@@ -15,41 +18,35 @@ class Builder extends Component {
             tank: [],
         }
         ],
-        alert: {msg: null, variant: ''},
+        alert: { 
+            msg: null, 
+            variant: '',
+        },
         currentStage: 0,
-        celestBodies: null,
     }
 
     async componentDidMount() {
+        /*reset ship context*/
         this.context.shipSetStage({
             stage: [{
                 engine: [],
                 tank: [],
             }]
         })
-
-        try {
-            const celestBodiesRes = await axios({
-                method: 'GET',
-                url: `/celest-bodies`
-            })
-            const fetchedCelestBodies = celestBodiesRes.data
-            this.setState({celestBodies: fetchedCelestBodies})
-        } catch (e) {
-            alert(e)
-        }
     }
 
-    handleChange = (e) => {
+    /*handle name input*/
+    handleChange = e => {
         console.log(e.target.name, e.target.value);
         this.setState({ [e.target.name]: e.target.value })
-        console.log('name', this.state.name)
     }
 
+    /*set error msg if ship is not ok for save*/
     setErrorMsg = (msg, variant) => {
-        this.setState({alert: {msg: msg, variant: variant}})
+        this.setState({ alert: { msg: msg, variant: variant } })
     }
 
+    /*add stage*/
     addStage = () => {
         const stage = this.state.stage
         stage.push({
@@ -57,19 +54,18 @@ class Builder extends Component {
             tank: [],
         });
         this.setState({ stage: stage })
-        console.log('this.state.stage', this.state.stage)
-        console.log('this.props.deltaVByStage', this.props.deltaVByStage);
     }
 
+    /*set the current stage to add part*/
     setCurrentStage = index => {
         this.setState({ currentStage: index })
-        console.log('currentstate', this.state.currentStage);
     }
 
+    /*add part to a stage*/
     addPart = (part, partType) => {
         const currentStage = this.state.currentStage
         const stage = this.state.stage
-        if(!stage[currentStage]){
+        if (!stage[currentStage]) {
             return
         }
         console.log(part);
@@ -78,10 +74,9 @@ class Builder extends Component {
         this.setState({ stage: stage }, () => {
             this.context.shipSetStage(stage)
         })
-
-        console.log('Builder this.state.stage', this.state.stage)
     }
-
+    
+    /*delete part*/
     deletePart = (partIndex, stageIndex, partType) => {
         const stage = this.state.stage
         const currentStage = stageIndex
@@ -96,11 +91,12 @@ class Builder extends Component {
         })
     }
 
+    /*delete stage*/
     deleteStage = stageIndex => {
         const stage = this.state.stage
         stage.splice(stageIndex, 1)
         this.setCurrentStage(0)
-        this.setState({ stage: stage}, () => {
+        this.setState({ stage: stage }, () => {
             this.context.shipSetStage(stage)
         })
     }
@@ -108,42 +104,61 @@ class Builder extends Component {
     render() {
         const stage = this.state.stage
         const value = this.context
-        if(!this.context.state.menuOpen){
-        return (
-            <div className="builder__container">
-                <Alert variant={this.state.alert.variant} className={ this.state.alert.msg === null ? 'disNone' : ''}>
-                    {this.state.alert.msg}
-                </Alert>
-                <NameShip
-                    handleInput={this.handleChange}
-                />
-                <RocketStats context={this.context.state} />
-                <StagesOverview
-                    deleteStage={this.deleteStage}
-                    addStage={this.addStage}
-                    setCurrentStage={this.setCurrentStage}
-                    stage={stage}
-                    addPart={this.addPart}
-                    deltaVByStage={this.context.state.deltaVByStage}
-                    deletePart={this.deletePart}
-                    currentStage={this.state.currentStage}
-                    massSum={this.context.state.massSum}
-                />
-                <SaveShip
-                    stage={stage}
-                    name={this.state.name}
-                    bodyLocation={2}
-                    locationStatus={'ground'}
-                    setErrorMsg={this.setErrorMsg}
-                />
-                {this.state.celestBodies &&
-                <SolarSystem 
-                    celestBodies={this.state.celestBodies}
-                />}
-            </div>
-        )} else return (this.state.celestBodies &&
-            <SolarSystem 
-                celestBodies={this.state.celestBodies}
+        if (!this.context.state.menuOpen) {
+            return (
+                <div className="builder__container">
+                    <Alert variant={this.state.alert.variant} className={this.state.alert.msg === null ? 'disNone' : ''}>
+                        {this.state.alert.msg}
+                    </Alert>
+                    <Row xs={12}>
+                        <Col xs={12}>
+                            <NameShip
+                                handleInput={this.handleChange}
+                            />
+                        </Col>
+                    </Row>
+                    <Row xs={12} className="builder__content__ctnr">
+                        <Col xs={12} md={6} lg={4}>
+                            <Row>
+                                <RocketStats context={this.context.state} />
+                            </Row>
+                            <Row>
+                                <StagesOverview
+                                    deleteStage={this.deleteStage}
+                                    addStage={this.addStage}
+                                    setCurrentStage={this.setCurrentStage}
+                                    stage={stage}
+                                    addPart={this.addPart}
+                                    deltaVByStage={this.context.state.deltaVByStage}
+                                    deletePart={this.deletePart}
+                                    currentStage={this.state.currentStage}
+                                    massSum={this.context.state.massSum}
+                                />
+                            </Row>
+                        </Col>
+                        <Col xs={12} md={6} lg={8}>
+                            <PartList
+                                addPart={this.addPart}
+                            />
+                        </Col>
+                    </Row>
+                    <SaveShip
+                        stage={stage}
+                        name={this.state.name}
+                        bodyLocation={2}
+                        locationStatus={'ground'}
+                        setErrorMsg={this.setErrorMsg}
+                        TWRByStage={this.context.state.TWRByStage}
+                    />
+                    {this.props.celestBodies &&
+                        <SolarSystem
+                            celestBodies={this.props.celestBodies}
+                        />}
+                </div>
+            )
+        } else return (this.props.celestBodies &&
+            <SolarSystem
+                celestBodies={this.props.celestBodies}
             />)
     }
 }

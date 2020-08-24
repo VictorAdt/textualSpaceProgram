@@ -4,8 +4,7 @@ import axios from 'axios'
 import { UserContext } from './../../contexts/UserContext'
 import Alert from 'react-bootstrap/Alert'
 import RandomCelestBody from './../animation/RandomCelestBody'
-
-
+import Col from 'react-bootstrap/Col'
 
 class SignUp extends Component {
   state = {
@@ -52,8 +51,8 @@ class SignUp extends Component {
   render() {
     const { username, password, errorMsg } = this.state;
     return (
-      <div>
-        <div className="SignUp">
+      <div className="form__ctnr login__ctnr">
+        <Col xs={4}  className="SignUp form">
           <Alert className={errorMsg ? '' : 'disNone'} variant="warning"  > {this.state.errorMsg}</Alert>
           <h2>Signup</h2>
           <form onSubmit={this.handleSubmit}>
@@ -70,7 +69,7 @@ class SignUp extends Component {
           <Link to="/login">
             Whant to login instead?
         </Link>
-        </div>
+        </Col>
         {this.props.celestBodies &&
           <RandomCelestBody
             celest_body={this.props.celestBodies}

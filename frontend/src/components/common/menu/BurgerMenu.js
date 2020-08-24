@@ -3,7 +3,6 @@ import Menu from './Menu';
 import MenuButton from './MenuButton';
 import MenuItem from './MenuItem';
 import { ShipContext } from './../../../contexts/ShipProvider'
-import { UserContext } from '../../../contexts/UserContext';
 import LogOut from './../../user/LogOut'
 
 export default class BurgerMenu extends React.Component {
@@ -81,7 +80,7 @@ export default class BurgerMenu extends React.Component {
         }
 
         if (pages === null) {
-            return 'loading'
+            return null
         }
 
         const menuItems = pages.map((e, i) => {
@@ -96,8 +95,8 @@ export default class BurgerMenu extends React.Component {
             )
         });
 
-
         return (
+            !this.context.state.isLoading &&
             <nav>
                 <div style={styles.container}>
                     <MenuButton open={this.state.menuOpen} onClick={() => this.handleMenuClick()} color={this.state.color} />

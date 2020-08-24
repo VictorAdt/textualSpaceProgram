@@ -31,7 +31,10 @@
     "emptyWeight": {
       "type": "decimal"
     },
-    "image": {
+    "size": {
+      "type": "string"
+    },
+    "thumb": {
       "model": "file",
       "via": "related",
       "allowedTypes": [
@@ -41,9 +44,6 @@
       ],
       "plugin": "upload",
       "required": false
-    },
-    "size": {
-      "type": "string"
     }
   }
 }

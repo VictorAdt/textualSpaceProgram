@@ -25,6 +25,8 @@ export default class MenuItem extends React.Component{
           fontSize: '3.2rem',
           padding: '1rem 0',
           margin: '0 5%',
+          lineHeight: '3.2rem',
+          display: 'block',
           cursor: 'pointer',
           color: this.state.hover? 'gray':'#111',
           transition: 'color 0.2s ease-in-out',

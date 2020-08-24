@@ -12,7 +12,6 @@ export const deleteShip = async (id, user) => {
         headers,
     })
     if (deleteShipRes.status === 200) {
-        alert('delete 200');
     }
 
 };

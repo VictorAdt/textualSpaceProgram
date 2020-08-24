@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios'
 import { UserContext } from './../../contexts/UserContext'
 import RandomCelestBody from './../animation/RandomCelestBody'
-
+import Col from 'react-bootstrap/Col'
 
 class Login extends Component {
   state = {
@@ -59,8 +59,8 @@ class Login extends Component {
   render() {
     const { username, password } = this.state;
     return (
-      <div>
-        <div className="Login">
+      <div className="form__ctnr login__ctnr">
+        <Col className="Login form" xs={4}>
           <h2>Login</h2>
           <form onSubmit={this.handleSubmit} >
             <div>
@@ -74,7 +74,7 @@ class Login extends Component {
             <button type="submit">login</button>
           </form>
           <Link to="/Signup">Whant to sign up instead?</Link>
-        </div>
+        </Col>
         {this.props.celestBodies &&
           <RandomCelestBody
             celest_body={this.props.celestBodies}

@@ -19,6 +19,7 @@ export default class ShipControl extends Component {
 
     async componentDidMount() {
         if (this.props.location.id) {
+            console.log('this.props', this.props);
             try {
                 const shiptRes = await axios({
                     method: 'GET',
@@ -59,9 +60,9 @@ export default class ShipControl extends Component {
                 })
 
                 console.log('fetchedShip', fetchedShip)
-                // Catch error
+                // catch error
             } catch (err) {
-                alert(err)
+                console.log(err)
             }
 
         } else {
@@ -78,27 +79,31 @@ export default class ShipControl extends Component {
         if (this.state.stage)
             return (
                 <div>
-                    <div style={{ display: this.state.failedMsg === null ? 'none' : 'flex' }} className="failed"> <p>{this.state.failedMsg}</p> </div>
-
+                    <div style={{
+                        opacity: this.state.failedMsg === null ? '0' : setTimeout(() => { return '1' }, 1000)
+                    }} className="failed">
+                        <p>{this.state.failedMsg}</p>
+                    </div>
                     <Row xs={12} className="ship__control">
-                        <Col className="status__infos" xs={3}>
-                            {!this.context.state.menuOpen &&
-                                <div>
-                                    <ShipStatus
-                                        context={this.context.state}
-                                        setIsLoading={this.context.setIsLoading}
-                                        isLoading={this.context.state.isLoading}
-                                    />
-                                    <PlanetStatus
-                                        ship={this.context.state.ship}
-                                        setIsLoading={this.context.setIsLoading}
-                                        isLoading={this.context.state.isLoading}
-                                    />
-                                </div>
-                            }
+                        <Col className="status__infos" xs={12} lg={3} 
+                        style={{
+                            opacity: this.context.state.menuOpen ? 0 : 1,
+                            pointerEvents: this.context.state.menuOpen ? 'auto' : 'none',
+                        }}>
+                            <div>
+                                <ShipStatus
+                                    context={this.context.state}
+                                    setIsLoading={this.context.setIsLoading}
+                                    isLoading={this.context.state.isLoading}
+                                />
+                                <PlanetStatus
+                                    ship={this.context.state.ship}
+                                    setIsLoading={this.context.setIsLoading}
+                                    isLoading={this.context.state.isLoading}
+                                />
+                            </div>
                         </Col>
-
-                        <Col xs={6}>
+                        <Col xs={12} lg={6}>
                             <InterfaceForControl
                                 menuOpen={this.context.state.menuOpen}
                                 stage={this.state.stage}
@@ -107,18 +112,18 @@ export default class ShipControl extends Component {
                                 setFailedMsg={this.setFailedMsg}
                             />
                         </Col>
-
-                        <Col xs={3}>
-                            {!this.context.state.menuOpen &&
-                                <ShipOverView
-                                    ship={this.context.state.ship}
-                                    stage={this.state.stage}
-                                    setIsLoading={this.context.setIsLoading}
-                                    isLoading={this.context.state.isLoading}
-                                />
-                            }
+                        <Col xs={12} lg={3}
+                            style={{
+                                opacity: this.context.state.menuOpen ? 0 : 1,
+                                pointerEvents: this.context.state.menuOpen ? 'auto' : 'none',
+                            }}>
+                            <ShipOverView
+                                ship={this.context.state.ship}
+                                stage={this.state.stage}
+                                setIsLoading={this.context.setIsLoading}
+                                isLoading={this.context.state.isLoading}
+                            />
                         </Col>
-
                     </Row>
                 </div>
 

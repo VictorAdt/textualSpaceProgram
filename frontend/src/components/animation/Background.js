@@ -14,14 +14,15 @@ const Background = (props) => {
         shipStatus = props.context.state.ship.locationStatus
     }
     return (
-        <div className="bg__ctnr"> 
-            <div className="round_bg" style={{
+        <div className={`bg__ctnr ${props.context.state.isLoading ? 'shaking' : ''}`}> 
+            <div className={`round_bg`} style={{
                 backgroundColor: shipStatus === 'orbit' ? '#' + target.celest_body.secondaryColor : '#' + target.celest_body.primaryColor,
                 boxShadow:
                     `inset 10px 0 40px #${target.celest_body.secondaryColor}, inset -10px 0 20px  #${target.celest_body.tertiaryColor}, inset -40px 10px 110px #${target.celest_body.quaternaryColor}`,
-                width: shipStatus === 'orbit' ? !target.celest_body.hasGround ? target.celest_body.radius / 100 + 'px' :  target.celest_body.radius / 70 + 'vh' : '300vw',
-                height: shipStatus === 'orbit' ? !target.celest_body.hasGround ? target.celest_body.radius / 100 + 'px' :  target.celest_body.radius / 70 + 'vh' : '100vw',
-                top: shipStatus === 'orbit' ? '1vh' : '80vh',
+                width: 
+                    shipStatus === 'orbit' ? !target.celest_body.hasGround ? 120 + 'vh' :  target.celest_body.radius / 70 + 'vh' : '110vw',
+                height: shipStatus === 'orbit' ? !target.celest_body.hasGround ? 120 + 'vh' :  target.celest_body.radius / 70 + 'vh' : '110vw',
+                transform: shipStatus === 'orbit' ? 'translateY(0)' : 'translateY(80%)',
                 animationDuration: shipStatus === 'orbit' ? '120s' : '180s',
             }}>
             </div>

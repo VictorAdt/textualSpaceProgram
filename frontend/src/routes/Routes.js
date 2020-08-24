@@ -5,7 +5,7 @@ import ShipControl from '../components/controls/ShipControl'
 import TrackingStation from './../pages/TrackingStation'
 import Login from './../components/user/Login'
 import SignUp from './../components/user/Signup'
-import { UserContext, UserProvider } from './../contexts/UserContext'
+import { UserContext } from './../contexts/UserContext'
 import NoMatch from './../pages/NoMatch'
 
 export default class Routes extends Component {

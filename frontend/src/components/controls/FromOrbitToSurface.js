@@ -1,15 +1,13 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button'
 
-const FromOrbitToSurface = (props) => {
+const FromOrbitToSurface = props => {
     if (props.ship.celest_body.hasGround) {
         return (
-            <div>
-                <h3>Land on the surface using boosters</h3>
-                <Button variant="dark"
-                    onClick={() => props.fromOrbitToSurface()}>
-                    Make the re-entry burn
-                </Button>
+            <div className="FromOrbitToSurface navitation__choice">
+                <div className="container__button button_navitation">
+                    <div onClick={() => props.fromOrbitToSurface()} className="button ship__save__button">land on {props.ship.celest_body.name} by using booster</div>
+                </div>
             </div>
         );
     } else {

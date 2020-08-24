@@ -186,7 +186,6 @@ export class ShipProvider extends Component {
     getDeltaVByStage = () => {
         let deltaVByStage = []
         let summArr = this.state.massSum
-
         for (let i = 0; i < summArr.length; i++) {
             let isp = this.state.ispArray
             let fuelMassArray = this.state.fuelMassArray
@@ -225,9 +224,14 @@ export class ShipProvider extends Component {
         this.setState({ maxFuelMassArray: maxFuelMassArray })
     }
 
-    async updateLocation(status, celest_body){
+    updateLocation = async (status, shipAltitude, celest_body,) => {
+        console.log(celest_body, 'celest_body aiodaask');
         let ship = this.state.ship
         ship.locationStatus = status
+        ship.altitudeFromParent = shipAltitude
+        console.log('status', status);
+        console.log('altitude', shipAltitude);
+        console.log('ship.altitudeFromParent', ship );
         try {
             const celestBodyRes = await axios({
                 method: 'GET',
@@ -239,7 +243,7 @@ export class ShipProvider extends Component {
         } catch(e){
             console.log(e);
         }
-        ship.altitudeFromParent = ship.celest_body.lowOrbit
+
         this.setState({ship: ship}, () => {
             console.log('updatedShip', ship);
         })
@@ -254,7 +258,7 @@ export class ShipProvider extends Component {
                 getStats: () => this.getStats(),
                 getFuelForDV: dv => this.getFuelForDV(dv),
                 setShip: ship => this.setShip(ship),
-                updateLocation: (status, celest_body) => this.updateLocation(status, celest_body),
+                updateLocation: (status, shipAltitude, celest_body) => this.updateLocation(status, shipAltitude, celest_body),
                 setIsLoading: state => this.setIsLoading(state),
                 setMenuOpen: bool => this.setMenuOpen(bool)
             }}>

@@ -3,10 +3,13 @@ import Button from 'react-bootstrap/Button'
 
 const FromSurface = (props) => {
     return (
+        !props.isLoading &&
         <div className="from__surface">
-            <Button variant="dark" onClick={() => {
+            <div className="container__button navitation__choice">
+                <div onClick={() => {
                 props.fromSurfaceToOrbit()
-            }}>orbit</Button>
+            }} className="button ship__save__button"> Go to orbit </div>
+            </div>
         </div>
     );
 };

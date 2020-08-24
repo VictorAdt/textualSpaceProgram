@@ -1,129 +1,3 @@
-@font-face {
-  font-family: "Messina";
-  src: url("./font/MessinaSans.ttf") format("woff2");
-}
-
-@keyframes shake {
-  0% {
-    transform: translate(1px, 1px) rotate(0deg);
-  }
-  10% {
-    transform: translate(-1px, -2px) rotate(-1deg);
-  }
-  20% {
-    transform: translate(-3px, 0px) rotate(1deg);
-  }
-  30% {
-    transform: translate(3px, 2px) rotate(0deg);
-  }
-  40% {
-    transform: translate(1px, -1px) rotate(1deg);
-  }
-  50% {
-    transform: translate(-1px, 2px) rotate(-1deg);
-  }
-  60% {
-    transform: translate(-3px, 1px) rotate(0deg);
-  }
-  70% {
-    transform: translate(3px, 1px) rotate(-1deg);
-  }
-  80% {
-    transform: translate(-1px, -1px) rotate(1deg);
-  }
-  90% {
-    transform: translate(1px, 2px) rotate(0deg);
-  }
-  100% {
-    transform: translate(1px, -2px) rotate(-1deg);
-  }
-}
-
-* {
-}
-
-@keyframes separation {
-  0% {
-    top: 0;
-    opacity: 1;
-  }
-  100% {
-    top: 100vh;
-  }
-}
-
-@keyframes transform {
-  0%,
-  100% {
-    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
-  }
-  14% {
-    border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%;
-  }
-  28% {
-    border-radius: 54% 46% 38% 62% / 49% 70% 30% 51%;
-  }
-  42% {
-    border-radius: 61% 39% 55% 45% / 61% 38% 62% 39%;
-  }
-  56% {
-    border-radius: 61% 39% 67% 33% / 70% 50% 50% 30%;
-  }
-  70% {
-    border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%;
-  }
-  84% {
-    border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
-  }
-}
-
-@keyframes movement {
-  0%,
-  100% {
-    transform: none;
-  }
-  50% {
-    transform: translateY(20%) rotateY(10deg);
-  }
-}
-
-@keyframes spin-right {
-  100% {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes appear {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes slideIn {
-  0% {
-    transform: translateX(-2%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes shrink {
-  0% {
-    width: 95%;
-  }
-  100% {
-    width: 90%;
-  }
-}
-
 .separation {
   position: relative;
   animation: separation 1500ms ease-in;
@@ -155,7 +29,7 @@ hr {
   font-size: 20px;
   color: #fff;
   opacity: 0.1;
-  mix-blend-mode: exclusion;
+  mix-blend-mode: difference;
   width: 50%;
   transform: scaleX(-1) rotate(90deg);
 }
@@ -164,10 +38,52 @@ hr {
   display: none;
 }
 
+.engine__thumb__ctnr {
+  justify-content: space-evenly;
+  .engine__thumb {
+    width: 80px;
+  }
+}
+.engine__thumb {
+  width: 110px;
+}
+
+.tank {
+  border: 2px solid #fff;
+  position: relative;
+  .tank__line {
+    margin-bottom: 10px;
+    height: 2px;
+    width: 100%;
+    background-color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  width: 100%;
+  .tank__details {
+    width: 2px;
+    height: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    .tank__details_inside {
+      position: absolute;
+      top: 100%;
+      width: 10px;
+      height: 20px;
+      border: 2px solid #fff;
+    }
+  }
+}
+
 .stage__card {
   margin: 3px 0;
   position: relative;
-  .stage__nb{
+  max-width: 80%;
+  .stage__nb {
     position: absolute;
     top: 30%;
     left: -20px;
@@ -229,16 +145,27 @@ h4 {
   z-index: 9999;
   color: #000;
 }
+.logout:hover {
+  color: gray;
+}
+.logout::after {
+  width: 100%;
+  height: 1px;
+  background-color: grey;
+  position: relative;
+  top: 7px;
+  content: "";
+  display: block;
+}
 
 html {
   font-size: 16px;
   body {
-    font-size: 0.813em;
+    font-size: 1em;
     overflow-x: hidden;
     color: #fff;
     background-color: #111111;
     font-family: "Messina", sans-serif;
-    mix-blend-mode: exclusion;
     .app__container {
       .failed {
         width: 100vw;
@@ -246,6 +173,7 @@ html {
         background-color: #000;
         position: absolute;
         top: 0;
+        transition: opacity 1s ease-out;
         left: 0;
         z-index: 9000;
         color: #fff;
@@ -253,6 +181,7 @@ html {
         justify-content: center;
         align-items: center;
         font-size: 3rem;
+        pointer-events: none;
       }
       .SignUp {
         position: relative;
@@ -273,6 +202,8 @@ html {
         align-items: center;
         .random__celest__body {
           animation: transform 2s ease-in-out infinite both alternate, movement 2s ease-in-out infinite both;
+          position: absolute;
+          top: -50px;
         }
         .celest__body_name {
           position: absolute;
@@ -284,22 +215,84 @@ html {
       }
       .ship__control {
         margin-top: 50px;
+        .ship__overview {
+          margin-top: 50px;
+        }
         .status__infos {
           position: relative;
+          margin-top: 50px;
           z-index: 500;
+          transition: all 200ms;
         }
       }
       .builder__container {
         position: relative;
         padding-top: 100px;
         z-index: 100;
+        .builder__content__ctnr {
+          z-index: 1000;
+          position: relative;
+        }
+        .name__ship {
+          font-size: 3em;
+        }
+        .PartList {
+          .partlist_col {
+            border-left: 1px solid grey;
+          }
+          padding-top: 50px;
+          .button__add__part {
+            border-radius: 0;
+          }
+          .tank__card {
+            .part {
+              margin-bottom: 20px;
+              padding: 7px 0;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              box-sizing: border-box;
+              align-items: center;
+              img {
+                width: 110px;
+                position: relative;
+              }
+            }
+          }
+          .EngineList {
+            .part {
+              margin-top: 25px;
+              padding: 7px 0;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              box-sizing: border-box;
+              img {
+                width: 110px;
+              }
+            }
+          }
+          button {
+            margin-top: 10px;
+          }
+        }
         .ship__save__button {
-          height: 50px;
-          margin-bottom: 100px;
+          line-height: 20px;
         }
         .stagesOverview {
           position: relative;
+          width: 100%;
           z-index: 100;
+          .addstage__button {
+            display: flex;
+            margin-left: 15px;
+            flex-direction: row-reverse;
+            position: relative;
+            align-items: center;
+            h3 {
+              margin-left: 15px;
+            }
+          }
           .rocket__stages {
             flex-direction: column-reverse;
             display: flex;
@@ -307,12 +300,15 @@ html {
             margin-top: 50px;
           }
           .builder__tools {
+            width: 100%;
             margin-top: 50px;
           }
           .stages {
             margin-top: 50px;
+            flex-wrap: wrap;
             display: flex;
             width: 100%;
+            z-index: 9999;
             .no__active__stage {
               width: 90px;
               height: 90px;
@@ -389,38 +385,10 @@ html {
                 top: -15px;
                 right: -15px;
                 position: absolute;
+                z-index: 9000;
               }
               .tank__name {
                 position: relative;
-                .tank {
-                  border: 1px solid grey;
-                  .tank__line {
-                    margin-bottom: 5px;
-                    height: 1px;
-                    width: 100%;
-                    background-color: #000;
-                    position: absolute;
-                    bottom: 0;
-                  }
-                  width: 100%;
-                  background-color: #fff;
-                  .tank__details {
-                    width: 1px;
-                    height: 50%;
-                    position: relative;
-                    background-color: #000;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    .tank__details_inside {
-                      position: absolute;
-                      top: 100%;
-                      width: 10px;
-                      height: 20px;
-                      border: 1px solid #000;
-                    }
-                  }
-                }
               }
             }
           }
@@ -431,42 +399,11 @@ html {
             height: 50px;
             line-height: 1em;
           }
-          .PartList {
-            .tank__card{
-              .part{
-                margin-bottom: 20px;
-                padding: 7px;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                box-sizing: border-box;
-                img{
-                  width: 30%;
-                  background-color: #fff ;
-                  height: 80px;
-                }
-              }
-            }
-            .EngineList {
-              .part{
-                margin-bottom: 20px;
-                padding: 7px;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                box-sizing: border-box;
-                img{
-                  width: 30%;
-                }
-              }
-            }
-            button {
-              margin-top: 10px;
-            }
-          }
         }
         .RocketStats {
           padding-top: 50px;
+          font-size: 3em;
+          margin-left: 10px;
         }
       }
       padding: 50px 5% 0 5%;
@@ -474,7 +411,7 @@ html {
       overflow: hidden;
       min-height: 100vh;
       .ship__list {
-        mix-blend-mode: exclusion;
+        mix-blend-mode: difference;
         position: relative;
         z-index: 100;
         margin-top: 100px;
@@ -527,11 +464,13 @@ html {
       }
       .ship__control {
         position: relative;
+        margin-bottom: 50px;
         z-index: 100;
+        flex-direction: column-reverse;
         .bg__ctnr {
+          height: 100vh;
+          top: -100px;
           position: absolute;
-          top: 0px;
-          height: 100%;
           width: 100%;
           align-items: center;
           display: flex;
@@ -553,21 +492,29 @@ html {
         }
         display: flex;
         .status__infos {
+          h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+          }
+          h3::after {
+            width: 50%;
+            height: 1px;
+            background-color: grey;
+            position: relative;
+            top: 7px;
+            content: "";
+            display: block;
+          }
           .planet__overview {
-            h3 {
-              font-size: 1em;
-            }
             margin-bottom: 40px;
           }
           .ship__status {
             margin-bottom: 40px;
-            h3 {
-              font-size: 1em;
-            }
           }
         }
         .command__control {
           position: relative;
+          margin: 25px 0;
           z-index: 5000;
           height: 100%;
           .from__surface {
@@ -578,10 +525,12 @@ html {
             align-items: center;
           }
           .carousel {
-            height: 80vh;
+
           }
           .slide {
             z-index: 1;
+            height: 100%;
+            display: flex;
           }
         }
         .ship__overview {
@@ -623,22 +572,15 @@ html {
               .engine__image {
                 width: 70px;
               }
-              .engine__name {
-                transform: rotate(90deg);
-                font-size: 0.75rem;
-                .engine__thumb {
-                  fill: red;
-                  stroke: red;
-                }
-              }
             }
           }
         }
         .carousel-inner {
-          min-height: 50vh;
+          display: flex;
+          align-items: center;
           .carousel-item {
-            margin-top: 40%;
             text-align: center;
+            transition: 500ms ease-in-out;
           }
         }
       }
@@ -717,14 +659,16 @@ form {
 
 input {
   width: 100%;
+  position: relative;
+  left: -5px;
   display: block;
   font-size: 20px;
   border: none;
   padding: 20px 0;
   border-bottom: solid 1px $color;
   transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
-  background-color: #000;
-  color: darken($color, 20%);
+  background-color: transparent;
+  color: #fff;
   &:focus,
   &:valid {
     box-shadow: none;
@@ -764,4 +708,115 @@ input {
       margin-right: 10px;
     }
   }
+}
+
+.tanks__status {
+  .tank__line {
+    background-color: #000;
+  }
+}
+
+.form__ctnr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.container__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  border: 1px solid #fff;
+  margin: 150px auto;
+}
+.button {
+  flex: 1 1 auto;
+  margin: 10px 10px;
+  padding: 20px;
+  border: 2px solid #fff;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  line-height: 20px;
+  transition: 0.3s;
+  &:after {
+    position: absolute;
+    transition: 0.3s;
+    content: "";
+    width: 0;
+    left: 50%;
+    bottom: 0;
+    height: 3px;
+    background: #fff;
+  }
+  &:nth-of-type(1):after {
+    height: 120%;
+    left: -10%;
+    transform: skewX(15deg);
+    z-index: -1;
+  }
+  &:hover {
+    cursor: pointer;
+    &:after {
+      width: 100%;
+      left: 0;
+    }
+    &:nth-of-type(1) {
+      color: #000;
+    }
+    &:nth-of-type(1):after {
+      left: -10%;
+      width: 120%;
+    }
+  }
+}
+
+.slick-slider {
+  width: 100%;
+  text-align: center;
+  .slick-track {
+    display: flex;
+    .slick-slide[style] {
+    }
+    .slick-active {
+    }
+  }
+}
+
+.button_navitation {
+  width: 80%;
+  margin: 0 auto;
+}
+
+h3 {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+h3::after {
+  width: 100%;
+  height: 1px;
+  background-color: grey;
+  position: relative;
+  top: 7px;
+  content: "";
+  display: block;
+}
+
+h4 {
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+h4::after {
+  width: 50%;
+  height: 1px;
+  background-color: grey;
+  position: relative;
+  top: 7px;
+  content: "";
+  display: block;
 }

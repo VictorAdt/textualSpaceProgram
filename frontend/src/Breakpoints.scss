@@ -1,0 +1,175 @@
+/* XL BREAKPOINTS */
+@media screen and (min-width: 1200px) {
+    body {
+    }
+}
+
+/* LG BREAKPOINTS */
+@media screen and (min-width: 992px) {
+    html {
+        body {
+            .app__container {
+                .ship__control {
+                    flex-direction: row;
+                    .status__infos {
+                        p {
+                        }
+                        .planet__overview {
+                        }
+                    }
+                }
+                .ship__list .ship__card {
+                    .ship__card__body {
+                    }
+                }
+                .builder__container {
+                    .RocketStats {
+                    }
+                    .name__ship {
+                    }
+                    .stages {
+                    }
+                    .tank__card {
+                        .tank {
+                        }
+                    }
+                    .engines-item {
+                        img {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* MD BREAKPOINTS */
+@media screen and (min-width: 768px) {
+    html {
+        body {
+            .app__container {
+                .ship__control {
+                    .status__infos {
+                        p {
+                        }
+                        .planet__overview {
+                        }
+                    }
+                }
+                .ship__list .ship__card {
+                    .ship__card__body {
+                    }
+                }
+                .builder__container {
+                    .RocketStats {
+                    }
+                    .name__ship {
+                    }
+                    .stages {
+                    }
+                    .tank__card {
+                        .tank {
+                        }
+                    }
+                    .engines-item {
+                        img {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* SM BREAKPOINTS */
+@media screen and (min-width: 576px) {
+    html {
+        body {
+            .app__container {
+                .ship__control {
+                    .status__infos {
+                        p {
+                        }
+                        .planet__overview {
+                        }
+                    }
+                }
+                .ship__list .ship__card {
+                    .ship__card__body {
+                    }
+                }
+                .builder__container {
+                    .RocketStats {
+                    }
+                    .name__ship {
+                    }
+                    .stages {
+                    }
+                    .tank__card {
+                        .tank {
+                        }
+                    }
+                    .engines-item {
+                        img {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* XS BREAKPOINTS */
+@media screen and (max-width: 576px) {
+    html {
+        body {
+            .app__container {
+                .ship__control {
+                    .status__infos {
+                        p {
+                        }
+                        .planet__overview {
+                            margin-top: 25px;
+                        }
+                    }
+                }
+                .ship__list .ship__card {
+                    .ship__card__body {
+                        font-size: 2.5rem;
+                        line-height: 2.75rem;
+                    }
+                }
+                .builder__container {
+                    .RocketStats {
+                        font-size: 2.5rem;
+                    }
+                    .name__ship {
+                        font-size: 2.5rem;
+                        line-height: 2.75rem;
+                    }
+                    .stages {
+                        position: fixed;
+                        top: -50px;
+                        background-color: #000;
+                        padding: 10px;
+                    }
+                    .tank__card {
+                        .tank {
+                            display: none;
+                        }
+                    }
+                    .engines-item {
+                        img {
+                            display: none;
+                        }
+                    }
+                    .PartList {
+                        .partlist_col{
+                          border-left: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

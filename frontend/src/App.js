@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { ShipProvider } from './contexts/ShipProvider';
-import './../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Container from './../node_modules/react-bootstrap/Container'
-import './App.scss'
-import { UserProvider, UserContext } from './contexts/UserContext';
+import './../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import './App.scss';
+import './Breakpoints.scss';
+import './Keyframes.scss';
+import './Font.scss';
+import { UserProvider } from './contexts/UserContext';
 import BackgroundHUD from './components/animation/BackgroundHUD';
 import Routes from './routes/Routes'
 import { BrowserRouter } from 'react-router-dom';
 import Nav from './components/common/Nav';
 import axios from 'axios';
+
 
 class App extends Component {
   state = {

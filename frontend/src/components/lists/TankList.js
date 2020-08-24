@@ -29,12 +29,20 @@ export default class TankList extends Component {
                     <div class="tank__card">
                         {tanks.map((e, i) => (
                             <div key={e.id} className="tank-item part">
-                                <img src="" />
                                 <div>
-                                    <p> {e.name} </p>
+                                    <h4> {e.name} </h4>
                                     <p> Remaining fuel: {e.remainingFuel} </p>
                                     <p> Weight : {(e.emptyWeight + (e.remainingFuel * 0.01))} tons </p>
-                                    <Button variant="dark" onClick={() => this.props.addPart(e, e.partType)} >Add</Button>
+                                    <Button className="button__add__part" variant="light" onClick={() => this.props.addPart(e, e.partType)} >Add part</Button>
+                                </div>
+                                <div style={{
+                                    width: '40%',
+                                    height: e.size === 'small' ? '50px' : e.size === 'medium' ? '100px' : '150px',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: `contain`
+                                }}
+                                    className="tank">
+                                    <div className="tank__line"> </div>
                                 </div>
                             </div>
                         ))}
