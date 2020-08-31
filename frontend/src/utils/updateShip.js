@@ -2,9 +2,6 @@ import axios from 'axios'
 
 export const updateShip = async (stage, name, locationStatus, bodyLocation, id, altitude, user) => {
     let partList = []
-    console.log(stage, 'partListstage');
-
-
     for (let i = 0; i < stage.length; i++) {
         let currentStage = i
         let tankList = []
@@ -25,12 +22,9 @@ export const updateShip = async (stage, name, locationStatus, bodyLocation, id, 
             engine: engineList,
         })
     }
-    console.log(partList, 'partList')
-
     const headers = {
         Authorization: `Bearer ${user.user.jwt}`
     }
-
     const data = {
         name: name,
         stage: partList,
@@ -40,7 +34,6 @@ export const updateShip = async (stage, name, locationStatus, bodyLocation, id, 
         locationStatus: locationStatus,
         altitudeFromParent: altitude
     }
-
     const saveShipRes = await axios({
         method: 'PUT',
         url: `http://localhost:1337/ships/${id}`,

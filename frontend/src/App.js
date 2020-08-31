@@ -7,10 +7,10 @@ import './Breakpoints.scss';
 import './Keyframes.scss';
 import './Font.scss';
 import { UserProvider } from './contexts/UserContext';
-import BackgroundHUD from './components/animation/BackgroundHUD';
+import BackgroundHUD from './components/backgrounds/BackgroundHUD';
 import Routes from './routes/Routes'
 import { BrowserRouter } from 'react-router-dom';
-import Nav from './components/common/Nav';
+import Nav from './components/nav/Nav';
 import axios from 'axios';
 
 

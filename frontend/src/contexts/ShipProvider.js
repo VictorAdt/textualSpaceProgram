@@ -7,7 +7,7 @@ export class ShipProvider extends Component {
     state = {
         menuOpen: false,
         isLoading: false,
-        thrustArr:[],
+        thrustArr: [],
         TWRByStage: [],
         ship: {},
         massSum: [],
@@ -25,15 +25,11 @@ export class ShipProvider extends Component {
     }
 
     setMenuOpen = bool => {
-        this.setState({menuOpen: bool})
+        this.setState({ menuOpen: bool })
     }
 
     getStats = () => {
         this.getMass();
-    }
-
-    componentDidMount(){
-        console.log('ShipProvider compenentdidMount ship', this.state);
     }
 
     setStage = stage => {
@@ -43,15 +39,15 @@ export class ShipProvider extends Component {
     }
 
     setIsLoading = state => {
-        this.setState({isLoading: state})
+        this.setState({ isLoading: state })
     }
 
     setShip = ship => {
-        this.setState({ship: ship})
+        this.setState({ ship: ship })
     }
 
     getThrustbyStage = () => {
-        let {stage} = this.state
+        let { stage } = this.state
         let thrustArr = []
 
         for (let i = 0; i < stage.length; i++) {
@@ -68,24 +64,24 @@ export class ShipProvider extends Component {
                 thrustArr.push(0)
             }
         }
-        this.setState({ thrustArr: thrustArr})
+        this.setState({ thrustArr: thrustArr })
     }
 
     fromMassToWeight = massSum => {
-        massSum.map((e, i) => {
+        massSum.map((e, i) => (
             e = e * 9.8
-        })
+        ))
         return massSum
     }
 
     getTWRByStage = () => {
-        let {massSum, thrustArr} = this.state
+        let { massSum, thrustArr } = this.state
         let weightArr = this.fromMassToWeight(massSum)
         let TWRByStage = []
-            weightArr.map( (e,i) => {
-                TWRByStage.push(thrustArr[i] / e)
-            })
-        this.setState({TWRByStage: TWRByStage})
+        weightArr.map((e, i) => (
+            TWRByStage.push(thrustArr[i] / e)
+        ))
+        this.setState({ TWRByStage: TWRByStage })
     }
 
     getIsp = () => {
@@ -203,7 +199,7 @@ export class ShipProvider extends Component {
         })
     }
 
-     getMaxFuelByStage =  () => {
+    getMaxFuelByStage = () => {
         let maxFuelMassArray = []
         let stage = this.state.stage
 
@@ -225,34 +221,26 @@ export class ShipProvider extends Component {
     }
 
     updateLocation = async (status, shipAltitude, celest_body,) => {
-        console.log(celest_body, 'celest_body aiodaask');
         let ship = this.state.ship
         ship.locationStatus = status
         ship.altitudeFromParent = shipAltitude
-        console.log('status', status);
-        console.log('altitude', shipAltitude);
-        console.log('ship.altitudeFromParent', ship );
         try {
             const celestBodyRes = await axios({
                 method: 'GET',
                 url: `http://localhost:1337/celest-bodies/${celest_body.id}`
             })
             const fetchedCelestBody = celestBodyRes.data
-            console.log('fetchedCelestBody' ,fetchedCelestBody);
             ship.celest_body = fetchedCelestBody
-        } catch(e){
+        } catch (e) {
             console.log(e);
         }
-
-        this.setState({ship: ship}, () => {
-            console.log('updatedShip', ship);
-        })
+        this.setState({ ship: ship })
     }
 
     render() {
 
         return (
-            <ShipContext.Provider value={{ 
+            <ShipContext.Provider value={{
                 state: this.state,
                 shipSetStage: stage => this.setStage(stage),
                 getStats: () => this.getStats(),

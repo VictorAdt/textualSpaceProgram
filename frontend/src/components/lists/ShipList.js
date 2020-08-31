@@ -9,7 +9,6 @@ export default class ShipList extends Component {
         ships: null
     }
     async componentDidMount() {
-        console.log('shiplist', this.props.user);
         try {
             const shipListRes = await axios({
                 method: 'GET',
@@ -17,7 +16,6 @@ export default class ShipList extends Component {
             });
             const fetchedShip = shipListRes.data
             this.setState({ ships: fetchedShip })
-            console.log('fetchedShip', fetchedShip)
         } catch (error) {
             console.log(error.message)
         }
@@ -40,10 +38,10 @@ export default class ShipList extends Component {
                     ships.map((e, i) => {
                         return (
                             e.celest_body &&
-                            <div class="ship__card">
+                            <div key={i} className="ship__card">
                                 <Link to={{
                                     pathname: '/shipControl',
-                                    id: e.id
+                                    ship: e,
                                 }} key={i}>
                                     <div className="ship__card__body">
                                         {e.locationStatus === 'orbit' &&

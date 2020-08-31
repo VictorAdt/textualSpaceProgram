@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { ShipContext } from './../contexts/ShipProvider'
-import RocketStats from '../components/rocket/RocketStats'
+import RocketStats from '../components/builder/RocketStats'
 import StagesOverview from './../components/builder/StagesOverview'
 import NameShip from '../components/builder/NameShip';
 import SaveShip from '../components/builder/SaveShip';
-import SolarSystem from '../components/animation/SolarSystem';
+import SolarSystem from '../components/backgrounds/SolarSystem';
 import Alert from 'react-bootstrap/Alert'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import axios from 'axios'
 import PartList from '../components/lists/PartList';
 
 class Builder extends Component {
@@ -37,7 +36,6 @@ class Builder extends Component {
 
     /*handle name input*/
     handleChange = e => {
-        console.log(e.target.name, e.target.value);
         this.setState({ [e.target.name]: e.target.value })
     }
 
@@ -68,7 +66,6 @@ class Builder extends Component {
         if (!stage[currentStage]) {
             return
         }
-        console.log(part);
         if (partType === 'tank') { stage[currentStage].tank.push(part) }
         if (partType === 'engine') { stage[currentStage].engine.push(part) }
         this.setState({ stage: stage }, () => {
@@ -103,7 +100,6 @@ class Builder extends Component {
 
     render() {
         const stage = this.state.stage
-        const value = this.context
         if (!this.context.state.menuOpen) {
             return (
                 <div className="builder__container">
@@ -118,7 +114,7 @@ class Builder extends Component {
                         </Col>
                     </Row>
                     <Row xs={12} className="builder__content__ctnr">
-                        <Col xs={12} md={6} lg={4}>
+                        <Col xs={12} md={6} lg={6} xl={4}>
                             <Row>
                                 <RocketStats context={this.context.state} />
                             </Row>
@@ -136,7 +132,7 @@ class Builder extends Component {
                                 />
                             </Row>
                         </Col>
-                        <Col xs={12} md={6} lg={8}>
+                        <Col xs={12} md={6} lg={6} xl={8}>
                             <PartList
                                 addPart={this.addPart}
                             />

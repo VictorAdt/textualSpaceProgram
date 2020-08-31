@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
 export default class EngineList extends Component {
@@ -15,7 +14,6 @@ export default class EngineList extends Component {
         });
         const fetchedEngines = engineRes.data
         this.setState({ engines: fetchedEngines })
-        console.log('fetchedEngines', fetchedEngines)
     }
     render() {
 
@@ -37,7 +35,7 @@ export default class EngineList extends Component {
                                 <p> Thrust : {e.thrust} kn</p>
                                 <Button className="button__add__part" variant="light" onClick={() => this.props.addPart(e, e.partType)} >Add part</Button>
                             </div>
-                            <img src={`http://localhost:1337${e.thumb.url}`} />
+                            <img alt={`${e.name} pictogram`} src={`http://localhost:1337${e.thumb.url}`} />
                         </div>
                     ))}
                 </div>

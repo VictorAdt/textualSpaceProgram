@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import Button from 'react-bootstrap/Button'
 import { UserContext } from './../../contexts/UserContext'
 
 export default class SaveShip extends Component {
@@ -38,7 +37,6 @@ export default class SaveShip extends Component {
         for (let i = 0; i < partList.length; i++) {
             if (partList[i].tank.length < 1 || partList[i].engine.length < 1) {
                 partList.splice(i, 1)
-                console.log('delete')
             }
         }
 
@@ -73,9 +71,6 @@ export default class SaveShip extends Component {
         const headers = {
             Authorization: `Bearer ${this.context.user.jwt}`
         }
-
-        console.log(data);
-
         const saveShipRes = await axios({
             method: 'POST',
             url: '/ships',

@@ -16,7 +16,6 @@ export class UserProvider extends Component {
 
     setUser = user => {
       this.setState({user: user})
-      console.log('user', user);
     }
 
     render() {

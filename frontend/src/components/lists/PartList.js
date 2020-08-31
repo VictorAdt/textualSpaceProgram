@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TankList from './TankList';
+import TankList from './../trackingStation/controlsLayout/TankList';
 import EngineList from './EngineList';
 import Col from './../../../node_modules/react-bootstrap/Col'
 import Row from './../../../node_modules/react-bootstrap/Row'

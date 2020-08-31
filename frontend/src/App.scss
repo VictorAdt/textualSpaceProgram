@@ -125,7 +125,7 @@ hr {
 }
 
 p {
-  margin: 0.05rem;
+  margin: 0.01rem;
 }
 
 a {
@@ -182,6 +182,7 @@ html {
         align-items: center;
         font-size: 3rem;
         pointer-events: none;
+        padding-left:20px;
       }
       .SignUp {
         position: relative;
@@ -580,6 +581,8 @@ html {
           align-items: center;
           .carousel-item {
             text-align: center;
+            top: 50px;
+            height: 200px;
             transition: 500ms ease-in-out;
           }
         }
@@ -647,8 +650,8 @@ h1 {
 
 form {
   box-sizing: border-box;
+  margin-top: 50px;
   width: 100%;
-  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
   padding-bottom: 40px;
   border-radius: 3px;
   h1 {
@@ -658,6 +661,7 @@ form {
 }
 
 input {
+  margin-top: 20px;
   width: 100%;
   position: relative;
   left: -5px;
@@ -718,6 +722,7 @@ input {
 
 .form__ctnr {
   display: flex;
+  margin-top: 50px;
   justify-content: center;
   align-items: center;
   min-height: 50vh;
@@ -776,18 +781,6 @@ input {
   }
 }
 
-.slick-slider {
-  width: 100%;
-  text-align: center;
-  .slick-track {
-    display: flex;
-    .slick-slide[style] {
-    }
-    .slick-active {
-    }
-  }
-}
-
 .button_navitation {
   width: 80%;
   margin: 0 auto;
@@ -819,4 +812,23 @@ h4::after {
   top: 7px;
   content: "";
   display: block;
+}
+
+.switch__login__signup{
+  margin-top: 10px;
+  width: 100%;
+  display: block;
+  text-align: left;
+}
+.switch__login__signup:hover{
+  color: lightgray
+}
+
+.form__button:hover{
+  background-color: lightgray;
+}
+
+.thumb_body{
+  top: 50px;
+  display: none;
 }

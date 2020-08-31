@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import {UserContext} from './../contexts/UserContext'
 
 export default class NoMatch extends Component {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ShipList from '../components/lists/ShipList';
-import axios from 'axios'
-import RandomCelestBody from './../components/animation/RandomCelestBody'
+import RandomCelestBody from './../components/backgrounds/RandomCelestBody'
 import { UserContext } from '../contexts/UserContext';
 export default class TrackingStation extends Component {
 

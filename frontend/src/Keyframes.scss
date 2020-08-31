@@ -39,6 +39,9 @@
       top: 0;
       opacity: 1;
     }
+    40%{
+      opacity: 0;
+    }
     100% {
       top: 100vh;
     }

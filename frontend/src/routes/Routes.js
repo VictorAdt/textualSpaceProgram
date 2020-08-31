@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Switch, Route } from "react-router-dom";
 import Builder from './../pages/Builder'
-import ShipControl from '../components/controls/ShipControl'
+import ShipControl from '../components/trackingStation/controlsLayout/controls/ShipControl'
 import TrackingStation from './../pages/TrackingStation'
-import Login from './../components/user/Login'
-import SignUp from './../components/user/Signup'
+import Login from './../components/authentication/Login'
+import SignUp from './../components/authentication/Signup'
 import { UserContext } from './../contexts/UserContext'
 import NoMatch from './../pages/NoMatch'
 

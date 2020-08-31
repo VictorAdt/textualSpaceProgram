@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import PartList from './../lists/PartList'
-import Accordion from './../../../node_modules/react-bootstrap/Accordion'
 import Col from './../../../node_modules/react-bootstrap/Col'
-import Card from './../../../node_modules/react-bootstrap/Card'
 import Row from './../../../node_modules/react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import tank_bg from './../../assets/image/tank_bg.svg'
@@ -15,7 +12,6 @@ export default class StagesOverview extends Component {
     }
 
     setPart = part => {
-        console.log('set')
         this.setState({ part: part })
     }
 
@@ -25,11 +21,11 @@ export default class StagesOverview extends Component {
             return 'loading'
         } else
             return (
-                <Row fluid className="stagesOverview" xs={12} >
+                <Row fluid="true" className="stagesOverview" xs={12} >
                     <Col xs={12}>
                         <Col xs={12} className="stages">
                             {this.props.stage.map((e, i) => (
-                                <div className={this.props.currentStage === i ? 'active__stage' : 'no__active__stage'}>
+                                <div key={i} className={this.props.currentStage === i ? 'active__stage' : 'no__active__stage'}>
                                     <div className="stage" onClick={() => this.props.setCurrentStage(i)}>
                                         <p>
                                             stage {i + 1}
@@ -47,7 +43,7 @@ export default class StagesOverview extends Component {
                     </Col>
                     <Col xs={12} className="rocket__stages builder__tools">
                         {this.props.stage.map((e, i) => (
-                            <div className="stage__card">
+                            <div key={i} className="stage__card">
                                 <p className={`stage__nb ${this.props.massSum[i] > 0 ? '' : 'disNone'}`}>{i + 1}</p>
                                 <div className="tank__ctnr">
                                     {this.props.stage[i].tank.map((e, index) => (
@@ -69,7 +65,7 @@ export default class StagesOverview extends Component {
                                     {this.props.stage[i].engine.map((e, index) => (
                                         <div className="engine__name" key={index}>
                                             <Button variant="light" onClick={() => this.props.deletePart(index, i, 'engine')}>-</Button>
-                                            <img className="engine__thumb" src={`http://localhost:1337${e.thumb.url}`} />
+                                            <img alt={`${e.name} pictogram`} className="engine__thumb" src={`http://localhost:1337${e.thumb.url}`} />
                                         </div>
                                     ))}
                                 </div>
