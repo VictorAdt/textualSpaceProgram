@@ -47,7 +47,7 @@ For the Ship content types, check the Create, update and delete checkBoxes
 
 **Start server:**  
 `npm start`  Start server  
-[^1]: if you have a command not found error, try to delete node_module folder and `npm i` again  
+[^1]:if you have a command not found error, try to delete node_module folder and `npm i` again  
 ***
 🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️
 **→ Go to http://localhost:3000/**
