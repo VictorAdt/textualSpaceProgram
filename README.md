@@ -4,32 +4,32 @@
 > version Node: v12.16.1  
 ## Instalation:
 ### Set-up the backend  
-**Install dependencies:**
+**Install dependencies:**  
 `cd textualSpaceProgram/backend`  
 `npm i`  
 
 ***
 
-**Start server:**
+**Start server:**  
 `npm start`  Start server  
 `npx strapi develop`  Dev mod  
 ***
  
-**Add the database:**
+**Add the database:**  
 Copy the data.db file inside the .tmp folder (backend/.tmp)
 ***
 
-**Administration and roles settings**
+**Administration and roles settings**  
 1. Go to http://localhost:1337/admin/
 2. Create an admin user
 3. Go to roles and authorization in the left menu
 
-**Click on public**
+**Click on public**  
 For the Tank, Engine, Celest_body and Ship content types, check the find and findOne checkBoxes
 - [x] Find
 - [x] FindOn
   
-**Click on anthenticate**
+**Click on anthenticate**  
 For the Ship content types, check the Create, update and delete checkBoxes
 - [x] Find
 - [x] FindOn
@@ -40,12 +40,12 @@ For the Ship content types, check the Create, update and delete checkBoxes
 
 ### Set-up the frontend
 
-**Install dependencies:**
+**Install dependencies:**  
 `cd textualSpaceProgram/frontend`  
 `npm i`  
 ***
 
-**Start server:**
+**Start server:**  
 `npm start`  Start server  
 ***
 🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️
