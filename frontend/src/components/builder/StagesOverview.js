@@ -3,8 +3,11 @@ import Col from './../../../node_modules/react-bootstrap/Col'
 import Row from './../../../node_modules/react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import tank_bg from './../../assets/image/tank_bg.svg'
-
-
+import Vulcain from './../../assets/image/engines/Vulcain.svg'
+import F1 from './../../assets/image/engines/F-1.svg'
+import Merlin from './../../assets/image/engines/Merlin.svg'
+import RD180 from './../../assets/image/engines/RD-180.svg'
+import RS25 from './../../assets/image/engines/RS-25.svg'
 
 export default class StagesOverview extends Component {
     state = {
@@ -65,7 +68,8 @@ export default class StagesOverview extends Component {
                                     {this.props.stage[i].engine.map((e, index) => (
                                         <div className="engine__name" key={index}>
                                             <Button variant="light" onClick={() => this.props.deletePart(index, i, 'engine')}>-</Button>
-                                            <img alt={`${e.name} pictogram`} className="engine__thumb" src={`http://localhost:1337${e.thumb.url}`} />
+                                            {
+                                            <img alt={`${e.name} pictogram`} className="engine__thumb" src={e.name === 'RS-25' ? RS25 : e.name === 'RD-180' ? RD180 : e.name === 'Merlin' ? Merlin : e.name === 'F-1' ? F1 : Vulcain} />}
                                         </div>
                                     ))}
                                 </div>

@@ -1,6 +1,11 @@
 import React from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Vulcain from './../../../assets/image/engines/Vulcain.svg'
+import F1 from './../../../assets/image/engines/F-1.svg'
+import Merlin from './../../../assets/image/engines/Merlin.svg'
+import RD180 from './../../../assets/image/engines/RD-180.svg'
+import RS25 from './../../../assets/image/engines/RS-25.svg'
 
 const TankStatus = props => {
     if (props.stage)
@@ -36,7 +41,9 @@ const TankStatus = props => {
                                 <img 
                                     alt={`${e.name} pictogram`} 
                                     key={i} className="engine__thumb" 
-                                    src={`http://localhost:1337${e.thumb.url}`} />
+                                    src={e.name === 'RS-25' ? RS25 : e.name === 'RD-180' ? RD180 : e.name === 'Merlin' ? Merlin : e.name === 'F-1' ? F1 : Vulcain
+
+                                    } />
                             ))}
                         </Row>
                     </div>
