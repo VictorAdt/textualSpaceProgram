@@ -31,9 +31,9 @@ For the Tank, Engine, Celest_body and Ship content types, check the find and fin
   
 **Click on anthenticate**  
 For the Ship content types, check the Create, update and delete checkBoxes
-- [x] Find
-- [x] FindOn
-
+- [x] Create
+- [x] Update
+- [x] Delete
 
  ***
   
