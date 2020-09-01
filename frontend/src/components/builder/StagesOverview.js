@@ -44,7 +44,7 @@ export default class StagesOverview extends Component {
                     <Col xs={12} className="rocket__stages builder__tools">
                         {this.props.stage.map((e, i) => (
                             <div key={i} className="stage__card">
-                                <p className={`stage__nb ${this.props.massSum[i] > 0 ? '' : 'disNone'}`}>{i + 1}</p>
+                                <p className={`stage__nb ${this.props.totalMassArray[i] > 0 ? '' : 'disNone'}`}>{i + 1}</p>
                                 <div className="tank__ctnr">
                                     {this.props.stage[i].tank.map((e, index) => (
                                         <div className="tank__name" key={index}>

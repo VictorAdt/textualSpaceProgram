@@ -160,12 +160,11 @@ export class ShipProvider extends Component {
             this.getFuelMass()
             this.getMaxFuelByStage()
         })
-
     }
 
     getMassSumOfStages = () => {
         let massSum = []
-        let massArr = this.state.totalMassArray
+        let massArr = [...this.state.totalMassArray]
         let i = 0;
         while (i < massArr.length) {
             let total = massArr.reduce((a, b) => a + b, 0)

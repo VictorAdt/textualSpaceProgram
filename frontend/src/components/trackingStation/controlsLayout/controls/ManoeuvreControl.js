@@ -44,8 +44,9 @@ export default class ManoeuvreControl extends Component {
 
     burn = (requierdDV, risk, i) => {
         let stage = this.props.stage
-        let dvByStageAfterBurn = this.context.state.deltaVByStage
+        let dvByStageAfterBurn = [...this.context.state.deltaVByStage]
         let index = i
+        console.log('requierdDV burn i', requierdDV, i);
         let success = true
 
         if (dvByStageAfterBurn[i] >= requierdDV) {
@@ -58,6 +59,7 @@ export default class ManoeuvreControl extends Component {
         } else {
             if (stage[index] === undefined) { return false }
             requierdDV -= dvByStageAfterBurn[i]
+            console.log('requierdDV', requierdDV);
             dvByStageAfterBurn[i] = 0
             for (let i = 0; i < stage[index].tank.length; i++) {
                 stage[index].tank[i].remainingFuel = 0
@@ -90,15 +92,18 @@ export default class ManoeuvreControl extends Component {
         console.log('reqDV', requierdDV)
         let loop = this.props.stage.length
         let i = 0
+        let index = 0
         while (i < loop) {
-            let burn = this.burn(requierdDV, true, i)
+            let burn = this.burn(requierdDV, true, index)
+            console.log(burn, 'burn');
             if (burn.requierdDV === 0) {
                 await this.pause(2000)
                 this.context.shipSetStage(burn.stage)
                 break
             }
             else if (burn.requierdDV > 0) {
-                requierdDV -= burn.requierdDV
+                requierdDV = burn.requierdDV
+                console.log(requierdDV, 'requierdDV');
                 await this.pause(2000)
                 this.context.shipSetStage(burn.stage)
                 await this.pause(2000)
@@ -149,7 +154,7 @@ export default class ManoeuvreControl extends Component {
                 break
             }
             else if (burn.requierdDV > 0) {
-                requierdDV -= burn.requierdDV
+                requierdDV = burn.requierdDV
                 await this.pause(2000)
                 this.context.shipSetStage(burn.stage)
                 await this.pause(2000)
@@ -188,7 +193,7 @@ export default class ManoeuvreControl extends Component {
     escapeFromOrbit = async () => {
         await this.props.setIsLoading(true)
         this.setState({ target: { celest_body: this.context.state.ship.celest_body.childrens[0], locationStatus: 'orbit' } })
-        let requierdDV = this.context.state.ship.celest_body.escapeVelocity
+        let requierdDV = this.context.state.ship.celest_body.escapeVelocity - (Math.sqrt(6.67408 * 10e+11 * this.context.state.ship.celest_body.mass * 10e+21 / this.context.state.ship.celest_body.radius * 1000) / 1000000000000000).toFixed(2)
         console.log('reqDV', requierdDV)
         let loop = this.props.stage.length
         let i = 0
@@ -200,7 +205,7 @@ export default class ManoeuvreControl extends Component {
                 break
             }
             else if (burn.requierdDV > 0) {
-                requierdDV -= burn.requierdDV
+                requierdDV = burn.requierdDV
                 await this.pause(2000)
                 this.context.shipSetStage(burn.stage)
                 await this.pause(2000)
@@ -254,7 +259,7 @@ export default class ManoeuvreControl extends Component {
                 break
             }
             else if (burn.requierdDV > 0) {
-                requierdDV -= burn.requierdDV
+                requierdDV = burn.requierdDV
                 await this.pause(2000)
                 this.context.shipSetStage(burn.stage)
                 await this.pause(2000)
@@ -310,7 +315,7 @@ export default class ManoeuvreControl extends Component {
                 break
             }
             else if (burn.requierdDV > 0) {
-                requierdDV -= burn.requierdDV
+                requierdDV = burn.requierdDV
                 await this.pause(2000)
                 this.context.shipSetStage(burn.stage)
                 await this.pause(2000)

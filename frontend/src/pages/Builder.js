@@ -128,7 +128,7 @@ class Builder extends Component {
                                     deltaVByStage={this.context.state.deltaVByStage}
                                     deletePart={this.deletePart}
                                     currentStage={this.state.currentStage}
-                                    massSum={this.context.state.massSum}
+                                    totalMassArray={this.context.state.totalMassArray}
                                 />
                             </Row>
                         </Col>

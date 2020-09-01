@@ -160,6 +160,14 @@
                             right: 0;
                             padding: 10px;
                             width: 30%;
+                            .addstage__button{
+                                h3{
+                                    display: none;
+                                }
+                                button{
+                                    margin-top: 10px;
+                                }
+                            }
                         }
                     }
                     .tank__card {
