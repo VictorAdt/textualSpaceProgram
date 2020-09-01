@@ -15,7 +15,7 @@
 ***
  
 **Add the database:**  
-Copy the data.db file inside the .tmp folder (backend/.tmp)
+Copy the data.db file inside the .tmp folder (backend/.tmp)  
 Restart the server
 ***
 
