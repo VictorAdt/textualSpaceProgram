@@ -1,7 +1,7 @@
 # 🚀 Textual Space Program 🛰️
 
-> version Strapi:  
-> version Node: 
+> version Strapi: 3.0.0
+> version Node: v12.16.1
 ## Instalation:
 ### Set-up the backend  
 **Install dependencies:**
