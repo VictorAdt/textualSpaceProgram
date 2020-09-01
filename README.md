@@ -24,12 +24,12 @@ Restart the server
 2. Create an admin user
 3. Go to roles and authorization in the left menu
 
-**Click on public**  
+**Public**  
 For the Tank, Engine, Celest_body and Ship content types, check the find and findOne checkBoxes
 - [x] Find
 - [x] FindOn
   
-**Click on anthenticate**  
+**Anthenticate**  
 For the Ship content types, check the Create, update and delete checkBoxes
 - [x] Create
 - [x] Update
