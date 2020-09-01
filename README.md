@@ -5,14 +5,14 @@
 ## Instalation:
 ### Set-up the backend  
 **Install dependencies:**
-`cd textualSpaceProgram/backend`
-`npm i`
+`cd textualSpaceProgram/backend`  
+`npm i`  
 
 ***
 
 **Start server:**
-`npm start`  Start server
-`npx strapi develop`  Dev mod
+`npm start`  Start server  
+`npx strapi develop`  Dev mod  
 ***
  
 **Add the database:**
@@ -41,12 +41,12 @@ For the Ship content types, check the Create, update and delete checkBoxes
 ### Set-up the frontend
 
 **Install dependencies:**
-`cd textualSpaceProgram/frontend`
-`npm i`
+`cd textualSpaceProgram/frontend`  
+`npm i`  
 ***
 
 **Start server:**
-`npm start`  Start server
+`npm start`  Start server  
 ***
 🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️🛰️
 **→ Go to http://localhost:3000/**
