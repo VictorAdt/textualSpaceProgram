@@ -2,7 +2,7 @@
 
 > version Strapi: 3.0.0  
 > version Node: v12.16.1  
-## Instalation:
+## Installation:
 ### Set-up the backend  
 **Install dependencies:**  
 `cd textualSpaceProgram/backend`  
