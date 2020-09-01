@@ -11,12 +11,12 @@
 ***
 
 **Start server:**  
-`npm start`  Start server  
-`npx strapi develop`  Dev mod  
+`npx strapi develop` Start server in dev mod  
 ***
  
 **Add the database:**  
 Copy the data.db file inside the .tmp folder (backend/.tmp)
+Restart the server
 ***
 
 **Administration and roles settings**  
